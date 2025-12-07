@@ -21,7 +21,7 @@ import { authService } from "~console/lib/auth";
 import { api, gateway } from "~console/lib/service";
 import { dontRevalidateOnFormErrors } from "~console/lib/errors";
 import { getCookie, kbs } from "~console/lib/utils";
-import { shellStore } from "~console/state/auth";
+import { shellStore } from "~console/lib/shell";
 import { PageLoader } from "~console/components/ui/PageLoader";
 
 import { AgentSelect } from "./sidebar-agent";

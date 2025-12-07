@@ -1,8 +1,8 @@
 import { StackClientApp } from "@stackframe/react";
 import { useNavigate } from "react-router";
 
+import { shellStore } from "~console/lib/shell";
 import { getCookie } from "~console/lib/utils";
-import { shellStore } from "~console/state/auth";
 
 import { DEFAULT_EXPIRATION_MS, type AuthService } from "./types";
 

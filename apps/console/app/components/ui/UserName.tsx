@@ -1,6 +1,6 @@
 import { useSnapshot } from "valtio";
 
-import { shellStore } from "~console/state/auth";
+import { shellStore } from "~console/lib/shell";
 
 export function UserName() {
   const { user } = useSnapshot(shellStore);

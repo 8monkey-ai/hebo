@@ -42,7 +42,7 @@ import {
 
 import { useFormErrorToast } from "~console/lib/errors";
 import { objectId } from "~console/lib/utils";
-import { shellStore } from "~console/state/auth";
+import { shellStore } from "~console/lib/shell";
 import { ModelSelector } from "~console/components/ui/ModelSelector";
 
 import {
