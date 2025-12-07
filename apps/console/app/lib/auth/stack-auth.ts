@@ -2,7 +2,7 @@ import { StackClientApp } from "@stackframe/react";
 import { useNavigate } from "react-router";
 
 import { getCookie } from "~console/lib/utils";
-import { authStore } from "~console/state/auth";
+import { shellStore } from "~console/state/auth";
 
 import { DEFAULT_EXPIRATION_MS, type AuthService } from "./types";
 
@@ -33,7 +33,7 @@ const authService = {
     const user = await getStackApp().getUser({ or: "redirect" });
 
     if (!user) return;
-    authStore.user = {
+    shellStore.user = {
       email: user.primaryEmail ?? "",
       name: user.displayName ?? "",
       avatar: user.profileImageUrl ?? "",

@@ -21,8 +21,7 @@ import { authService } from "~console/lib/auth";
 import { api, gateway } from "~console/lib/service";
 import { dontRevalidateOnFormErrors } from "~console/lib/errors";
 import { getCookie, kbs } from "~console/lib/utils";
-import { authStore } from "~console/state/auth";
-import { shellStore } from "~console/state/shell";
+import { shellStore } from "~console/state/auth";
 import { PageLoader } from "~console/components/ui/PageLoader";
 
 import { AgentSelect } from "./sidebar-agent";
@@ -68,7 +67,7 @@ export { dontRevalidateOnFormErrors as shouldRevalidate }
 
 
 export default function ShellLayout({ loaderData: { agents } }: Route.ComponentProps) { 
-  const { user } = useSnapshot(authStore);
+  const { user } = useSnapshot(shellStore);
 
   const { 
     agent: activeAgent, 

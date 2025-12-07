@@ -2,6 +2,20 @@ import { proxy } from "valtio";
 
 import type { User } from "~console/lib/auth/types";
 
-export const authStore = proxy<{ user: User | undefined }>({
+export type Models = Record<
+  string,
+  {
+    name: string;
+    modality: string;
+    providers: string[];
+    monthlyFreeTokens: number;
+  }
+>;
+
+export const shellStore = proxy<{
+  user: User | undefined;
+  models: Models | undefined;
+}>({
   user: undefined,
+  models: undefined,
 });

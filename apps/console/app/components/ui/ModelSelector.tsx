@@ -3,7 +3,7 @@ import { useSnapshot } from "valtio";
 import { Badge } from "@hebo/shared-ui/components/Badge";
 import { Select } from "@hebo/shared-ui/components/Select";
 
-import { shellStore } from "~console/state/shell";
+import { shellStore } from "~console/state/auth";
 
 import type { ComponentProps } from "react";
 

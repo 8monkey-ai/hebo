@@ -23,7 +23,7 @@ import { Input } from "@hebo/shared-ui/components/Input";
 
 import { ModelSelector } from "~console/components/ui/ModelSelector";
 import { useFormErrorToast } from "~console/lib/errors";
-import { shellStore } from "~console/state/shell";
+import { shellStore } from "~console/state/auth";
 
 
 export const AgentCreateSchema = z.object({
