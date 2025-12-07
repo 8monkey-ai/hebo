@@ -1,6 +1,5 @@
-import { Check, ChevronDown, GitBranch, Plus } from "lucide-react";
+import { Check, ChevronDown, GitBranch } from "lucide-react";
 import { useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
 import { Link } from "react-router";
 
 import {
@@ -15,7 +14,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@hebo/shared-ui/components/Sidebar";
-import { kbs } from "~console/lib/utils";
 
 
 type Branch = {
@@ -39,15 +37,6 @@ export function BranchSelect({
   const branches = activeAgent.branches ?? [];
 
   const [selectorOpen, setSelectorOpen] = useState(false);
-  
-  useHotkeys(
-    "mod+J",
-    () => {
-      setSelectorOpen((prev) => !prev);
-    },
-    { preventDefault: true },
-    [],
-  );
 
   return (
     <SidebarMenu>
@@ -59,10 +48,7 @@ export function BranchSelect({
               <span className="truncate">
                   {activeBranch?.name ?? activeBranch?.slug ?? <span className="text-muted-foreground">Select …</span>}
               </span>
-              <span className="ml-auto text-muted-foreground">
-                  {kbs("mod+J")}
-              </span>
-              <ChevronDown aria-hidden="true" />
+              <ChevronDown className="ml-auto" aria-hidden="true" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent

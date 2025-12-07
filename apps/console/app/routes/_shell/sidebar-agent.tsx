@@ -1,7 +1,6 @@
 import { Check, ChevronsUpDown, Plus, Settings } from "lucide-react";
 import { useState } from "react";
-import { useHotkeys } from 'react-hotkeys-hook'
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 
 import {
   DropdownMenu,
@@ -9,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@hebo/shared-ui/components/DropdownMenu";
 import {

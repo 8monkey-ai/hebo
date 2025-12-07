@@ -32,6 +32,7 @@ import { PlaygroundSidebar } from "./sidebar-playground";
 import { UserMenu } from "./sidebar-user";
 import { SidebarNav } from "./sidebar-nav";
 import { StaticContent } from "./sidebar-static";
+import { KeyboardShortcuts } from "./keyboard-shortcuts";
 
 import type { Route } from "./+types/route";
 
@@ -152,6 +153,7 @@ export default function ShellLayout({ loaderData: { agents } }: Route.ComponentP
             <Outlet />
           </div>
         </div>
+        <KeyboardShortcuts />
       </SidebarInset>
 
       <SidebarProvider
