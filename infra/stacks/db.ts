@@ -28,7 +28,10 @@ const migrator = new sst.aws.Function("DatabaseMigrator", {
   handler: "packages/database/lambda/migrator.handler",
   vpc: heboVpc,
   link: [heboDatabase],
-  copyFiles: [{ from: "packages/database/prisma", to: "./prisma" }],
+  copyFiles: [
+    { from: "packages/database/prisma", to: "./prisma" },
+    { from: "packages/database/prisma.config.ts", to: "./prisma.config.ts" },
+  ],
 
   environment: {
     NODE_EXTRA_CA_CERTS: "/var/runtime/ca-cert.pem",
