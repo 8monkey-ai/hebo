@@ -1,5 +1,5 @@
 import { Loader2Icon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@hebo/shared-ui/components/Button";
 import { Label } from "@hebo/shared-ui/components/Label";
@@ -7,25 +7,54 @@ import { Input } from "@hebo/shared-ui/components/Input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@hebo/shared-ui/components/InputOTP";
 
 import { authService } from "~console/lib/auth"
+import { setOtpEmail } from "~console/lib/auth/better-auth";
 
 export function MagicLinkSignIn() {
 
   const [email, setEmail] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
-  const [nonce, setNonce] = useState<string | undefined>();
+  const [linkSent, setLinkSent] = useState(false);
   const [otp, setOtp] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
+  const verifyOnce = useRef(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(globalThis.window?.location?.search ?? "");
+    const emailParam = params.get("email") ?? undefined;
+    const otpParam = params.get("otp") ?? undefined;
+
+    if (emailParam) {
+      setEmail(emailParam);
+      setOtpEmail(emailParam);
+    }
+    if (otpParam) {
+      setOtp(otpParam.toUpperCase());
+      setLinkSent(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!linkSent || !otp || otp.length < 6 || verifyOnce.current) return;
+    verifyOnce.current = true;
+    setLoading(true);
+    void authService
+      .signInWithMagicLink(otp)
+      .catch((err) => {
+        if (err instanceof Error) setError(err.message);
+      })
+      .finally(() => setLoading(false));
+  }, [linkSent, otp]);
 
   return (
-    
-    !nonce? (
+    !linkSent ? (
       <form 
         className="flex flex-col gap-2"
         onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
           try {
-            setNonce(await authService.sendMagicLinkEmail(email!));
+            await authService.sendMagicLinkEmail(email!);
+            setLinkSent(true);
           } catch (error) {
             error instanceof Error && setError(error.message);
           } finally {
@@ -59,7 +88,7 @@ export function MagicLinkSignIn() {
           e.preventDefault();
           setLoading(true);
           try {
-            await authService.signInWithMagicLink(otp + nonce);
+            await authService.signInWithMagicLink(otp ?? "");
           } catch (error) {
             error instanceof Error && setError(error.message);
           } finally {
@@ -97,7 +126,8 @@ export function MagicLinkSignIn() {
           onClick={() => {
             setError(undefined);
             setOtp(undefined);
-            setNonce(undefined);
+            setLinkSent(false);
+            setOtpEmail(undefined);
           }}>
           Cancel
         </Button>

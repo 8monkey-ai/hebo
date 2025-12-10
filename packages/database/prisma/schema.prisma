@@ -9,6 +9,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  schemas  = ["public", "auth"]
 }
 
 generator prismabox {
@@ -42,6 +43,8 @@ model agents {
   deleted_by String?
   /// @prismabox.hide
   deleted_at DateTime?
+
+  @@schema("public")
 }
 
 model branches {
@@ -71,6 +74,7 @@ model branches {
   deleted_at DateTime?
 
   @@unique([agent_slug, slug])
+  @@schema("public")
 }
 
 model provider_configs {
@@ -92,4 +96,67 @@ model provider_configs {
   deleted_by String?
   /// @prismabox.hide
   deleted_at DateTime?
+
+  @@schema("public")
+}
+
+model users {
+  id             String    @id @db.Text
+  name           String
+  email          String    @unique
+  emailVerified  Boolean   @default(false)
+  image          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  sessions       sessions[]
+  accounts       accounts[]
+
+  @@schema("auth")
+}
+
+model sessions {
+  id         String   @id @db.Text
+  userId     String   @db.Text
+  token      String   @unique
+  expiresAt  DateTime
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@schema("auth")
+}
+
+model accounts {
+  id                    String   @id @db.Text
+  userId                String   @db.Text
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
+  password              String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  user                  users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@unique([providerId, accountId])
+  @@schema("auth")
+}
+
+model verifications {
+  id         String   @id @db.Text
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@schema("auth")
 }

@@ -5,6 +5,7 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
+    "./lib/*": "./lib/*.ts",
     "./middlewares/*": "./middlewares/*.ts",
     "./schemas/*": "./schemas/*.ts",
     "./utils/*": "./utils/*.ts",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@bogeychan/elysia-logger": "^0.1.10",
+    "@types/nodemailer": "^7.0.4",
     "bun-types": "^1.3.1",
     "elysia": "^1.4.9",
     "is-localhost-ip": "^2.0.0"
@@ -27,6 +29,8 @@
     "@elysiajs/bearer": "^1.4.1",
     "@hebo/database": "workspace:*",
     "@hebo/shared-data": "workspace:*",
+    "nodemailer": "^7.0.11",
+    "better-auth": "^1.4.5",
     "jose": "^6.0.12",
     "sst": "^3.17.13"
   }

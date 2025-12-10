@@ -104,11 +104,15 @@ We use Bun secrets for local development and SST secrets for remote deployments.
 
 Secret names:
 
-- LLM:
+- Auth
+  - GitHub: `GithubClientId`, `GithubClientSecret`
+  - Google: `GoogleClientId`, `GoogleClientSecret`
+  - Microsoft: `MicrosoftClientId`, `MicrosoftClientSecret`
+  - Email OTP and Magic Link: `SmtpHost`, `SmtpPort`, `SmtpUser`, `SmtpPass`, `SmtpFrom`
+- LLMs
   - Bedrock: `BedrockRoleArn`, `BedrockRegion`
   - Vertex: `VertexServiceAccountEmail`, `VertexAwsProviderAudience`, `VertexProject`, `VertexLocation`
   - Others: `CohereApiKey`, `GroqApiKey`
-- Auth (Stack Auth): `StackSecretServerKey`, `StackPublishableClientKey`, `StackProjectId`
 
 Local (Bun) examples:
 

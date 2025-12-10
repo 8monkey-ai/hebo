@@ -16,14 +16,13 @@ export const gatewayUrl = isDevLocal
   : import.meta.env.VITE_GATEWAY_URL || "http://localhost:3002";
 
 export const kyFetch = ky.extend({
+  credentials: "include",
   throwHttpErrors: false,
   hooks: {
     beforeRequest: [
       (request) => {
-        request.headers.set(
-          "x-stack-access-token",
-          authService.getAccessToken()!,
-        );
+        const token = authService.getAccessToken?.();
+        if (token) request.headers.set("authorization", `Bearer ${token}`);
       },
     ],
     afterResponse: [

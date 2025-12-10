@@ -39,6 +39,7 @@
     "@react-router/node": "^7.9.6",
     "@react-router/serve": "^7.9.6",
     "@stackframe/react": "^2.8.28",
+    "better-auth": "^1.4.5",
     "ai": "^5.0.42",
     "cmdk": "^1.1.1",
     "is-network-error": "^1.1.0",

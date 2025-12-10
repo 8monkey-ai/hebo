@@ -11,7 +11,7 @@ export const connectionString = getConnectionString();
 // eslint-disable-next-line unicorn/no-null
 const dbNull = null;
 
-export const _prisma = new PrismaClient({
+export const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString, max: 25 }),
 });
 
@@ -19,7 +19,7 @@ export const createDbClient = (userId: string) => {
   if (!userId) {
     throw new Error("User ID is required");
   }
-  return _prisma.$extends({
+  return prisma.$extends({
     query: {
       $allModels: {
         async $allOperations({ args, query, operation }) {
@@ -67,7 +67,7 @@ export const createDbClient = (userId: string) => {
       },
       provider_configs: {
         async getUnredacted(slug: string) {
-          return _prisma.provider_configs.findFirstOrThrow({
+          return prisma.provider_configs.findFirstOrThrow({
             where: {
               provider_slug: slug,
               created_by: userId,

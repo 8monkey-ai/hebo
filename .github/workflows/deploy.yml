@@ -42,6 +42,17 @@ jobs:
           bun run sst secret set StackProjectId ${{ secrets.STACK_PROJECT_ID }} --stage production
           bun run sst secret set StackPublishableClientKey ${{ secrets.STACK_PUBLISHABLE_CLIENT_KEY }} --stage production
           bun run sst secret set StackSecretServerKey ${{ secrets.STACK_SECRET_SERVER_KEY }} --stage production
+          bun run sst secret set GithubClientId ${{ secrets.GITHUB_CLIENT_ID }} --stage production
+          bun run sst secret set GithubClientSecret ${{ secrets.GITHUB_CLIENT_SECRET }} --stage production
+          bun run sst secret set GoogleClientId ${{ secrets.GOOGLE_CLIENT_ID }} --stage production
+          bun run sst secret set GoogleClientSecret ${{ secrets.GOOGLE_CLIENT_SECRET }} --stage production
+          bun run sst secret set MicrosoftClientId ${{ secrets.MICROSOFT_CLIENT_ID }} --stage production
+          bun run sst secret set MicrosoftClientSecret ${{ secrets.MICROSOFT_CLIENT_SECRET }} --stage production
+          bun run sst secret set SmtpHost ${{ secrets.SMTP_HOST }} --stage production
+          bun run sst secret set SmtpPort ${{ secrets.SMTP_PORT }} --stage production
+          bun run sst secret set SmtpUser ${{ secrets.SMTP_USER }} --stage production
+          bun run sst secret set SmtpPass ${{ secrets.SMTP_PASS }} --stage production
+          bun run sst secret set SmtpFrom ${{ secrets.SMTP_FROM }} --stage production
           bun run sst secret set BedrockRoleArn ${{ secrets.BEDROCK_ROLE_ARN }} --stage production
           bun run sst secret set BedrockRegion ${{ secrets.BEDROCK_REGION }} --stage production
           bun run sst secret set CohereApiKey ${{ secrets.COHERE_API_KEY }} --stage production
