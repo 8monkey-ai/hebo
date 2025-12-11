@@ -24,7 +24,7 @@ export const errorHandler = new Elysia({ name: "error-handler" })
       );
 
     if (error instanceof UnsupportedFunctionalityError) {
-      const model = (body as any)?.model; // Safely extract model
+      const model = (body as any)?.model;
       return status(
         400,
         toOpenAiCompatibleError(
