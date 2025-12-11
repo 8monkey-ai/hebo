@@ -8,11 +8,12 @@ export default $config({
       removal: input?.stage === "production" ? "retain" : "remove",
       protect: ["production"].includes(input?.stage),
       home: "aws",
-      region: "us-east-1",
+      region: "us-east-2",
       providers: { docker: "4.8.2" },
     };
   },
   async run() {
     await import("./infra/stacks/console");
+    await import("./infra/stacks/mcp");
   },
 });
