@@ -57,12 +57,14 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
             </TableRow>
           ) : (
             apiKeys.map((key) => {
-              const isExpired = key.expiresAt.getTime() <= Date.now();
-              const isExpiringSoon = !isExpired && key.expiresAt.getTime() - Date.now() <= 7 * 24 * 60 * 60 * 1000; // 7 Days
+              const expiresAt = key.expiresAt ? new Date(key.expiresAt) : undefined;
+              const isExpired = expiresAt ? expiresAt.getTime() <= Date.now() : false;
+              const isExpiringSoon =
+                expiresAt && !isExpired && expiresAt.getTime() - Date.now() <= 7 * 24 * 60 * 60 * 1000; // 7 Days
 
               return (
                 <TableRow key={key.id}>
-                  <TableCell>{key.description || "—"}</TableCell>
+                  <TableCell>{key.name ?? key.description ?? "—"}</TableCell>
                   <TableCell className="align-middle">
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -73,22 +75,34 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
                               ? "border-amber-600 text-amber-600"
                               : "border-emerald-600 text-emerald-600"}
                         >
-                          {isExpired? "Expired" : isExpiringSoon? "Expires Soon": "Active"}
+                          {expiresAt
+                            ? isExpired
+                              ? "Expired"
+                              : isExpiringSoon
+                                ? "Expires Soon"
+                                : "Active"
+                            : "Active"}
                         </Badge>
                       </TooltipTrigger>
                       <TooltipContent>
-                        {isExpired ? "Expired " : "Expires "}
-                        {formatDateTime(key.expiresAt)}
+                        {expiresAt ? (
+                          <>
+                            {isExpired ? "Expired " : "Expires "}
+                            {formatDateTime(expiresAt)}
+                          </>
+                        ) : (
+                          "No expiry"
+                        )}
                       </TooltipContent>
                     </Tooltip>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2 font-mono text-sm">
-                      <span className="truncate">{key.value}</span>
+                      <span className="truncate">{key.key ?? key.start ?? "—"}</span>
                     </div>
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">
-                    {formatDateTime(key.createdAt)}
+                    {formatDateTime(new Date(key.createdAt))}
                   </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>

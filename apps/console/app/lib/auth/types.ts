@@ -20,8 +20,10 @@ export type User = {
 
 export type ApiKey = {
   id: string;
-  description: string;
-  value: string;
-  createdAt: Date;
-  expiresAt: Date;
+  name?: string;
+  key?: string;
+  start?: string | null;
+  createdAt: string | Date;
+  expiresAt?: string | Date | null;
+  description?: string;
 };

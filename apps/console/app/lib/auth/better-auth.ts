@@ -1,10 +1,10 @@
 import { createAuthClient } from "better-auth/client";
-import { emailOTPClient } from "better-auth/client/plugins";
+import { apiKeyClient, emailOTPClient } from "better-auth/client/plugins";
 
 import { isDevLocal } from "~console/lib/env";
 import { shellStore } from "~console/lib/shell";
 
-import type { AuthService, User } from "./types";
+import type { ApiKey, AuthService, User } from "./types";
 
 // TODO: make sure pure FE experience (no auth involved) still works
 const authHost =
@@ -23,19 +23,14 @@ const appRedirectURL = `${appOrigin.replace(/\/?$/, "")}/`;
 
 const authClient = createAuthClient({
   baseURL,
-  plugins: [emailOTPClient()],
+  plugins: [emailOTPClient(), apiKeyClient()],
 });
 
-type EmailOtpClient = {
-  sendVerificationOtp(args: {
-    email: string;
-    type: "sign-in";
-  }): Promise<unknown>;
-};
-
-// The client plugin typing is broad; cast to the minimal shape we use.
-const emailOtpApi = (authClient as unknown as { emailOtp?: EmailOtpClient })
-  .emailOtp;
+const {
+  emailOtp: emailOtpApi,
+  apiKey: apiKeyApi,
+  signIn: signInApi,
+} = authClient;
 let lastEmail: string | undefined;
 
 export const setOtpEmail = (email: string | undefined) => {
@@ -61,6 +56,13 @@ const mapUser = (data: Partial<User> & { email?: string; name?: string }) => {
   return user;
 };
 
+const unwrapData = <T>(value: unknown): T => {
+  if (value && typeof value === "object" && "data" in value) {
+    return (value as { data: T }).data;
+  }
+  return value as T;
+};
+
 export const authService: AuthService = {
   async ensureSignedIn() {
     const session = await authClient.getSession();
@@ -75,21 +77,56 @@ export const authService: AuthService = {
     shellStore.user = mapUser(user);
   },
 
-  getAccessToken() {
+  getAccessToken(): string | undefined {
     // Better Auth is cookie-based in the console; add bearer once available.
-    return;
+    return undefined;
   },
 
-  async generateApiKey() {
-    throw new Error("Not implemented");
+  async generateApiKey(description, expiresIn?: number) {
+    const create = apiKeyApi?.create;
+    if (!create) throw new Error("API key client not available");
+
+    const payload = {
+      name: description,
+      ...(typeof expiresIn === "number" ? { expiresIn } : {}),
+    };
+
+    try {
+      const result = await create(payload);
+      return unwrapData<ApiKey>(result);
+    } catch (error) {
+      throw new Error(
+        error instanceof Error ? error.message : "Unable to create API key",
+      );
+    }
   },
 
-  async revokeApiKey() {
-    throw new Error("Not implemented");
+  async revokeApiKey(apiKeyId) {
+    const remove = apiKeyApi?.delete;
+    if (!remove) throw new Error("API key client not available");
+
+    try {
+      await remove({ keyId: apiKeyId });
+    } catch (error) {
+      throw new Error(
+        error instanceof Error ? error.message : "Unable to revoke API key",
+      );
+    }
   },
 
   async listApiKeys() {
-    throw new Error("Not implemented");
+    const list = apiKeyApi?.list;
+    if (!list) throw new Error("API key client not available");
+
+    try {
+      const result = await list();
+      const unwrapped = unwrapData<unknown>(result);
+      return Array.isArray(unwrapped) ? (unwrapped as ApiKey[]) : [];
+    } catch (error) {
+      throw new Error(
+        error instanceof Error ? error.message : "Unable to load API keys",
+      );
+    }
   },
 
   async signInWithOAuth(provider: string) {
@@ -117,15 +154,7 @@ export const authService: AuthService = {
     const token = code?.trim();
     if (!token) throw new Error("Missing code");
 
-    const signInEmailOtp = (
-      authClient as unknown as {
-        signIn: {
-          emailOtp(args: { email: string; otp: string }): Promise<{
-            data?: { user?: Partial<User> };
-          }>;
-        };
-      }
-    ).signIn?.emailOtp;
+    const signInEmailOtp = signInApi?.emailOtp;
 
     if (!signInEmailOtp) throw new Error("Email OTP client not available");
     if (!lastEmail) throw new Error("Email required before verifying OTP");

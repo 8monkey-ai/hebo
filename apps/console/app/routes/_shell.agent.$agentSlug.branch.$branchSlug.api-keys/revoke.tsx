@@ -29,7 +29,7 @@ type ApiKeyRevokeFormValues = z.infer<typeof ApiKeyRevokeSchema>;
 type RevokeApiKeyDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  apiKey?: { id: string; description: string; value: string };
+  apiKey?: { id: string; name?: string; key?: string; start?: string };
 };
 
 export function RevokeApiKeyDialog({open, onOpenChange, apiKey}: RevokeApiKeyDialogProps) {
@@ -63,7 +63,7 @@ export function RevokeApiKeyDialog({open, onOpenChange, apiKey}: RevokeApiKeyDia
           </DialogHeader>
           <Alert variant="destructive">
             <AlertDescription>
-              Key ({apiKey?.value ?? ""}) will stop working immediately.
+              Key ({apiKey?.key ?? apiKey?.start ?? ""}) will stop working immediately.
             </AlertDescription>
           </Alert>
 
