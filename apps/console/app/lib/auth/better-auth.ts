@@ -31,11 +31,6 @@ const {
   apiKey: apiKeyApi,
   signIn: signInApi,
 } = authClient;
-let lastEmail: string | undefined;
-
-export const setOtpEmail = (email: string | undefined) => {
-  lastEmail = email?.trim() || undefined;
-};
 
 const getInitials = (name?: string, email?: string) => {
   const source = name?.trim() || email?.trim();
@@ -135,7 +130,6 @@ export const authService: AuthService = {
     if (!emailOtpApi?.sendVerificationOtp) {
       throw new Error("Email OTP client not available");
     }
-    setOtpEmail(email);
     await emailOtpApi.sendVerificationOtp({
       email,
       type: "sign-in",
@@ -145,17 +139,18 @@ export const authService: AuthService = {
     return "otp-sent";
   },
 
-  async signInWithMagicLink(code: string) {
+  async signInWithMagicLink(code: string, email: string) {
     const token = code?.trim();
+    const emailValue = email?.trim();
     if (!token) throw new Error("Missing code");
+    if (!emailValue) throw new Error("Missing email");
 
     const signInEmailOtp = signInApi?.emailOtp;
 
     if (!signInEmailOtp) throw new Error("Email OTP client not available");
-    if (!lastEmail) throw new Error("Email required before verifying OTP");
 
     const session = await signInEmailOtp({
-      email: lastEmail,
+      email: emailValue,
       otp: token,
     });
     const user = session?.data?.user;

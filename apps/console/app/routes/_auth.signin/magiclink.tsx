@@ -6,8 +6,7 @@ import { Label } from "@hebo/shared-ui/components/Label";
 import { Input } from "@hebo/shared-ui/components/Input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@hebo/shared-ui/components/InputOTP";
 
-import { authService } from "~console/lib/auth"
-import { setOtpEmail } from "~console/lib/auth/better-auth";
+import { authService } from "~console/lib/auth";
 
 export function MagicLinkSignIn() {
 
@@ -25,7 +24,6 @@ export function MagicLinkSignIn() {
 
     if (emailParam) {
       setEmail(emailParam);
-      setOtpEmail(emailParam);
     }
     if (otpParam) {
       setOtp(otpParam.toUpperCase());
@@ -35,15 +33,19 @@ export function MagicLinkSignIn() {
 
   useEffect(() => {
     if (!linkSent || !otp || otp.length < 6 || verifyOnce.current) return;
+    if (!email) {
+      setError("Email is required to verify the code");
+      return;
+    }
     verifyOnce.current = true;
     setLoading(true);
     void authService
-      .signInWithMagicLink(otp)
+      .signInWithMagicLink(otp, email)
       .catch((err) => {
         if (err instanceof Error) setError(err.message);
       })
       .finally(() => setLoading(false));
-  }, [linkSent, otp]);
+  }, [linkSent, otp, email]);
 
   return (
     !linkSent ? (
@@ -87,8 +89,13 @@ export function MagicLinkSignIn() {
         onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
+          if (!email) {
+            setError("Email is required");
+            setLoading(false);
+            return;
+          }
           try {
-            await authService.signInWithMagicLink(otp ?? "");
+            await authService.signInWithMagicLink(otp ?? "", email);
           } catch (error) {
             error instanceof Error && setError(error.message);
           } finally {
@@ -128,7 +135,6 @@ export function MagicLinkSignIn() {
             setOtp(undefined);
             setLinkSent(false);
             verifyOnce.current = false;
-            setOtpEmail(undefined);
           }}>
           Cancel
         </Button>
