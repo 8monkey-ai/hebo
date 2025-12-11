@@ -9,7 +9,7 @@ export interface AuthService {
   signInWithMagicLink(code: string): Promise<void>;
 }
 
-export const DEFAULT_EXPIRATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+export const DEFAULT_EXPIRATION_SECONDS = 7 * 24 * 60 * 60; // 7 days
 
 export type User = {
   email: string;

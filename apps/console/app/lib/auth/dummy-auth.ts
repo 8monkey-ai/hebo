@@ -3,15 +3,17 @@ import { z } from "zod";
 
 import { shellStore } from "~console/lib/shell";
 
-import { DEFAULT_EXPIRATION_MS, type AuthService } from "./types";
+import { DEFAULT_EXPIRATION_SECONDS, type AuthService } from "./types";
 
 const apiKeys = new Collection({
   schema: z.object({
     id: z.string().default(crypto.randomUUID()),
-    description: z.string(),
-    value: z.string(),
+    name: z.string(),
+    key: z.string(),
+    start: z.string().nullable(),
+    description: z.string().optional(),
     createdAt: z.date(),
-    expiresAt: z.date(),
+    expiresAt: z.date().nullable(),
   }),
 });
 
@@ -30,13 +32,19 @@ export const authService = {
     return "dummy-access-token";
   },
 
-  async generateApiKey(description, expiresIn = DEFAULT_EXPIRATION_MS) {
+  async generateApiKey(
+    description,
+    expiresInSeconds = DEFAULT_EXPIRATION_SECONDS,
+  ) {
     const now = new Date();
+    const key = crypto.randomUUID();
     const newKey = await apiKeys.create({
+      name: description,
       description,
-      value: crypto.randomUUID(),
+      key,
+      start: key.slice(0, 6),
       createdAt: now,
-      expiresAt: new Date(now.getTime() + expiresIn),
+      expiresAt: new Date(now.getTime() + expiresInSeconds),
     });
 
     return newKey;
