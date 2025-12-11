@@ -4,6 +4,7 @@ import { openapi } from "@elysiajs/openapi";
 import Elysia from "elysia";
 
 import { auth } from "@hebo/shared-api/lib/auth";
+import { authService } from "@hebo/shared-api/middlewares/auth/auth-service";
 import { corsConfig } from "@hebo/shared-api/middlewares/cors-config";
 
 import { errorHandler } from "./middleware/error-handler";
@@ -32,12 +33,13 @@ const createApi = () =>
       }),
     )
     .mount(auth.handler)
+    .use(authService)
     .use(errorHandler)
     .group(
       "/v1",
-      // {
-      //   isSignedIn: true,
-      // },
+      {
+        isSignedIn: true,
+      },
       (app) =>
         app
           // /agents and /agents/:agentSlug/branches
