@@ -127,6 +127,7 @@ export function MagicLinkSignIn() {
             setError(undefined);
             setOtp(undefined);
             setLinkSent(false);
+            verifyOnce.current = false;
             setOtpEmail(undefined);
           }}>
           Cancel
