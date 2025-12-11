@@ -1,3 +1,4 @@
+import { UnsupportedFunctionalityError } from "ai";
 import { Elysia, status } from "elysia";
 
 import { identifyPrismaError } from "@hebo/database/src/errors";
@@ -19,6 +20,16 @@ export const errorHandler = new Elysia({ name: "error-handler" })
           error.message,
           "invalid_request_error",
           error.code,
+        ),
+      );
+
+    if (error instanceof UnsupportedFunctionalityError)
+      return status(
+        400,
+        toOpenAiCompatibleError(
+          error.message,
+          "invalid_request_error",
+          "unsupported_functionality",
         ),
       );
 
