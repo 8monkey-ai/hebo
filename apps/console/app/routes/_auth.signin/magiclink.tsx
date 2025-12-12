@@ -10,10 +10,10 @@ import { authService } from "~console/lib/auth";
 
 export function MagicLinkSignIn() {
 
-  const [email, setEmail] = useState<string | undefined>();
+  const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [linkSent, setLinkSent] = useState(false);
-  const [otp, setOtp] = useState<string | undefined>();
+  const [otp, setOtp] = useState<string>("");
   const [error, setError] = useState<string | undefined>();
   const verifyOnce = useRef(false);
 
@@ -95,11 +95,11 @@ export function MagicLinkSignIn() {
             return;
           }
           try {
-            await authService.signInWithMagicLink(otp ?? "", email);
+            await authService.signInWithMagicLink(otp, email);
           } catch (error) {
             error instanceof Error && setError(error.message);
           } finally {
-            setOtp(undefined);
+            setOtp("");
             setLoading(false);
           }
         }}>
@@ -121,7 +121,7 @@ export function MagicLinkSignIn() {
           <Button 
             type="submit"
             isLoading={loading}
-            disabled={loading || (otp?.length !== 6)}>
+            disabled={loading || otp.length !== 6}>
             Verify
           </Button>
         </div>
@@ -132,7 +132,7 @@ export function MagicLinkSignIn() {
           className='underline'
           onClick={() => {
             setError(undefined);
-            setOtp(undefined);
+            setOtp("");
             setLinkSent(false);
             verifyOnce.current = false;
           }}>
