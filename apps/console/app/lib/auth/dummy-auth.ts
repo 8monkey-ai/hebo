@@ -26,16 +26,13 @@ export const authService = {
     };
   },
 
-  async generateApiKey(
-    name,
-    expiresInSeconds = DEFAULT_EXPIRATION_SECONDS * 1000,
-  ) {
+  async generateApiKey(name, expiresInSeconds = DEFAULT_EXPIRATION_SECONDS) {
     const now = new Date();
     return await apiKeys.create({
       name,
       key: crypto.randomUUID(),
       createdAt: now,
-      expiresAt: new Date(now.getTime() + expiresInSeconds),
+      expiresAt: new Date(now.getTime() + expiresInSeconds * 1000),
     });
   },
 
