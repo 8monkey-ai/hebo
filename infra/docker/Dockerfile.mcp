@@ -30,4 +30,4 @@ COPY --from=builder /repo/apps/mcp/dist/ ./
 
 EXPOSE 3003
 USER nonroot:nonroot
-ENTRYPOINT ["/app/server"]
+CMD ["bun", "index.js"]

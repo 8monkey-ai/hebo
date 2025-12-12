@@ -1,10 +1,12 @@
 import { logger } from "@bogeychan/elysia-logger";
-import { staticPlugin } from "@elysiajs/static";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import Elysia from "elysia";
 
+import index from "src/ui/index.html";
+
 import { countLetterTool } from "./aikit/count-letter.js";
 import { createMcpHandler } from "./aikit/mcp-transport.js";
+
 
 const LOG_LEVEL = process.env.LOG_LEVEL ?? "info";
 const PORT = Number(process.env.PORT ?? 3003);
@@ -19,7 +21,7 @@ mcpServer.registerTool(
 const createApp = async () =>
   new Elysia()
     .use(logger({ level: LOG_LEVEL }))
-    .use(await staticPlugin({ prefix: "/", assets: "src/ui/" }))
+    .get("/", index)
     .group("/aikit", (app) =>
       app
         .get("/", () => "🐵 Hebo Aikit MCP server says hello!")

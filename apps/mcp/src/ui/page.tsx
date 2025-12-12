@@ -1,6 +1,6 @@
-import "./global.css";
-
 import { Counter } from "./components/Counter";
+
+import "./global.css";
 
 export function Page() {
   return (
