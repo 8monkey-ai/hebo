@@ -1,4 +1,5 @@
 // Auth
+export const authSecret = new sst.Secret("AuthSecret");
 export const githubClientId = new sst.Secret("GithubClientId");
 export const githubClientSecret = new sst.Secret("GithubClientSecret");
 export const googleClientId = new sst.Secret("GoogleClientId");
@@ -27,6 +28,7 @@ export const vertexProject = new sst.Secret("VertexProject", "undefined");
 export const vertexLocation = new sst.Secret("VertexLocation", "undefined");
 
 export const allSecrets = [
+  authSecret,
   githubClientId,
   githubClientSecret,
   googleClientId,

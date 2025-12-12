@@ -39,6 +39,7 @@ jobs:
 
       - name: Deploy to Production
         run: |
+          bun run sst secret set AuthSecret ${{ secrets.AUTH_SECRET }} --stage production
           bun run sst secret set GithubClientId ${{ secrets.GITHUB_CLIENT_ID }} --stage production
           bun run sst secret set GithubClientSecret ${{ secrets.GITHUB_CLIENT_SECRET }} --stage production
           bun run sst secret set GoogleClientId ${{ secrets.GOOGLE_CLIENT_ID }} --stage production
