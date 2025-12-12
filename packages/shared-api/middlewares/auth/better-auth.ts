@@ -25,7 +25,7 @@ export const authServiceBetterAuth = new Elysia({
         body: { key: apiKey },
       });
 
-      if (key?.userId) {
+      if (key) {
         return { userId: key.userId } as const;
       }
 
