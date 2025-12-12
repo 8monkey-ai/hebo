@@ -26,7 +26,10 @@ export const authService = {
     };
   },
 
-  async generateApiKey(name, expiresInSeconds = DEFAULT_EXPIRATION_SECONDS) {
+  async generateApiKey(
+    name,
+    expiresInSeconds = DEFAULT_EXPIRATION_SECONDS * 1000,
+  ) {
     const now = new Date();
     return await apiKeys.create({
       name,
