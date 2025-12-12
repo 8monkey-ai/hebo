@@ -20,8 +20,47 @@ export class BedrockProviderAdapter
   private config?: BedrockProviderConfig;
   private credentials?: BedrockCredentials;
 
-  constructor(modelName: string) {
-    super("bedrock", modelName);
+  // modelType to modelId
+  private static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {
+    "openai/gpt-oss-120b": "openai.gpt-oss-120b-1:0",
+    "openai/gpt-oss-20b": "openai.gpt-oss-20b-1:0",
+  };
+
+  constructor(modelType: string) {
+    super("bedrock", modelType);
+  }
+
+  supportsModel(modelType: string): boolean {
+    return modelType in BedrockProviderAdapter.SUPPORTED_MODELS_MAP;
+  }
+
+  private static toSnakeCase(str: string): string {
+    return str.replaceAll(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+  }
+
+  private static convertObjectKeysToSnakeCase(
+    obj: Record<string, any>,
+  ): Record<string, any> {
+    const newObj: Record<string, any> = {};
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        newObj[BedrockProviderAdapter.toSnakeCase(key)] = obj[key];
+      }
+    }
+    return newObj;
+  }
+
+  transformConfigs(modelConfig: Record<string, any>): Record<string, any> {
+    if (Object.keys(modelConfig).length === 0) return {};
+
+    const snakeCaseConfig =
+      BedrockProviderAdapter.convertObjectKeysToSnakeCase(modelConfig);
+
+    return {
+      bedrock: {
+        additionalModelRequestFields: snakeCaseConfig,
+      },
+    };
   }
 
   private async getCredentials() {
@@ -54,8 +93,14 @@ export class BedrockProviderAdapter
     });
   }
 
-  async resolveModelId() {
-    const modelId = this.getProviderModelId();
+  async resolveModelId(): Promise<string> {
+    const modelId = BedrockProviderAdapter.SUPPORTED_MODELS_MAP[this.modelType];
+    if (!modelId) {
+      throw new Error(`Model ${this.modelType} not supported by Bedrock.`);
+    }
+
+    // The remaining logic for ListInferenceProfilesCommand to verify ARN
+    // can stay as it confirms the resolved modelId exists in AWS.
     const { region } = this.config!;
     const client = new BedrockClient({
       region,

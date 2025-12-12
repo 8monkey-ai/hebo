@@ -13,6 +13,7 @@ import {
   OpenAICompatibleMessage,
   OpenAICompatibleTool,
   OpenAICompatibleToolChoice,
+  OpenAICompatibleReasoning,
 } from "~gateway/utils/openai-compatible-api-schemas";
 
 export const completions = new Elysia({
@@ -28,6 +29,7 @@ export const completions = new Elysia({
         messages,
         tools,
         toolChoice,
+        reasoning,
         temperature = 1,
         stream = false,
       } = body;
@@ -37,6 +39,7 @@ export const completions = new Elysia({
       const toolSet = toToolSet(tools);
       const modelMessages = toModelMessages(messages);
       const coreToolChoice = toToolChoice(toolChoice);
+      const providerOptions = (reasoning ? { reasoning } : {}) as any;
 
       if (stream) {
         const result = streamText({
@@ -45,6 +48,7 @@ export const completions = new Elysia({
           tools: toolSet,
           toolChoice: coreToolChoice,
           temperature,
+          providerOptions,
         });
 
         const responseStream = toOpenAICompatibleStream(result, modelAliasPath);
@@ -64,6 +68,7 @@ export const completions = new Elysia({
         tools: toolSet,
         toolChoice: coreToolChoice,
         temperature,
+        providerOptions,
       });
 
       return toOpenAICompatibleNonStreamResponse(result, modelAliasPath);
@@ -76,6 +81,7 @@ export const completions = new Elysia({
         stream: t.Optional(t.Boolean()),
         tools: t.Optional(t.Array(OpenAICompatibleTool)),
         toolChoice: t.Optional(OpenAICompatibleToolChoice),
+        reasoning: t.Optional(OpenAICompatibleReasoning),
       }),
     },
   );

@@ -12,8 +12,26 @@ export class VertexProviderAdapter
 {
   private config?: VertexProviderConfig;
 
-  constructor(modelName: string) {
-    super("vertex", modelName);
+  // modelType to modelId
+  private static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {
+    "google/gemini-2.5-flash-preview-09-2025":
+      "gemini-2.5-flash-preview-09-2025",
+    "google/gemini-2.5-flash-lite-preview-09-2025":
+      "gemini-2.5-flash-lite-preview-09-2025",
+  };
+
+  constructor(modelType: string) {
+    super("vertex", modelType);
+  }
+
+  supportsModel(modelType: string): boolean {
+    return modelType in VertexProviderAdapter.SUPPORTED_MODELS_MAP;
+  }
+
+  transformConfigs(modelConfig: Record<string, any>): Record<string, any> {
+    return {
+      google: modelConfig,
+    };
   }
 
   async initialize(config?: VertexProviderConfig): Promise<this> {
@@ -46,7 +64,11 @@ export class VertexProviderAdapter
     });
   }
 
-  async resolveModelId() {
-    return this.getProviderModelId();
+  async resolveModelId(): Promise<string> {
+    const modelId = VertexProviderAdapter.SUPPORTED_MODELS_MAP[this.modelType];
+    if (!modelId) {
+      throw new Error(`Model ${this.modelType} not supported by Vertex.`);
+    }
+    return modelId;
   }
 }
