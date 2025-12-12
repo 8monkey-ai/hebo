@@ -155,10 +155,10 @@
       "dependencies": {
         "@bogeychan/elysia-logger": "^0.1.10",
         "@modelcontextprotocol/sdk": "^1.24.2",
+        "@preact/compat": "^18.3.1",
         "elysia": "^1.4.18",
         "pino": "^9.8.0",
-        "react": "^19",
-        "react-dom": "^19",
+        "preact": "^10.28.0",
         "zod": "^4.1.13",
       },
       "devDependencies": {
@@ -713,6 +713,8 @@
     "@pkgjs/parseargs": ["@pkgjs/parseargs@0.11.0", "", {}, "sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg=="],
 
     "@pkgr/core": ["@pkgr/core@0.2.9", "", {}, "sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA=="],
+
+    "@preact/compat": ["@preact/compat@18.3.1", "", { "peerDependencies": { "preact": "*" } }, "sha512-Kog4PSRxtT4COtOXjsuQPV1vMXpUzREQfv+6Dmcy9/rMk0HOPK0HTE9fspFjAmY8R80T/T8gtgmZ68u5bOSngw=="],
 
     "@prisma/adapter-pg": ["@prisma/adapter-pg@6.19.0", "", { "dependencies": { "@prisma/driver-adapter-utils": "6.19.0", "pg": "^8.11.3", "postgres-array": "3.0.4" } }, "sha512-F8f2kvU+igmxERA9oM+D2maMaxrST1P6vO7ayvdlAdcJI47nKNPdkLBGZKic9otghfA9CQnjNOGB56q2VXqnHw=="],
 
@@ -2595,6 +2597,8 @@
     "postgres-date": ["postgres-date@1.0.7", "", {}, "sha512-suDmjLVQg78nMK2UZ454hAG+OAW+HQPZ6n++TNDUX+L0+uUlLywnoxJKDou51Zm+zTCjrCl0Nq6J9C5hP9vK/Q=="],
 
     "postgres-interval": ["postgres-interval@1.2.0", "", { "dependencies": { "xtend": "^4.0.0" } }, "sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ=="],
+
+    "preact": ["preact@10.28.0", "", {}, "sha512-rytDAoiXr3+t6OIP3WGlDd0ouCUG1iCWzkcY3++Nreuoi17y6T5i/zRhe6uYfoVcxq6YU+sBtJouuRDsq8vvqA=="],
 
     "prelude-ls": ["prelude-ls@1.2.1", "", {}, "sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g=="],
 

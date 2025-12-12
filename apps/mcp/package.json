@@ -15,11 +15,15 @@
   "dependencies": {
     "@bogeychan/elysia-logger": "^0.1.10",
     "@modelcontextprotocol/sdk": "^1.24.2",
+    "@preact/compat": "^18.3.1",
     "elysia": "^1.4.18",
     "pino": "^9.8.0",
-    "react": "^19",
-    "react-dom": "^19",
+    "preact": "^10.28.0",
     "zod": "^4.1.13"
+  },
+  "overrides": {
+    "react": "npm:@preact/compat@latest",
+    "react-dom": "npm:@preact/compat@latest"
   },
   "devDependencies": {
     "@types/react": "^19",
