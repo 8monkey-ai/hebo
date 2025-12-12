@@ -2,7 +2,7 @@ import heboCluster from "./cluster";
 import heboDatabase from "./db";
 import { allSecrets, isProd } from "./env";
 
-const apiDomain = isProd ? "api.hebo.ai" : `api.${$app.stage}.hebo.ai`;
+export const apiDomain = isProd ? "api.hebo.ai" : `api.${$app.stage}.hebo.ai`;
 const apiPort = "3001";
 
 const heboApi = new sst.aws.Service("HeboApi", {
@@ -18,7 +18,10 @@ const heboApi = new sst.aws.Service("HeboApi", {
   },
   environment: {
     IS_REMOTE: $dev ? "false" : "true",
-    AUTH_ENABLED: "true",
+    AUTH_BASE_URL: `https://${apiDomain}`,
+    AUTH_TRUSTED_ORIGINS: isProd
+      ? "console.hebo.ai"
+      : `console.${$app.stage}.hebo.ai`,
     LOG_LEVEL: isProd ? "info" : "debug",
     NODE_EXTRA_CA_CERTS: "/etc/ssl/certs/rds-bundle.pem",
     PORT: apiPort,

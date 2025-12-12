@@ -1,27 +1,21 @@
 import nodemailer from "nodemailer";
 
 import { getSecret } from "../../utils/secrets";
+import { authBaseUrl, isAuthEnabled } from "../env";
 
-const appBaseUrl =
-  process.env.APP_BASE_URL ??
-  process.env.VITE_APP_BASE_URL ??
-  process.env.VITE_AUTH_BASE_URL ??
-  "http://localhost:5173";
-const safeAppBase = appBaseUrl.replace(/\/$/, "");
-
-const smtpHost = await getSecret("SmtpHost");
-const smtpPort = Number(await getSecret("SmtpPort"));
-const smtpUser = await getSecret("SmtpUser");
-const smtpPass = await getSecret("SmtpPass");
-const smtpFrom = (await getSecret("SmtpFrom").catch(() => {})) ?? smtpUser;
+const smtpPort = Number(await getSecret("SmtpPort", isAuthEnabled));
+const smtpFrom = await getSecret("SmtpFrom", isAuthEnabled);
 
 const logoUrl = "https://hebo.ai/_next/image?url=%2Fhebo.png&w=48&q=75";
 
 const mailer = nodemailer.createTransport({
-  host: smtpHost,
+  host: await getSecret("SmtpHost", isAuthEnabled),
   port: smtpPort,
   secure: smtpPort === 465,
-  auth: { user: smtpUser, pass: smtpPass },
+  auth: {
+    user: await getSecret("SmtpUser", isAuthEnabled),
+    pass: await getSecret("SmtpPass", isAuthEnabled),
+  },
 });
 
 export async function sendVerificationOtpEmail({
@@ -31,7 +25,9 @@ export async function sendVerificationOtpEmail({
   email: string;
   otp: string;
 }) {
-  const magicLinkUrl = `${safeAppBase}/signin?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`;
+  const magicLinkUrl = new URL("/signin", authBaseUrl);
+  magicLinkUrl.searchParams.set("email", email);
+  magicLinkUrl.searchParams.set("otp", otp);
 
   const html = `
     <table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(180deg,#fefce8 0%,#f8fafc 45%,#eef2ff 100%);padding:32px 0;color:#0f172a;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">

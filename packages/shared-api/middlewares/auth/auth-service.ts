@@ -2,8 +2,7 @@ import { Elysia } from "elysia";
 
 import { authServiceBetterAuth } from "./better-auth";
 import { AuthError } from "../../errors";
-
-const isAuthEnabled = Boolean(process.env.AUTH_ENABLED);
+import { isAuthEnabled } from "../../lib/env";
 
 const createAuthService = async () => {
   if (!isAuthEnabled) {
