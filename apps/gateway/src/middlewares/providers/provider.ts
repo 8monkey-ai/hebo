@@ -24,7 +24,11 @@ export abstract class ProviderAdapterBase {
     return this.providerSlug;
   }
   
-  abstract supportsModel(modelType: string): boolean;
+  abstract supportsModel(modelType: string);
 
-  abstract transformConfigs(modelConfig: Record<string, any>): Record<string, any>;
+  transformConfigs(modelConfig: Record<string, any>): Record<string, any> {
+    return {
+      [this.providerSlug]: modelConfig,
+    };
+  }
 }

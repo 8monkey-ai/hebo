@@ -42,7 +42,9 @@ export const completions = new Elysia({
       const toolSet = toToolSet(tools);
       const modelMessages = toModelMessages(messages);
       const coreToolChoice = toToolChoice(toolChoice);
-      const providerOptions = provider.getProviderOptions(reasoning);
+      const providerOptions = {
+        reasoning,
+      };
 
       if (stream) {
         const result = streamText({

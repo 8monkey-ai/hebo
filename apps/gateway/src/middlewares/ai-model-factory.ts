@@ -7,6 +7,8 @@ import { ModelConfigService } from "./model-config";
 import { ProviderAdapterFactory } from "./providers";
 import { ModelAdapterFactory } from "./models/factory";
 
+import { wrapLanguageModel } from "ai";
+import type { LanguageModelV2Middleware } from "@ai-sdk/provider";
 import type { ProviderAdapter } from "./providers/provider";
 import type { EmbeddingModel, LanguageModel } from "ai";
 
@@ -46,10 +48,45 @@ export const aiModelFactory = new Elysia({
       const provider = await providerAdapter.getProvider();
       const modelId = await providerAdapter.resolveModelId();
 
-      const model =
+      let model =
         modality === "chat"
           ? (provider.languageModel(modelId) as AiModelFor<M>)
           : (provider.textEmbeddingModel(modelId) as AiModelFor<M>);
+
+      if (modality === "chat") {
+        const modelSpecificMiddleware: LanguageModelV2Middleware = {
+          transformParams: ({ params }) => {
+            const transformed = modelAdapter.transformConfigs(params.providerOptions ?? {});
+            return {
+              ...params,
+              providerOptions: {
+                ...params.providerOptions,
+                ...transformed,
+              },
+            };
+          },
+        };
+
+        const providerSpecificMiddleware: LanguageModelV2Middleware = {
+          transformParams: ({ params }) => {
+            const transformed = providerAdapter.transformConfigs(
+              params.providerOptions ?? {},
+            );
+            return {
+              ...params,
+              providerOptions: {
+                ...params.providerOptions,
+                ...transformed,
+              },
+            };
+          },
+        };
+
+        model = wrapLanguageModel({
+          model: model as LanguageModel,
+          middleware: [modelSpecificMiddleware, providerSpecificMiddleware],
+        }) as AiModelFor<M>;
+      }
 
       return model;
     };

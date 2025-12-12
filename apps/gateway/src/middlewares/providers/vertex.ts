@@ -31,9 +31,10 @@ export class VertexProviderAdapter
     return modelType in VertexProviderAdapter.SUPPORTED_MODELS_MAP;
   }
 
-  transformConfigs(_modelConfig: Record<string, any>): Record<string, any> {
-    // Vertex currently doesn't require specific transformation for standard options
-    return {};
+  transformConfigs(modelConfig: Record<string, any>): Record<string, any> {
+    return {
+      google: modelConfig,
+    };
   }
 
   async initialize(config?: VertexProviderConfig): Promise<this> {
