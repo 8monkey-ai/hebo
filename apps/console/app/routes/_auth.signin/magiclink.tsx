@@ -32,7 +32,7 @@ export function MagicLinkSignIn() {
   }, []);
 
   useEffect(() => {
-    if (!linkSent || !otp || otp.length < 6 || verifyOnce.current) return;
+    if (!linkSent || otp.length !== 6 || verifyOnce.current) return;
     if (!email) {
       setError("Email is required to verify the code");
       return;
