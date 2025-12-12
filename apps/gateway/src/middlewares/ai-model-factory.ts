@@ -1,16 +1,14 @@
+import { wrapLanguageModel } from "ai";
 import { Elysia } from "elysia";
 
 import { BadRequestError } from "@hebo/shared-api/errors";
 import { dbClient } from "@hebo/shared-api/middlewares/db-client";
 
 import { ModelConfigService } from "./model-config";
-import { ProviderAdapterFactory } from "./providers";
 import { ModelAdapterFactory } from "./models/factory";
+import { ProviderAdapterFactory } from "./providers";
 
-import { wrapLanguageModel } from "ai";
-import type { LanguageModelV2Middleware } from "@ai-sdk/provider";
-import type { ProviderAdapter } from "./providers/provider";
-import type { EmbeddingModel, LanguageModel } from "ai";
+import type { LanguageModelMiddleware , EmbeddingModel, LanguageModel } from "ai";
 
 type Modality = "chat" | "embedding";
 
@@ -54,9 +52,11 @@ export const aiModelFactory = new Elysia({
           : (provider.textEmbeddingModel(modelId) as AiModelFor<M>);
 
       if (modality === "chat") {
-        const modelSpecificMiddleware: LanguageModelV2Middleware = {
-          transformParams: ({ params }) => {
-            const transformed = modelAdapter.transformConfigs(params.providerOptions ?? {});
+        const modelSpecificMiddleware: LanguageModelMiddleware = {
+          transformParams: ({ params }: { params: any }) => {
+            const transformed = modelAdapter.transformConfigs(
+              params.providerOptions ?? {},
+            );
             return {
               ...params,
               providerOptions: {
@@ -67,8 +67,8 @@ export const aiModelFactory = new Elysia({
           },
         };
 
-        const providerSpecificMiddleware: LanguageModelV2Middleware = {
-          transformParams: ({ params }) => {
+        const providerSpecificMiddleware: LanguageModelMiddleware = {
+          transformParams: ({ params }: { params: any }) => {
             const transformed = providerAdapter.transformConfigs(
               params.providerOptions ?? {},
             );
@@ -83,7 +83,7 @@ export const aiModelFactory = new Elysia({
         };
 
         model = wrapLanguageModel({
-          model: model as LanguageModel,
+          model: model as any,
           middleware: [modelSpecificMiddleware, providerSpecificMiddleware],
         }) as AiModelFor<M>;
       }

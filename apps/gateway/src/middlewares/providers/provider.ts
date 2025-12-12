@@ -23,8 +23,8 @@ export abstract class ProviderAdapterBase {
   public getProviderSlug(): ProviderSlug {
     return this.providerSlug;
   }
-  
-  abstract supportsModel(modelType: string);
+
+  abstract supportsModel(modelType: string): boolean;
 
   transformConfigs(modelConfig: Record<string, any>): Record<string, any> {
     return {

@@ -34,17 +34,12 @@ export const completions = new Elysia({
         stream = false,
       } = body;
 
-      const { model: chatModel, provider } = await aiModelFactory.create(
-        modelAliasPath,
-        "chat",
-      );
+      const chatModel = await aiModelFactory.create(modelAliasPath, "chat");
 
       const toolSet = toToolSet(tools);
       const modelMessages = toModelMessages(messages);
       const coreToolChoice = toToolChoice(toolChoice);
-      const providerOptions = {
-        reasoning,
-      };
+      const providerOptions = (reasoning ? { reasoning } : {}) as any;
 
       if (stream) {
         const result = streamText({
