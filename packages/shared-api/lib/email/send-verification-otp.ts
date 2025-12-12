@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 
 import { getSecret } from "../../utils/secrets";
-import { authBaseUrl, isAuthEnabled } from "../env";
+import { isAuthEnabled, trustedOrigins } from "../env";
 
 const smtpPort = Number(await getSecret("SmtpPort", isAuthEnabled));
 const smtpFrom = await getSecret("SmtpFrom", isAuthEnabled);
@@ -25,7 +25,7 @@ export async function sendVerificationOtpEmail({
   email: string;
   otp: string;
 }) {
-  const magicLinkUrl = new URL("/signin", authBaseUrl);
+  const magicLinkUrl = new URL("/signin", trustedOrigins[0]);
   magicLinkUrl.searchParams.set("email", email);
   magicLinkUrl.searchParams.set("otp", otp);
 
