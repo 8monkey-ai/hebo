@@ -23,10 +23,6 @@ export class VertexProviderAdapter
     super("vertex", modelType);
   }
 
-  protected getProviderName(): string {
-    return "google";
-  }
-
   supportsModel(modelType: string): boolean {
     return modelType in VertexProviderAdapter.SUPPORTED_MODELS_MAP;
   }

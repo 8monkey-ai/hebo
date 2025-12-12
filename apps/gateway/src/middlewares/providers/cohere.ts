@@ -20,17 +20,8 @@ export class CohereProviderAdapter
     super("cohere", modelType);
   }
 
-  protected getProviderName(): string {
-    return "cohere";
-  }
-
   supportsModel(modelType: string): boolean {
     return modelType in CohereProviderAdapter.SUPPORTED_MODELS_MAP;
-  }
-
-  transformConfigs(_modelConfig: Record<string, any>): Record<string, any> {
-    // Cohere currently doesn't require specific transformation for standard options
-    return {};
   }
 
   async initialize(config?: ApiKeyProviderConfig): Promise<this> {

@@ -21,17 +21,8 @@ export class GroqProviderAdapter
     super("groq", modelType);
   }
 
-  protected getProviderName(): string {
-    return "groq";
-  }
-
   supportsModel(modelType: string): boolean {
     return modelType in GroqProviderAdapter.SUPPORTED_MODELS_MAP;
-  }
-
-  transformConfigs(_modelConfig: Record<string, any>): Record<string, any> {
-    // Groq currently doesn't require specific transformation for standard options
-    return {};
   }
 
   async initialize(config?: ApiKeyProviderConfig): Promise<this> {

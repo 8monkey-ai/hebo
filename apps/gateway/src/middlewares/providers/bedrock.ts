@@ -30,10 +30,6 @@ export class BedrockProviderAdapter
     super("bedrock", modelType);
   }
 
-  protected getProviderName(): string {
-    return "bedrock";
-  }
-
   supportsModel(modelType: string): boolean {
     return modelType in BedrockProviderAdapter.SUPPORTED_MODELS_MAP;
   }
