@@ -25,7 +25,7 @@ export async function sendVerificationOtpEmail({
   email: string;
   otp: string;
 }) {
-  const magicLinkUrl = new URL("/signin", trustedOrigins[0]);
+  const magicLinkUrl = new URL("/signin/magic-link", trustedOrigins[0]);
   magicLinkUrl.searchParams.set("email", email);
   magicLinkUrl.searchParams.set("otp", otp);
 

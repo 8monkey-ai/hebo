@@ -74,10 +74,7 @@ export const authService: AuthService = {
     await authClient.signIn.emailOtp({
       email: emailValue,
       otp: token,
-      // FUTURE: enable this when this github issue will be solved: https://github.com/better-auth/better-auth/issues/5596
-      // callbackURL: appRedirectURL,
     });
-    globalThis.location.href = appRedirectURL;
   },
 
   async signOut() {

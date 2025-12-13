@@ -1,5 +1,5 @@
 import { Loader2Icon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 import { Button } from "@hebo/shared-ui/components/Button";
 import { Label } from "@hebo/shared-ui/components/Label";
@@ -9,44 +9,11 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@hebo/shared-ui/component
 import { authService } from "~console/lib/auth";
 
 export function MagicLinkSignIn() {
-
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [linkSent, setLinkSent] = useState(false);
   const [otp, setOtp] = useState<string>("");
   const [error, setError] = useState<string | undefined>();
-  const verifyOnce = useRef(false);
-
-  useEffect(() => {
-    const params = new URLSearchParams(globalThis.window?.location?.search ?? "");
-    const emailParam = params.get("email") ?? undefined;
-    const otpParam = params.get("otp") ?? undefined;
-
-    if (emailParam) {
-      setEmail(emailParam);
-    }
-    if (otpParam) {
-      setOtp(otpParam.toUpperCase());
-      setLinkSent(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!linkSent || otp.length !== 6 || verifyOnce.current) return;
-    if (!email) {
-      setError("Email is required to verify the code");
-      return;
-    }
-    verifyOnce.current = true;
-    setError(undefined);
-    setLoading(true);
-    void authService
-      .signInWithMagicLink(otp, email)
-      .catch((err) => {
-        if (err instanceof Error) setError(err.message);
-      })
-      .finally(() => setLoading(false));
-  }, [linkSent, otp, email]);
 
   return (
     !linkSent ? (
@@ -134,7 +101,6 @@ export function MagicLinkSignIn() {
             setError(undefined);
             setOtp("");
             setLinkSent(false);
-            verifyOnce.current = false;
           }}>
           Cancel
         </Button>
