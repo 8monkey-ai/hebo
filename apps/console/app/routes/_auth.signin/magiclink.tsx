@@ -57,11 +57,6 @@ export function MagicLinkSignIn() {
         onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
-          if (!email) {
-            setError("Email is required");
-            setLoading(false);
-            return;
-          }
           try {
             await authService.signInWithMagicLink(otp, email);
           } catch (error) {
