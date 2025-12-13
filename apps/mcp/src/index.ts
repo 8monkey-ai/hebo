@@ -2,6 +2,7 @@ import { logger } from "@bogeychan/elysia-logger";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import Elysia from "elysia";
 
+import hello from "src/aikit/hello.txt";
 import index from "src/ui/index.html";
 
 import { countLetterTool } from "./aikit/count-letter.js";
@@ -23,7 +24,7 @@ const createApp = () =>
     .get("/", index)
     .group("/aikit", (app) =>
       app
-        .get("/", () => "🐵 Hebo Aikit MCP server says hello!")
+        .get("/", () => hello)
         .post("/", async ({ request, body }) =>
           createMcpHandler(mcpServer)(request, body),
         ),
