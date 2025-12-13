@@ -23,7 +23,7 @@ COPY --from=pruner /repo/out/full/ ./
 RUN bun run build
 
 ########################  runner stage  ########################
-FROM gcr.io/distroless/base
+FROM oven/bun:1-slim
 WORKDIR /app
 
 COPY --from=builder /repo/apps/mcp/dist/ ./
