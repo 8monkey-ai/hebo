@@ -9,6 +9,7 @@ import {
 import { Badge } from "./components/badge";
 import { Button } from "./components/button";
 import { CopyButton } from "./components/copy-button";
+import { FontSwitcher } from "./components/font-switcher";
 import { Discord, Github, Reddit, X } from "./components/icons";
 import {
   Select,
@@ -41,6 +42,7 @@ export function Page() {
               hebo.ai
             </a>
           </div>
+          <FontSwitcher />
           <div className="flex flex-row items-center gap-6">
             <a
               href="https://x.com/heboai"
