@@ -5,6 +5,7 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
+    "./lib/*": "./lib/*.ts",
     "./middlewares/*": "./middlewares/*.ts",
     "./schemas/*": "./schemas/*.ts",
     "./utils/*": "./utils/*.ts",
@@ -27,6 +28,9 @@
     "@elysiajs/bearer": "^1.4.1",
     "@hebo/database": "workspace:*",
     "@hebo/shared-data": "workspace:*",
+    "@upyo/core": "^0.3.2",
+    "@upyo/smtp": "^0.3.2",
+    "better-auth": "^1.4.5",
     "jose": "^6.0.12",
     "sst": "^3.17.13"
   }

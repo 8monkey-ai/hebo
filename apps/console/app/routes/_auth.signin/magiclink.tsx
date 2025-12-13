@@ -1,31 +1,32 @@
 import { Loader2Icon } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 import { Button } from "@hebo/shared-ui/components/Button";
 import { Label } from "@hebo/shared-ui/components/Label";
 import { Input } from "@hebo/shared-ui/components/Input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@hebo/shared-ui/components/InputOTP";
 
-import { authService } from "~console/lib/auth"
+import { authService } from "~console/lib/auth";
 
 export function MagicLinkSignIn() {
-
-  const [email, setEmail] = useState<string | undefined>();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [nonce, setNonce] = useState<string | undefined>();
-  const [otp, setOtp] = useState<string | undefined>();
+  const [linkSent, setLinkSent] = useState(false);
+  const [otp, setOtp] = useState<string>("");
   const [error, setError] = useState<string | undefined>();
 
   return (
-    
-    !nonce? (
+    !linkSent ? (
       <form 
         className="flex flex-col gap-2"
         onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
           try {
-            setNonce(await authService.sendMagicLinkEmail(email!));
+            await authService.sendMagicLinkEmail(email!);
+            setLinkSent(true);
           } catch (error) {
             error instanceof Error && setError(error.message);
           } finally {
@@ -59,11 +60,11 @@ export function MagicLinkSignIn() {
           e.preventDefault();
           setLoading(true);
           try {
-            await authService.signInWithMagicLink(otp + nonce);
+            await authService.signInWithMagicLink(otp, email);
+            navigate("/", { replace: true });
           } catch (error) {
             error instanceof Error && setError(error.message);
           } finally {
-            setOtp(undefined);
             setLoading(false);
           }
         }}>
@@ -85,7 +86,7 @@ export function MagicLinkSignIn() {
           <Button 
             type="submit"
             isLoading={loading}
-            disabled={loading || (otp?.length !== 6)}>
+            disabled={loading || otp.length !== 6}>
             Verify
           </Button>
         </div>
@@ -96,8 +97,8 @@ export function MagicLinkSignIn() {
           className='underline'
           onClick={() => {
             setError(undefined);
-            setOtp(undefined);
-            setNonce(undefined);
+            setOtp("");
+            setLinkSent(false);
           }}>
           Cancel
         </Button>

@@ -103,28 +103,37 @@ We use Bun secrets for local development and SST secrets for remote deployments.
 
 Secret names:
 
-- LLM:
+- Auth
+  - GitHub: `GithubClientId`, `GithubClientSecret`
+  - Google: `GoogleClientId`, `GoogleClientSecret`
+  - Microsoft: `MicrosoftClientId`, `MicrosoftClientSecret`
+  - Email OTP and Magic Link: `SmtpHost`, `SmtpPort`, `SmtpUser`, `SmtpPass`, `SmtpFrom`
+- LLMs
   - Bedrock: `BedrockRoleArn`, `BedrockRegion`
   - Vertex: `VertexServiceAccountEmail`, `VertexAwsProviderAudience`, `VertexProject`, `VertexLocation`
   - Others: `CohereApiKey`, `GroqApiKey`
-- Auth (Stack Auth): `StackSecretServerKey`, `StackPublishableClientKey`, `StackProjectId`
 
 Local (Bun) examples:
 
 ```bash
 # set / get / delete
-bun run secret set StackSecretServerKey <value>
-bun run secret get StackSecretServerKey
-bun run secret delete StackSecretServerKey
+bun run secret set GithubClientId <value>
+bun run secret get GithubClientId
+bun run secret delete GithubClientId
 ```
 
 Remote (SST) examples:
 
 ```bash
 # set / remove (choose your <stage>)
-bun run sst secret set StackSecretServerKey <value> --stage <stage>
-bun run sst secret remove StackSecretServerKey --stage <stage>
+bun run sst secret set GithubClientId <value> --stage <stage>
+bun run sst secret remove GithubClientId --stage <stage>
 ```
+
+Auth middleware toggle:
+
+- Backend (`apps/api`, `apps/gateway`): set `AUTH_BASE_URL` to enable Better Auth middleware; omit uses the localhost dummy.
+- Console frontend: set `VITE_IS_AUTH_ENABLED=true` to enable Better Auth in the UI; omit/false uses the dummy client.
 
 ## Run modes
 

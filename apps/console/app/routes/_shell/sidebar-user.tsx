@@ -1,5 +1,4 @@
 import { BookOpen, ChevronsUpDown, ExternalLink, Keyboard, LogOut } from "lucide-react";
-import { Link } from "react-router";
 
 import {
   Avatar,
@@ -21,19 +20,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@hebo/shared-ui/components/Sidebar";
+import { Link } from "react-router";
 import { kbs } from "~console/lib/utils";
 import { KeyboardShortcuts } from "./shortcuts";
 import { useState } from "react";
+import type { User } from "~console/lib/auth/types";
 
-
-type User = {
-  name: string,
-  email: string,
-  initials?: string,
-  avatar?: string
-}
-
-export function UserMenu({ user }: { user?: User}) {
+export function UserMenu({ user }: { user?: User }) {
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
 
   return (
@@ -43,7 +36,7 @@ export function UserMenu({ user }: { user?: User}) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton size="lg">
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user?.avatar} alt={user?.name} />
+                <AvatarImage src={user?.image} alt={user?.name} />
                 <AvatarFallback className="rounded-lg">
                   {user?.initials}
                 </AvatarFallback>
@@ -64,7 +57,7 @@ export function UserMenu({ user }: { user?: User}) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user?.avatar} alt={user?.name} />
+                  <AvatarImage src={user?.image} alt={user?.name} />
                   <AvatarFallback className="rounded-lg">
                     {user?.initials}
                   </AvatarFallback>
@@ -79,9 +72,9 @@ export function UserMenu({ user }: { user?: User}) {
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <a
-                    href="https://docs.hebo.ai"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  href="https://docs.hebo.ai"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <BookOpen />
                   Documentation
@@ -95,7 +88,7 @@ export function UserMenu({ user }: { user?: User}) {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link to="/handler/sign-out" viewTransition>
+                <Link to="/signout" viewTransition>
                   <LogOut aria-hidden="true" />
                   Log out
                 </Link>

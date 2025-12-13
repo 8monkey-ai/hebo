@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "@hebo/shared-ui/components/Button";
 
-import { authService } from "~console/lib/auth"
+import { authService } from "~console/lib/auth";
 import { Github, Google, Microsoft } from "~console/components/ui/Icons";
 
 export function OAuthSignIn() {
@@ -12,7 +12,7 @@ export function OAuthSignIn() {
       <SignInButton provider="google" icon={Google} />
       <SignInButton provider="microsoft" icon={Microsoft} />
     </>
-  )
+  );
 }
 
 function SignInButton({ provider, icon: Icon }: { provider: string, icon?: React.ComponentType }) {

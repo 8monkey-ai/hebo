@@ -25,18 +25,18 @@ import { useFormErrorToast } from "~console/lib/errors";
 import { Info } from "lucide-react";
 
 
-const DAY_IN_MS = 24 * 60 * 60 * 1000;
+const DAY_IN_SECONDS = 24 * 60 * 60;
 
 export const API_KEY_EXPIRATION_OPTIONS = [
-  { label: "1 day", value: "1d", durationMs: 1 * DAY_IN_MS },
-  { label: "7 days", value: "7d", durationMs: 7 * DAY_IN_MS },
-  { label: "30 days", value: "30d", durationMs: 30 * DAY_IN_MS },
-  { label: "90 days", value: "90d", durationMs: 90 * DAY_IN_MS },
-  { label: "1 year", value: "365d", durationMs: 365 * DAY_IN_MS },
+  { label: "1 day", value: "1d", durationSeconds: 1 * DAY_IN_SECONDS },
+  { label: "7 days", value: "7d", durationSeconds: 7 * DAY_IN_SECONDS },
+  { label: "30 days", value: "30d", durationSeconds: 30 * DAY_IN_SECONDS },
+  { label: "90 days", value: "90d", durationSeconds: 90 * DAY_IN_SECONDS },
+  { label: "1 year", value: "365d", durationSeconds: 365 * DAY_IN_SECONDS },
 ] as const;
 
 export const ApiKeyCreateSchema = z.object({
-  description: ((msg) => z.string(msg).trim().min(1, msg))("Please enter a description"),
+  name: ((msg) => z.string(msg).trim().min(1, msg))("Please enter a name"),
   expiresIn: z.literal(
     API_KEY_EXPIRATION_OPTIONS.map((option) => option.value),
     "Select an expiration window",
@@ -81,14 +81,14 @@ export function CreateApiKeyDialog() {
             <DialogHeader>
               <DialogTitle>Create API key</DialogTitle>
               <DialogDescription>
-                Provide a brief description and expiration window for this key.
+                Provide a name and expiration window for this key.
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
-              <FormField field={fields.description}>
-                <FormLabel>Description</FormLabel>
+              <FormField field={fields.name}>
+                <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="API key description" autoComplete="off" />
+                  <Input placeholder="API key name" autoComplete="off" />
                 </FormControl>
                 <FormMessage />
               </FormField>
@@ -127,7 +127,7 @@ export function CreateApiKeyDialog() {
       <ApiKeyRevealDialog
         open={revealOpen}
         onOpenChange={setRevealOpen}
-        apiKey={fetcher.data?.apiKey.value || ""}
+        apiKey={fetcher.data?.apiKey.key || ""}
       />
     </>
   );

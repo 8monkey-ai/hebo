@@ -1,26 +1,17 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import { Resource } from "sst";
 
+import { getConnectionString } from "./src/connection";
 import { PrismaClient, Prisma } from "./src/generated/prisma/client";
 import { redactProviderConfigValue } from "./src/utils/redact-provider";
 
 import type { ProviderConfig } from "./src/types/providers";
 
-export const connectionString = (() => {
-  try {
-    // @ts-expect-error: HeboDatabase may not be defined
-    const db = Resource.HeboDatabase;
-    return `postgresql://${db.username}:${db.password}@${db.host}:${db.port}/${db.database}?sslmode=verify-full`;
-  } catch {
-    // FUTURE: remember to update this and the db script after updating the predev script at root
-    return "postgresql://postgres:password@localhost:5432/local";
-  }
-})();
+export const connectionString = getConnectionString();
 
 // eslint-disable-next-line unicorn/no-null
 const dbNull = null;
 
-const _prisma = new PrismaClient({
+export const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString, max: 25 }),
 });
 
@@ -28,7 +19,7 @@ export const createDbClient = (userId: string) => {
   if (!userId) {
     throw new Error("User ID is required");
   }
-  return _prisma.$extends({
+  return prisma.$extends({
     query: {
       $allModels: {
         async $allOperations({ args, query, operation }) {
@@ -76,7 +67,7 @@ export const createDbClient = (userId: string) => {
       },
       provider_configs: {
         async getUnredacted(slug: string) {
-          return _prisma.provider_configs.findFirstOrThrow({
+          return prisma.provider_configs.findFirstOrThrow({
             where: {
               provider_slug: slug,
               created_by: userId,

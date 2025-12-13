@@ -1,14 +1,15 @@
 import { Elysia } from "elysia";
 
-import { authServiceStackAuth, projectId } from "./stack-auth";
+import { authServiceBetterAuth } from "./better-auth";
 import { AuthError } from "../../errors";
+import { isAuthEnabled } from "../../lib/env";
 
 const createAuthService = async () => {
-  if (!projectId) {
+  if (!isAuthEnabled) {
     const { authServiceLocalhost } = await import("./localhost");
     return authServiceLocalhost;
   }
-  return authServiceStackAuth;
+  return authServiceBetterAuth;
 };
 
 export const authService = new Elysia({ name: "auth-service" })
