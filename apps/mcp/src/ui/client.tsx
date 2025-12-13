@@ -1,8 +1,5 @@
-import { hydrateRoot } from "react-dom/client";
+import { createRoot } from "react-dom/client";
 
-import { RootContent } from "./root";
+import { Page } from "./page";
 
-const root = document.querySelector("#root");
-if (root) {
-  hydrateRoot(root, <RootContent />);
-}
+createRoot(document.querySelector("#root")!).render(<Page />);
