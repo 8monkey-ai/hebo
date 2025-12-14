@@ -8,8 +8,6 @@ import {
   Tally5,
 } from "lucide-react";
 
-import { Badge } from "./components/badge";
-import { Button } from "./components/button";
 import { CodeBlock, CodeGroup } from "./components/code";
 import { CopyButton } from "./components/copy-button";
 import { Field, FieldContent, FieldLabel } from "./components/field";
@@ -113,18 +111,14 @@ export function Page() {
             >
               <Github size={18} />
             </a>
-            <Button
-              variant="outline"
-              className="rounded-2xl border-2 border-indigo-800 px-4 font-semibold"
+            <a
+              href="https://cloud.hebo.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-2xl border-2 border-indigo-800 px-4 py-1 text-sm font-medium hover:bg-indigo-50"
             >
-              <a
-                href="https://cloud.hebo.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Cloud
-              </a>
-            </Button>
+              Cloud
+            </a>
           </div>
         </nav>
       </header>
@@ -137,9 +131,9 @@ export function Page() {
           <img src={logo} alt="MCP Hero" className="mx-auto size-42" />
           <h1 className="relative mx-auto w-fit text-4xl font-semibold">
             Ready-to-use <span className="text-nowrap">MCP Servers</span>
-            <Badge className="absolute rotate-10 bg-lime-600 text-base text-white sm:-top-3 sm:-right-8 sm:p-2.5">
+            <span className="absolute rotate-10 rounded-md bg-lime-600 px-2 py-0.5 text-base text-white sm:-top-4 sm:-right-8">
               FREE
-            </Badge>
+            </span>
           </h1>
           <p className="max-w-2xl text-sm sm:text-base">
             When Agents Struggle, MCP Solves It — Counting, Dates, Units, and
@@ -163,9 +157,12 @@ export function Page() {
                 <div className="flex flex-row items-center gap-1 font-semibold">
                   <Tally5 />
                   Counting
-                  <Button variant="outline" size="sm" className="ml-auto">
+                  <a
+                    href="#code-samples"
+                    className="ml-auto rounded-md border border-indigo-800 px-3 py-1 text-sm font-semibold text-indigo-800 hover:bg-indigo-100"
+                  >
                     Connect
-                  </Button>
+                  </a>
                 </div>
                 <div>How many r’s are there in “Strawberry”?</div>
               </a>
@@ -174,13 +171,9 @@ export function Page() {
               <div className="flex flex-row items-center gap-1 font-semibold">
                 <CalendarClock />
                 Date Time
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground ml-auto"
-                >
+                <span className="text-muted-foreground ml-auto text-sm font-semibold">
                   Coming Soon
-                </Button>
+                </span>
               </div>
               <div>Convert dates and times into specific time zones</div>
             </div>
@@ -329,15 +322,14 @@ export function Page() {
                   conversational agents.
                 </p>
                 <div className="flex flex-wrap items-center gap-3">
-                  <Button className="rounded-xl px-4 font-semibold">
-                    <a
-                      href="https://cloud.hebo.ai"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Try Hebo Cloud
-                    </a>
-                  </Button>
+                  <a
+                    href="https://cloud.hebo.ai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-primary hover:bg-primary/70 rounded-xl px-4 py-1 font-medium"
+                  >
+                    Try Hebo Cloud
+                  </a>
                   <a
                     href="https://cloud.hebo.ai"
                     target="_blank"
