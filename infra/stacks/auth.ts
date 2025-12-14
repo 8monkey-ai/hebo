@@ -2,9 +2,8 @@ import heboCluster from "./cluster";
 import heboDatabase from "./db";
 import { allSecrets, isProd } from "./env";
 
-export const authDomain = isProd
-  ? "auth.hebo.ai"
-  : `auth.${$app.stage}.hebo.ai`;
+const authDomain = isProd ? "auth.hebo.ai" : `auth.${$app.stage}.hebo.ai`;
+export const authBaseUrl = `https://${authDomain}/v1`;
 const authPort = "3000";
 
 const heboAuth = new sst.aws.Service("HeboAuth", {
@@ -20,7 +19,7 @@ const heboAuth = new sst.aws.Service("HeboAuth", {
   },
   environment: {
     IS_REMOTE: $dev ? "false" : "true",
-    AUTH_BASE_URL: `https://${authDomain}/v1`,
+    AUTH_BASE_URL: authBaseUrl,
     AUTH_TRUSTED_ORIGINS: isProd
       ? "https://console.hebo.ai"
       : `https://console.${$app.stage}.hebo.ai`,

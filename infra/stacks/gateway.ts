@@ -1,4 +1,4 @@
-import { authDomain } from "./auth";
+import { authBaseUrl } from "./auth";
 import heboCluster from "./cluster";
 import heboDatabase from "./db";
 import { allSecrets, isProd } from "./env";
@@ -27,7 +27,7 @@ const heboGateway = new sst.aws.Service("HeboGateway", {
   },
   environment: {
     IS_REMOTE: $dev ? "false" : "true",
-    AUTH_BASE_URL: `https://${authDomain}/v1`,
+    AUTH_BASE_URL: authBaseUrl,
     LOG_LEVEL: isProd ? "info" : "debug",
     NODE_EXTRA_CA_CERTS: "/etc/ssl/certs/rds-bundle.pem",
     PORT: gatewayPort,
