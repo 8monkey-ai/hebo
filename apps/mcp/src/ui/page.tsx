@@ -1,7 +1,10 @@
 import {
   ArrowDown,
+  Brain,
   CalendarClock,
   ExternalLinkIcon,
+  Gauge,
+  Layers,
   Tally5,
 } from "lucide-react";
 
@@ -23,6 +26,7 @@ import {
 import { TabsContent, TabsList, TabsTrigger } from "./components/tabs";
 
 import "./global.css";
+import heboCloud from "./hebo.png";
 import logo from "./logo.png";
 
 const CODE_SNIPPET = `import { experimental_createMCPClient as createMCPClient } from '@ai-sdk/mcp';
@@ -207,12 +211,10 @@ export function Page() {
 
         <div
           id="code-samples"
-          className="bg-secondary flex w-full flex-col gap-4 rounded-md p-4 sm:grid sm:grid-cols-[38fr_62fr] sm:gap-8"
+          className="flex w-full flex-col gap-4 rounded-md bg-slate-100 p-4 sm:grid sm:grid-cols-[38fr_62fr] sm:gap-8"
         >
           <div className="flex min-w-0 flex-col gap-4">
-            <h2 className="text-xl font-semibold ">
-              Get started in 60 seconds
-            </h2>
+            <h2 className="text-xl font-semibold">Get started in 60 seconds</h2>
             <Select defaultValue="Counting">
               <SelectTrigger className="bg-background w-full">
                 <SelectValue />
@@ -259,6 +261,125 @@ export function Page() {
             </CodeGroup>
           </div>
         </div>
+
+        <section className="mx-auto max-w-3xl space-y-2 text-base leading-relaxed font-normal">
+          <h2 className="text-xl font-semibold">Why we built mcp.hebo.ai</h2>
+          <p>We didn’t set out to build a platform.</p>
+          <p>
+            We were experimenting with agents and needed{" "}
+            <strong>something quick to test whether MCP actually works</strong>
+            —not in theory, but end-to-end, against a real server. Most MCP
+            servers we found lived on GitHub, which was great for learning, but
+            meant <strong>self-hosting, wiring, and maintenance</strong> just to
+            run an experiment.
+          </p>
+          <p>
+            At the same time, we kept discovering the same truth: there’s a
+            whole class of things agents are <strong>not good at</strong>.
+            Counting, validation, precise lookups, deterministic logic—these
+            aren’t model problems, they <strong>need tools</strong>.
+          </p>
+          <p>
+            The MCP SDK didn’t make this easier. While is has{" "}
+            <strong>plenty of examples</strong>, they’re{" "}
+            <strong>very low-level</strong> and often{" "}
+            <strong>overly complicated</strong>, making it hard to see how
+            everything fits together in a real system.
+          </p>
+          <p>
+            At the end of the day,{" "}
+            <strong>
+              tools are just simple functions with a human readable description
+              of their functionality
+            </strong>
+            , which agents can use to decide when to call them.
+          </p>
+          <p>
+            So <strong>mcp.hebo.ai</strong> became our shortcut: a{" "}
+            <strong>live MCP server</strong>, <strong>real tools</strong>, and a
+            place to <strong>prove MCP works by actually using it</strong>. What
+            started as a test harness stuck around—because once the tools exist,
+            you don’t want to rebuild them every time.
+          </p>
+          <p>
+            We’ll <strong>keep adding tools over time</strong>, focusing on the
+            kinds of capabilities agents consistently struggle with.
+          </p>
+          <p>
+            <strong>mcp.hebo.ai</strong> exists so experimenting with MCP
+            doesn’t start with <strong>infrastructure</strong>—and agents don’t
+            have to pretend they can do everything.
+          </p>
+        </section>
+
+        <section className="border-border rounded-xl border bg-slate-100 p-6 ">
+          <div className="relative grid gap-8 sm:grid-cols-[1.05fr_1fr] sm:items-center">
+            <div className="flex items-center gap-4">
+              <img
+                src={heboCloud}
+                alt="Hebo Cloud"
+                className="h-20 w-20 sm:h-32 sm:w-32"
+              />
+              <div className="flex flex-col gap-2">
+                <h2 className="text-2xl font-semibold sm:text-3xl">
+                  Hebo Cloud
+                </h2>
+                <p className="text-muted-foreground">
+                  Hebo is the fastest way to build and scale high-quality
+                  conversational agents.
+                </p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Button className="rounded-xl px-4 font-semibold">
+                    <a
+                      href="https://cloud.hebo.ai"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Try Hebo Cloud
+                    </a>
+                  </Button>
+                  <a
+                    href="https://cloud.hebo.ai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-indigo-800 hover:underline"
+                  >
+                    Start for free →
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="grid w-full gap-3 sm:grid-cols-3">
+              <div className="flex gap-2 rounded-xl bg-white/70 p-4 sm:flex-col">
+                <Brain className="size-10 text-indigo-800" />
+                <div>
+                  <div className="text-sm font-semibold">Model Gateway</div>
+                  <div className="text-muted-foreground text-xs">
+                    Instant access to completions & embeddings for SOTA models.
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-2 rounded-xl bg-white/70 p-4 sm:flex-col">
+                <Layers className="size-10 text-indigo-800" />
+                <div>
+                  <div className="text-sm font-semibold">Own The Stack</div>
+                  <div className="text-muted-foreground text-xs">
+                    Opt-into RAG, tools & memory to steer conversation quality.
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-2 rounded-xl bg-white/70 p-4 sm:flex-col">
+                <Gauge className="size-10 text-indigo-800" />
+                <div>
+                  <div className="text-sm font-semibold">Evalute & Observe</div>
+                  <div className="text-muted-foreground text-xs">
+                    Empower dev and business teams to iterate quickly.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <footer className="flex flex-wrap justify-center gap-2 text-xs sm:text-sm">
