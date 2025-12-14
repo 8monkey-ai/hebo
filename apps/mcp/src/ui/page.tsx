@@ -5,6 +5,16 @@ import {
   Tally5,
 } from "lucide-react";
 
+import "./assets//global.css";
+import brain from "./assets/brain.svg";
+import discord from "./assets/discord.svg";
+import gauge from "./assets/gauge.svg";
+import github from "./assets/github.svg";
+import heboCloud from "./assets/hebo.png";
+import layers from "./assets/layers.svg";
+import logo from "./assets/logo.png";
+import reddit from "./assets/reddit.svg";
+import x from "./assets/x.svg";
 import { CodeBlock, CodeGroup } from "./components/code";
 import { CopyButton } from "./components/copy-button";
 import { Field, FieldContent, FieldLabel } from "./components/field";
@@ -18,17 +28,6 @@ import {
   SelectValue,
 } from "./components/select";
 import { TabsContent, TabsList, TabsTrigger } from "./components/tabs";
-
-import "./assets//global.css";
-import heboCloud from "./assets/hebo.png";
-import logo from "./assets/logo.png";
-import discord from "./assets/discord.svg";
-import github from "./assets/github.svg";
-import x from "./assets/x.svg";
-import gauge from "./assets/gauge.svg";
-import layers from "./assets/layers.svg";
-import brain from "./assets/brain.svg";
-import reddit from "./assets/reddit.svg";
 
 const CODE_SNIPPET = `import { experimental_createMCPClient as createMCPClient } from '@ai-sdk/mcp';
 
