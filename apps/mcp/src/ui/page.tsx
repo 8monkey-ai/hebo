@@ -1,17 +1,13 @@
 import {
   ArrowDown,
-  Brain,
   CalendarClock,
   ExternalLinkIcon,
-  Gauge,
-  Layers,
   Tally5,
 } from "lucide-react";
 
 import { CodeBlock, CodeGroup } from "./components/code";
 import { CopyButton } from "./components/copy-button";
 import { Field, FieldContent, FieldLabel } from "./components/field";
-import { Discord, Github, Reddit, X } from "./components/icons";
 import { RadioGroup, RadioGroupItem } from "./components/radio-group";
 import {
   Select,
@@ -23,9 +19,16 @@ import {
 } from "./components/select";
 import { TabsContent, TabsList, TabsTrigger } from "./components/tabs";
 
-import "./global.css";
-import heboCloud from "./hebo.png";
-import logo from "./logo.png";
+import "./assets//global.css";
+import heboCloud from "./assets/hebo.png";
+import logo from "./assets/logo.png";
+import discord from "./assets/discord.svg";
+import github from "./assets/github.svg";
+import x from "./assets/x.svg";
+import gauge from "./assets/gauge.svg";
+import layers from "./assets/layers.svg";
+import brain from "./assets/brain.svg";
+import reddit from "./assets/reddit.svg";
 
 const CODE_SNIPPET = `import { experimental_createMCPClient as createMCPClient } from '@ai-sdk/mcp';
 
@@ -95,21 +98,21 @@ export function Page() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <X size={18} />
+              <img src={x} alt="X Logo" className="size-4.5" />
             </a>
             <a
               href="https://discord.com/invite/cCJtXZRU5p"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Discord size={18} />
+              <img src={discord} alt="Discord Logo" className="size-4.5" />
             </a>
             <a
               href="https://github.com/8monkey-ai/hebo"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Github size={18} />
+              <img src={github} alt="Github Logo" className="size-4.5" />
             </a>
             <a
               href="https://cloud.hebo.ai"
@@ -185,7 +188,7 @@ export function Page() {
                 rel="noopener noreferrer"
               >
                 <div className="m-auto flex w-full flex-row items-center justify-between gap-4">
-                  <Reddit size={48} />
+                  <img src={reddit} alt="Reddit Logo" className="size-12" />
                   <div>
                     <div className="font-semibold">What do you need?</div>
                     <div>Request new toolkits</div>
@@ -343,7 +346,12 @@ export function Page() {
             </div>
             <div className="grid w-full gap-3 sm:grid-cols-3">
               <div className="flex gap-2 rounded-xl bg-white/70 p-4 sm:flex-col">
-                <Brain className="size-10 text-indigo-800" />
+                <img
+                  src={brain}
+                  aria-hidden
+                  alt=""
+                  className="size-10 text-indigo-800"
+                />
                 <div>
                   <div className="text-sm font-semibold">Model Gateway</div>
                   <div className="text-muted-foreground text-xs">
@@ -352,7 +360,12 @@ export function Page() {
                 </div>
               </div>
               <div className="flex gap-2 rounded-xl bg-white/70 p-4 sm:flex-col">
-                <Layers className="size-10 text-indigo-800" />
+                <img
+                  src={layers}
+                  aria-hidden
+                  alt=""
+                  className="size-10 text-indigo-800"
+                />
                 <div>
                   <div className="text-sm font-semibold">Own The Stack</div>
                   <div className="text-muted-foreground text-xs">
@@ -361,7 +374,12 @@ export function Page() {
                 </div>
               </div>
               <div className="flex gap-2 rounded-xl bg-white/70 p-4 sm:flex-col">
-                <Gauge className="size-10 text-indigo-800" />
+                <img
+                  src={gauge}
+                  aria-hidden
+                  alt=""
+                  className="size-10 text-indigo-800"
+                />
                 <div>
                   <div className="text-sm font-semibold">Evalute & Observe</div>
                   <div className="text-muted-foreground text-xs">
