@@ -8,6 +8,7 @@ This is the monorepo for Hebo, containing all our applications and shared packag
 / (hebo)
 ├── apps/                           # Deployable applications
 │   ├── api/                        # REST API server (ElysiaJS)
+│   ├── auth/                       # Auth Service (ElysiaJS + Better Auth)
 │   ├── console/                    # Web console (React Router + Vite)
 │   ├── gateway/                    # AI Gateway (ElysiaJS + Vercel AI SDK)
 │   └── mcp/                        # MCP Server (ElysiaJS with SSR)
@@ -134,7 +135,7 @@ bun run sst secret remove GithubClientId --stage <stage>
 Auth middleware toggle:
 
 - Backend (`apps/api`, `apps/gateway`): set `AUTH_BASE_URL` to enable Better Auth middleware; omit uses the localhost dummy.
-- Console frontend: set `VITE_IS_AUTH_ENABLED=true` to enable Better Auth in the UI; omit/false uses the dummy client.
+- Console frontend: set `VITE_AUTH_URL` to enable Better Auth in the UI; omit/false uses the dummy client.
 
 ## Run modes
 
@@ -173,6 +174,7 @@ The repository uses GitHub Actions for CI/CD:
 ### Service URLs
 
 - API: `https://api.hebo.ai` (prod) or `https://api.<stage>.hebo.ai` (preview)
+- Auth: `https://auth.hebo.ai` (prod) or `https://auth.<stage>.hebo.ai` (preview)
 - Gateway: `https://gateway.hebo.ai` (prod) or `https://gateway.<stage>.hebo.ai` (preview)
 - Console: `https://console.hebo.ai` (prod) or `https://console.<stage>.hebo.ai` (preview)
 - MCP: `https://mcp.hebo.ai` (prod) or `https://mcp.<stage>.hebo.ai` (preview)

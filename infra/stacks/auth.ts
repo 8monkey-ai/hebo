@@ -1,12 +1,13 @@
-import { authDomain } from "./auth";
 import heboCluster from "./cluster";
 import heboDatabase from "./db";
 import { allSecrets, isProd } from "./env";
 
-const apiDomain = isProd ? "api.hebo.ai" : `api.${$app.stage}.hebo.ai`;
-const apiPort = "3001";
+export const authDomain = isProd
+  ? "auth.hebo.ai"
+  : `auth.${$app.stage}.hebo.ai`;
+const authPort = "3000";
 
-const heboApi = new sst.aws.Service("HeboApi", {
+const heboAuth = new sst.aws.Service("HeboAuth", {
   cluster: heboCluster,
   architecture: "arm64",
   cpu: isProd ? "1 vCPU" : "0.25 vCPU",
@@ -14,21 +15,24 @@ const heboApi = new sst.aws.Service("HeboApi", {
   link: [heboDatabase, ...allSecrets],
   image: {
     context: ".",
-    dockerfile: "infra/docker/Dockerfile.api",
-    tags: [apiDomain],
+    dockerfile: "infra/docker/Dockerfile.auth",
+    tags: [authDomain],
   },
   environment: {
     IS_REMOTE: $dev ? "false" : "true",
     AUTH_BASE_URL: `https://${authDomain}/v1`,
+    AUTH_TRUSTED_ORIGINS: isProd
+      ? "https://console.hebo.ai"
+      : `https://console.${$app.stage}.hebo.ai`,
     LOG_LEVEL: isProd ? "info" : "debug",
     NODE_EXTRA_CA_CERTS: "/etc/ssl/certs/rds-bundle.pem",
-    PORT: apiPort,
+    PORT: authPort,
   },
   loadBalancer: {
-    domain: apiDomain,
+    domain: authDomain,
     rules: [
       { listen: "80/http", redirect: "443/https" },
-      { listen: "443/https", forward: `${apiPort}/http` },
+      { listen: "443/https", forward: `${authPort}/http` },
     ],
   },
   scaling: {
@@ -39,4 +43,4 @@ const heboApi = new sst.aws.Service("HeboApi", {
   wait: isProd,
 });
 
-export default heboApi;
+export default heboAuth;

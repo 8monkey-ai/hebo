@@ -1,7 +1,7 @@
 import { createAuthClient } from "better-auth/client";
 import { apiKeyClient, emailOTPClient } from "better-auth/client/plugins";
 
-import { apiUrl } from "~console/lib/service";
+import { authUrl } from "~console/lib/service";
 import { shellStore } from "~console/lib/shell";
 
 import {
@@ -14,7 +14,7 @@ import {
 const appRedirectURL = `${globalThis.location.origin}/`;
 
 const authClient = createAuthClient({
-  baseURL: new URL("auth", apiUrl).toString(),
+  baseURL: new URL("/v1/api", authUrl).toString(),
   plugins: [emailOTPClient(), apiKeyClient()],
 });
 

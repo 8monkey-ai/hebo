@@ -1,4 +1,5 @@
 import heboApi from "./api";
+import heboAuth from "./auth";
 import { isProd } from "./env";
 import heboGateway from "./gateway";
 
@@ -12,7 +13,7 @@ const heboConsole = new sst.aws.StaticSite("HeboConsole", {
   environment: {
     VITE_API_URL: heboApi.url,
     VITE_GATEWAY_URL: heboGateway.url,
-    VITE_IS_AUTH_ENABLED: "true",
+    VITE_AUTH_URL: heboAuth.url,
   },
 });
 

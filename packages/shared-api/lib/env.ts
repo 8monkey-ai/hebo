@@ -1,4 +1,4 @@
-export const authBaseUrl = process.env.AUTH_BASE_URL ?? `http://localhost:3001`;
+export const authBaseUrl = process.env.AUTH_BASE_URL || `http://localhost:3000`;
 export const isAuthEnabled = Boolean(process.env.AUTH_BASE_URL);
 export const isRemote = process.env.IS_REMOTE === "true";
 export const trustedOrigins = (

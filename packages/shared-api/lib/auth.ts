@@ -13,7 +13,7 @@ const cookieDomain = isRemote ? "hebo.ai" : undefined;
 
 export const auth = betterAuth({
   baseURL: authBaseUrl,
-  basePath: "/auth",
+  basePath: "/api",
   advanced: {
     useSecureCookies: isRemote,
     crossSubDomainCookies: {
