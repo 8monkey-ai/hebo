@@ -5,7 +5,6 @@
 
 /* === Default Tailwind === */
 :root {
-  --background-gradient: linear-gradient(0deg, #fefce8 0%, #f8fafc 60%);
   --background: oklch(1 0 0);
   --foreground: oklch(0.147 0.004 49.25);
   --card: oklch(1 0 0);
@@ -41,7 +40,6 @@
 }
 
 .dark {
-  --background-gradient: oklch(0.147 0.004 49.25);
   --background: oklch(0.147 0.004 49.25);
   --foreground: oklch(0.985 0.001 106.423);
   --card: oklch(0.216 0.006 56.043);
@@ -126,10 +124,17 @@
   }
 
   body {
-    background:
-      var(--color-background-gradient) 0 0 / 100% 100vh no-repeat,
-      #fefce8;
     @apply font-sans text-foreground;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(0deg, #fefce8 0%, #f8fafc 60%) 0 0 / 100% 100vh no-repeat,
+      #fefce8;
+    z-index: -1;
   }
 
   html {
