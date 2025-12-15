@@ -86,10 +86,10 @@ export default function MCP() {
           <li>✔ Integrate with your CI / CD pipeline</li>
         </ul>
         <div className="flex gap-4">
-          <Button className="text-medium h-12 bg-indigo-900 text-white hover:bg-indigo-800">
+          <Button className="text-medium h-10 bg-indigo-900 px-5 text-white hover:bg-indigo-800">
             <a href="https://docs.hebo.ai/">Get Started</a>
           </Button>
-          <Button className="h-12 rounded-xl border-2 border-solid border-indigo-800 bg-stone-100 text-base font-semibold text-stone-900 hover:bg-stone-200">
+          <Button className="h-10 rounded-xl border-2 border-solid border-indigo-800 bg-stone-100 px-5 text-base font-semibold text-stone-900 hover:bg-stone-200">
             <a href="https://docs.hebo.ai/">Docs</a>
           </Button>
         </div>

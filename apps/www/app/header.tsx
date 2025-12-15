@@ -6,7 +6,7 @@ export default function Header() {
       <nav className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-center text-lg font-semibold sm:text-xl">
           <a
-            href="https://hebo.ai"
+            href="/"
             className="contents"
             target="_blank"
             rel="noopener noreferrer"
