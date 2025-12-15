@@ -130,12 +130,7 @@ export default function MCP() {
             <div>Convert dates and times into specific time zones</div>
           </div>
           <div className="bg-secondary flex flex-col gap-2 rounded-md p-4 text-sm hover:bg-slate-100">
-            <a
-              href="#reddit"
-              className="contents"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="#reddit" className="contents">
               <div className="m-auto flex w-full flex-row items-center justify-between gap-4">
                 <Reddit size={48} />
                 <div>
@@ -223,7 +218,7 @@ export default function MCP() {
           problems, they <strong>need tools</strong>.
         </p>
         <p>
-          The MCP SDK didn’t make this easier. While is has{" "}
+          The MCP SDK didn’t make this easier. While it has{" "}
           <strong>plenty of examples</strong>, they’re{" "}
           <strong>very low-level</strong> and often{" "}
           <strong>overly complicated</strong>, making it hard to see how

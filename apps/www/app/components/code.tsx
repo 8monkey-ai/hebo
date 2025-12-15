@@ -37,7 +37,6 @@ export function CodeGroup({ className, ...props }: CodeGroupProps) {
     <Tabs
       className={cn(
         "relative flex h-full w-full min-h-0 min-w-0",
-        "**:data-[slot=tabs-list]:srink-0",
         "**:data-[slot=tabs-content]:min-h-0",
         "**:data-[slot=tabs-content]:overflow-hidden",
         "**:data-[slot=code-block]:static",
