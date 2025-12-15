@@ -1,6 +1,7 @@
 import { Elysia, t } from "elysia";
 
 import { ModelAdapterFactory } from "../middlewares/models";
+import { ProviderAdapterFactory } from "../middlewares/providers";
 
 const model = t.Object({
   id: t.String(),
@@ -42,7 +43,13 @@ function modelToModelsResponse(
       monthly_free_tokens: m.pricing.monthly_free_tokens,
     },
     ...(withEndpoints && {
-      endpoints: [], 
+      endpoints: ProviderAdapterFactory.ALL_PROVIDER_CLASSES.filter(
+        (ProviderClass) => ProviderClass.supportsModel(m.id),
+      ).map((ProviderClass) => {
+        // We need to instantiate to get the slug, but it's lightweight
+        const instance = new ProviderClass(m.id);
+        return { tag: instance.getProviderSlug() };
+      }),
     }),
   };
 

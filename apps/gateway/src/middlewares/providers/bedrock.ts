@@ -91,8 +91,6 @@ export class BedrockProviderAdapter
   async resolveModelId(): Promise<string> {
     const modelId = await super.resolveModelId();
 
-    // The remaining logic for ListInferenceProfilesCommand to verify ARN
-    // can stay as it confirms the resolved modelId exists in AWS.
     const { region } = this.config!;
     const client = new BedrockClient({
       region,
