@@ -15,5 +15,6 @@ export default $config({
   async run() {
     await import("./infra/stacks/console");
     await import("./infra/stacks/mcp");
+    await import("./infra/stacks/www");
   },
 });

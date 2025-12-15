@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~www/*": ["./app/*"]
+    },
+    "rootDirs": [".", "./.react-router/types"],
+    "types": ["vite/client"],
+    "verbatimModuleSyntax": true
+  },
+  "include": [
+    "**/*",
+    "**/.server/**/*",
+    "**/.client/**/*",
+    ".react-router/types/**/*"
+  ]
+}
