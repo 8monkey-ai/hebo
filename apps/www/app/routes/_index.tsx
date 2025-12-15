@@ -82,8 +82,8 @@ export default function Home() {
         <ul>
           <li>
             <strong>✔️ A unified AI gateway</strong> providing{" "}
-            <strong>instant access</strong> to all state-of-the-art LLMs with{" "}
-            <strong>low-latency, high-throughput</strong> completions and
+            <strong>instant access</strong> to state-of-the-art LLMs with{" "}
+            <strong>low-latency</strong>, high-throughput completions and
             embeddings.
           </li>
 
@@ -95,9 +95,12 @@ export default function Home() {
 
           <li>
             <strong>✔️ An evaluation &amp; observability toolchain</strong>{" "}
-            designed to make real conversation flows{" "}
-            <strong>visible, debuggable, and testable</strong> — for both
-            technical <em>and</em> non-technical teams.
+            designed to make real conversation flows visible, debuggable, and
+            testable — for both{" "}
+            <strong>
+              technical <em>and</em> non-technical teams
+            </strong>
+            .
           </li>
         </ul>
 
