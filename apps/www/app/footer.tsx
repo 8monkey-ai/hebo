@@ -38,32 +38,42 @@ export default function Footer() {
             </div>
           </div>
           <div className="grid w-full gap-3 sm:grid-cols-3">
-            <div className="flex gap-2 rounded-xl bg-white/70 p-4 sm:flex-col">
-              <Brain className="size-10" />
-              <div>
-                <div className="text-sm font-semibold">Gateway</div>
-                <div className="text-muted-foreground text-xs">
-                  Instant access to SOTA models
+            <div className="flex gap-2 rounded-xl bg-white/70 p-4 hover:bg-white sm:flex-col">
+              <a
+                href="https://console.hebo.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Brain className="size-10" />
+                <div>
+                  <div className="text-sm font-semibold">Gateway</div>
+                  <div className="text-muted-foreground text-xs">
+                    Instant access to SOTA models
+                  </div>
                 </div>
-              </div>
+              </a>
             </div>
-            <div className="flex gap-2 rounded-xl bg-white/70 p-4 sm:flex-col">
-              <SquareFunction className="size-10" />
-              <div>
-                <div className="text-sm font-semibold">MCP</div>
-                <div className="text-muted-foreground text-xs">
-                  Ready-to-use MCP Servers
+            <div className="flex gap-2 rounded-xl bg-white/70 p-4 hover:bg-white sm:flex-col">
+              <a href="/mcp" target="_blank" rel="noopener noreferrer">
+                <SquareFunction className="size-10" />
+                <div>
+                  <div className="text-sm font-semibold">MCP</div>
+                  <div className="text-muted-foreground text-xs">
+                    Ready-to-use MCP Servers
+                  </div>
                 </div>
-              </div>
+              </a>
             </div>
-            <div className="flex gap-2 rounded-xl bg-white/70 p-4 sm:flex-col">
-              <Gauge className="size-10" />
-              <div>
-                <div className="text-sm font-semibold">Evals</div>
-                <div className="text-muted-foreground text-xs">
-                  Write evals in Markdown
+            <div className="flex gap-2 rounded-xl bg-white/70 p-4 hover:bg-white sm:flex-col">
+              <a href="/evals" target="_blank" rel="noopener noreferrer">
+                <Gauge className="size-10" />
+                <div>
+                  <div className="text-sm font-semibold">Evals</div>
+                  <div className="text-muted-foreground text-xs">
+                    Write evals in Markdown
+                  </div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>
