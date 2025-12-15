@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 
-import { createDbClient } from "@hebo/database/client";
+import { createDbClient } from "prisma/client";
 
 // Note: Must be used after authService to ensure userId is set
 export const dbClient = new Elysia({

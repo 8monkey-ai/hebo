@@ -1,4 +1,8 @@
+import { PrismaPg } from "@prisma/adapter-pg";
 import { Resource } from "sst";
+
+import { PrismaClient } from "./src/generated/prisma/client";
+
 
 export const getConnectionString = () => {
   try {
@@ -10,3 +14,9 @@ export const getConnectionString = () => {
     return "postgresql://postgres:password@localhost:5432/local";
   }
 };
+
+export const connectionString = getConnectionString();
+
+export const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString, max: 25 }),
+});

@@ -2,8 +2,9 @@ import { type Logger } from "@bogeychan/elysia-logger/types";
 import { bearer } from "@elysiajs/bearer";
 import { Elysia } from "elysia";
 
+// TODO: maybe move this to the auth package?
+import { auth } from "../../../../apps/auth/lib/auth";
 import { BadRequestError } from "../../errors";
-import { auth } from "../../lib/auth";
 
 export const authServiceBetterAuth = new Elysia({
   name: "authenticate-user-better-auth",

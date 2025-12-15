@@ -1,4 +1,4 @@
-import { ProviderConfig } from "../types/providers";
+import { ProviderConfig } from "../../../src/modules/providers/types";
 
 const MASK = "***" as const;
 

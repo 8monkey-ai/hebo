@@ -1,8 +1,9 @@
+import supportedModels from "@hebo/shared-data/json/supported-models";
+
 import type {
   ProviderConfig,
   ProviderSlug,
-} from "@hebo/database/src/types/providers";
-import supportedModels from "@hebo/shared-data/json/supported-models";
+} from "~api/modules/providers/types";
 
 import type { Provider } from "ai";
 

@@ -2,8 +2,9 @@ import { logger } from "@bogeychan/elysia-logger";
 import { cors } from "@elysiajs/cors";
 import Elysia from "elysia";
 
-import { auth } from "@hebo/shared-api/lib/auth";
 import { corsConfig } from "@hebo/shared-api/middlewares/cors-config";
+
+import { auth } from "~auth/lib/auth";
 
 const LOG_LEVEL = process.env.LOG_LEVEL ?? "info";
 const PORT = Number(process.env.PORT ?? 3000);

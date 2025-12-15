@@ -1,13 +1,14 @@
 import { Elysia, status, t } from "elysia";
 
+import { dbClient } from "~api/middleware/db-client";
+
+import { type Models } from "./types";
 import {
   Provider,
   ProviderConfig,
   ProviderSlug,
   supportedProviders,
-} from "@hebo/database/src/types/providers";
-import { dbClient } from "@hebo/shared-api/middlewares/db-client";
-import { type Models } from "@hebo/shared-data/types/models";
+} from "./types";
 
 export const providersModule = new Elysia({
   prefix: "/providers",

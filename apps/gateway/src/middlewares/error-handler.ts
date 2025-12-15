@@ -1,9 +1,10 @@
 import { Elysia, status } from "elysia";
 
-import { identifyPrismaError } from "@hebo/database/src/errors";
 import { HttpError } from "@hebo/shared-api/errors";
 
 import { toOpenAiCompatibleError } from "~gateway/utils/converters";
+
+import { identifyPrismaError } from "../../../api/prisma/src/errors";
 
 const upstreamRes = (e: unknown) =>
   (e as { response?: unknown })?.response instanceof Response

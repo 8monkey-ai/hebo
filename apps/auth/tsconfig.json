@@ -3,7 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~auth/*": ["./src/*"]
+      "~auth/*": ["./src/*"],
+      "~auth/database/*": ["./prisma/*"],
+      "~auth/lib/*": ["./lib/*"]
     },
     "types": ["bun-types"],
     "verbatimModuleSyntax": true

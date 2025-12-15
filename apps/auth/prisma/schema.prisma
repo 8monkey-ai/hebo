@@ -3,101 +3,13 @@
 
 generator client {
   provider   = "prisma-client"
-  output     = "../src/generated/prisma"
+  output     = "./src/generated/prisma"
   engineType = "client"
 }
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["public", "auth"]
-}
-
-generator prismabox {
-  provider                    = "prismabox"
-  typeboxImportDependencyName = "elysia"
-  typeboxImportVariableName   = "t"
-  inputModel                  = true
-  output                      = "../../../apps/api/src/generated/prismabox"
-  additionalProperties        = false
-}
-
-model agents {
-  /// @prismabox.hide
-  id       String     @id @default(uuid(7)) @db.Uuid
-  /// @prismabox.input.hide
-  slug     String     @unique
-  name     String
-  /// @prismabox.input.hide
-  branches branches[]
-
-  // Common audit fields across entities
-  /// @prismabox.input.hide
-  created_by String
-  /// @prismabox.input.hide
-  created_at DateTime  @default(now())
-  /// @prismabox.input.hide
-  updated_by String
-  /// @prismabox.input.hide
-  updated_at DateTime  @updatedAt
-  /// @prismabox.hide
-  deleted_by String?
-  /// @prismabox.hide
-  deleted_at DateTime?
-
-  @@schema("public")
-}
-
-model branches {
-  /// @prismabox.hide
-  id         String @id @default(uuid(7)) @db.Uuid
-  /// @prismabox.input.hide
-  slug       String
-  /// @prismabox.input.hide
-  agent_slug String
-  name       String
-  models     Json[] @default([])
-  /// @prismabox.hide
-  agent      agents @relation(fields: [agent_slug], references: [slug], onDelete: Cascade)
-
-  // Common audit fields across entities
-  /// @prismabox.input.hide
-  created_by String
-  /// @prismabox.input.hide
-  created_at DateTime  @default(now())
-  /// @prismabox.input.hide
-  updated_by String
-  /// @prismabox.input.hide
-  updated_at DateTime  @updatedAt
-  /// @prismabox.hide
-  deleted_by String?
-  /// @prismabox.hide
-  deleted_at DateTime?
-
-  @@unique([agent_slug, slug])
-  @@schema("public")
-}
-
-model provider_configs {
-  /// @prismabox.hide
-  id            String @id @default(uuid(7)) @db.Uuid
-  provider_slug String
-  value         Json
-
-  // Common audit fields across entities
-  /// @prismabox.hide
-  created_by String
-  /// @prismabox.hide
-  created_at DateTime  @default(now())
-  /// @prismabox.hide
-  updated_by String
-  /// @prismabox.hide
-  updated_at DateTime  @updatedAt
-  /// @prismabox.hide
-  deleted_by String?
-  /// @prismabox.hide
-  deleted_at DateTime?
-
-  @@schema("public")
+  schemas  = ["auth"]
 }
 
 model users {

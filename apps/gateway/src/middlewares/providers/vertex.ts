@@ -1,7 +1,8 @@
 import { createVertex } from "@ai-sdk/google-vertex";
 
-import type { VertexProviderConfig } from "@hebo/database/src/types/providers";
 import { getSecret } from "@hebo/shared-api/utils/secrets";
+
+import type { VertexProviderConfig } from "~api/modules/providers/types";
 
 import { injectMetadataCredentials, buildWifOptions } from "./adapters/aws";
 import { ProviderAdapterBase, type ProviderAdapter } from "./provider";

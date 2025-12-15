@@ -1,6 +1,6 @@
-import type { createDbClient } from "@hebo/database/client";
-import type { ProviderSlug } from "@hebo/database/src/types/providers";
-import type { Models } from "@hebo/shared-data/types/models";
+import type { Models, ProviderSlug } from "~api/modules/providers/types";
+
+import type { createDbClient } from "../../../api/prisma/client";
 
 export class ModelConfigService {
   private model?: Models[number];

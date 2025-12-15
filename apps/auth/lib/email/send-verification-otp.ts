@@ -1,7 +1,8 @@
 import { createMessage } from "@upyo/core";
 import { SmtpTransport } from "@upyo/smtp";
 
-import { getSecret } from "../../utils/secrets";
+import { getSecret } from "@hebo/shared-api/utils/secrets";
+
 import { isRemote, trustedOrigins } from "../env";
 
 const smtpHost = await getSecret("SmtpHost", false);

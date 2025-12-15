@@ -4,8 +4,9 @@ import {
   ListInferenceProfilesCommand,
 } from "@aws-sdk/client-bedrock";
 
-import type { BedrockProviderConfig } from "@hebo/database/src/types/providers";
 import { getSecret } from "@hebo/shared-api/utils/secrets";
+
+import type { BedrockProviderConfig } from "~api/modules/providers/types";
 
 import { assumeRole } from "./adapters/aws";
 import { ProviderAdapterBase, type ProviderAdapter } from "./provider";

@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@elysiajs/bearer": "^1.4.1",
-    "@hebo/database": "workspace:*",
     "@hebo/shared-data": "workspace:*",
     "@upyo/core": "^0.3.2",
     "@upyo/smtp": "^0.3.2",

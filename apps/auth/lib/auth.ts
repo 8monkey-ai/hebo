@@ -2,9 +2,10 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { apiKey, emailOTP } from "better-auth/plugins";
 
-import { prisma } from "@hebo/database/client";
+import { getSecret } from "@hebo/shared-api/utils/secrets";
 
-import { getSecret } from "../utils/secrets";
+import { prisma } from "~auth/database/client";
+
 import { sendVerificationOtpEmail } from "./email/send-verification-otp";
 import { authBaseUrl, isRemote, trustedOrigins } from "./env";
 

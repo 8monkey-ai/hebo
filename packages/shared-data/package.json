@@ -6,7 +6,6 @@
   },
   "exports": {
     "./json/*": "./json/*.json",
-    "./types/*": "./types/*.ts",
     "./utils/*": "./utils/*.ts"
   },
   "scripts": {
@@ -15,7 +14,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@sinclair/typebox": "^0.34.41",
-    "@hebo/database": "workspace:*"
+    "@sinclair/typebox": "^0.34.41"
   }
 }

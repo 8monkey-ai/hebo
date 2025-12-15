@@ -1,8 +1,6 @@
 import { Elysia, status, t } from "elysia";
 
-import { createSlug } from "@hebo/database/src/utils/create-slug";
-import { dbClient } from "@hebo/shared-api/middlewares/db-client";
-import { SupportedModelType } from "@hebo/shared-data/types/models";
+import { createSlug } from "prisma/src/utils/create-slug";
 
 import {
   agentsInclude,
@@ -11,6 +9,9 @@ import {
   agentsPlain,
   agentsRelations,
 } from "~api/generated/prismabox/agents";
+import { dbClient } from "~api/middleware/db-client";
+
+import { SupportedModelType } from "./providers/types";
 
 export const agents = t.Composite([agentsPlain, t.Partial(agentsRelations)], {
   additionalProperties: false,
