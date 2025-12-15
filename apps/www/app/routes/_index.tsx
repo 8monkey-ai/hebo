@@ -11,9 +11,10 @@ export default function Home() {
         <h1 className="relative mx-auto w-fit text-4xl font-semibold">
           Build agents that actually work
         </h1>
-        <p className="max-w-xl text-sm sm:text-base">
-          A low-code platform that connects development & business teams.
-          Rapidly develop AI agents and scale them with confidence.
+        <p className="max-w-2xl text-sm sm:text-base">
+          A low-code platform that brings development & business teams together.
+          <br />
+          Rapidly develop & iterate on AI agents - then scale with confidence.
         </p>
         <div className="mx-auto flex gap-4">
           <Button
@@ -53,12 +54,14 @@ export default function Home() {
         <p>
           Our experience has shown that building{" "}
           <strong>high-quality conversational agents</strong> requires extremely
-          close collaboration between{" "}
-          <strong>developers and business teams</strong>.
+          close{" "}
+          <strong>collaboration between developers and business teams</strong>.
+          When proof-of-concepts fail, it’s rarely a technology problem — it’s
+          usually an iteration issue.
         </p>
 
         <p>
-          Yet today, even simple changes — like adjusting temperature, tweaking
+          Today, even simple changes — like adjusting temperature, tweaking
           default agent behavior via the system prompt, or adding additional
           context — still require{" "}
           <strong>code changes and redeployments</strong>. This turns small
@@ -74,9 +77,9 @@ export default function Home() {
         </p>
 
         <p>
-          We started <strong>Hebo</strong> to bridge this gap — and to enable
+          We started <strong>Hebo to bridge this gap</strong> — and to enable
           fast, shared iteration between product, business, and engineering
-          teams.
+          teams. Hebo is:
         </p>
 
         <ul>
@@ -109,9 +112,9 @@ export default function Home() {
         </p>
 
         <p>
-          Every part of Hebo is designed to be <strong>opt-in</strong>, with a
+          Every part of Hebo is <strong>designed to be opt-in</strong>, with a
           natural ramp-up as your agent evolves in sophistication — from simple
-          prompts to fully-fledged, production-grade agent systems.
+          prompts to fully-fledged, production-grade helpers.
         </p>
 
         <p>
@@ -119,8 +122,9 @@ export default function Home() {
           <a href="https://fsl.software/" target="_blank" rel="noreferrer">
             FSL license{" "}
           </a>
-          that keeps Hebo free to use for everyone while discouraging harmful
-          free-riding. We’re still at the very beginning. Follow us on X (
+          that keeps Hebo <strong>free to use for everyone</strong> while
+          discouraging harmful free-riding. We’re still at the very beginning.
+          Follow us on X (
           <a
             href="https://x.com/heboai"
             target="_blank"

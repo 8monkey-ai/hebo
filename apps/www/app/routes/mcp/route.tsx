@@ -216,13 +216,13 @@ export default function MCP() {
         </p>
         <p>
           At the same time, we kept discovering the same truth: there’s a whole
-          class of things agents are <strong>not good at</strong>. Counting,
+          class of <strong>things agents are not good at</strong>. Counting,
           validation, precise lookups, deterministic logic—these aren’t model
-          problems, they <strong>need tools</strong>.
+          problems, <strong>they need tools</strong>.
         </p>
         <p>
-          The official MCP SDK didn’t make this easier. While it has{" "}
-          <strong>plenty of examples</strong>, they’re{" "}
+          The <strong>official MCP SDK</strong> didn’t make this easier. While
+          it has <strong>plenty of examples</strong>, they’re{" "}
           <strong>very low-level</strong> and often{" "}
           <strong>overly complicated</strong>, making it hard to see how
           everything fits together in a real system.

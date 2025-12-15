@@ -53,9 +53,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <div className="m-auto flex w-full max-w-6xl flex-col gap-10 p-5 sm:py-6">
+        <div className="m-auto flex w-full max-w-6xl flex-col gap-10 p-5 sm:gap-20">
           <Header />
-          <main className="mx-auto mb-10 flex w-full max-w-5xl flex-col gap-20">
+          <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 sm:gap-20">
             {children}
           </main>
           <Footer />

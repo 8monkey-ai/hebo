@@ -17,7 +17,7 @@ export default function MCP() {
     <>
       <div
         id="hero"
-        className="mx-auto flex w-full max-w-4xl flex-col items-center gap-8 bg-[url('/hebo-evals.png')] bg-size-[auto_145px] bg-position-[right_calc(100%+50px)] bg-no-repeat  sm:flex-row sm:bg-size-[auto_200px] sm:bg-bottom-right"
+        className="mx-auto flex w-full max-w-4xl flex-col-reverse items-center gap-8 bg-[url('/hebo-evals.png')] bg-size-[auto_145px] bg-position-[right_calc(100%+50px)] bg-no-repeat sm:flex-row sm:bg-size-[auto_180px] sm:bg-bottom-right"
       >
         <figure
           id="conversation.md"
@@ -160,7 +160,7 @@ export default function MCP() {
           >
             @heboai
           </a>
-          )or on{" "}
+          ) or on{" "}
           <a
             href="https://discord.com/invite/cCJtXZRU5p"
             target="_blank"
