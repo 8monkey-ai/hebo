@@ -26,9 +26,8 @@ export class ProviderAdapterFactory {
     ];
 
     for (const ProviderClass of ALL_PROVIDER_CLASSES) {
-      const tempInstance = new ProviderClass(modelType);
-
-      if (tempInstance.supportsModel(modelType)) {
+      if (ProviderClass.supportsModel(modelType)) {
+        const tempInstance = new ProviderClass(modelType);
         const providerSlug = tempInstance.getProviderSlug();
         return await this.createAdapter(providerSlug, modelType);
       }

@@ -9,7 +9,6 @@ export interface ProviderAdapter {
   initialize(config?: ProviderConfig): Promise<this>;
   getProvider(): Promise<Provider>;
   resolveModelId(): Promise<string>;
-  supportsModel(modelType: string): boolean;
   transformConfigs(modelConfig: Record<string, any>): Record<string, any>;
   getProviderSlug(): ProviderSlug;
 }
@@ -24,14 +23,20 @@ export abstract class ProviderAdapterBase {
     return this.providerSlug;
   }
 
-  protected abstract getSupportedModels(): Record<string, string>;
+  static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {};
 
-  supportsModel(modelType: string): boolean {
-    return modelType in this.getSupportedModels();
+  static getModelId(modelType: string): string | undefined {
+    return this.SUPPORTED_MODELS_MAP[modelType];
+  }
+
+  static supportsModel(modelType: string): boolean {
+    return !!this.getModelId(modelType);
   }
 
   async resolveModelId(): Promise<string> {
-    const modelId = this.getSupportedModels()[this.modelType];
+    const modelId = (
+      this.constructor as typeof ProviderAdapterBase
+    ).getModelId(this.modelType);
     if (!modelId) {
       throw new Error(
         `Model ${this.modelType} not supported by ${this.providerSlug}.`,

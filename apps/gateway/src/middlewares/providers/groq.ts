@@ -11,15 +11,13 @@ export class GroqProviderAdapter
 {
   private config?: ApiKeyProviderConfig;
 
+  static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {
+    "openai/gpt-oss-120b": "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b": "openai/gpt-oss-20b",
+  };
+
   constructor(modelType: string) {
     super("groq", modelType);
-  }
-
-  protected getSupportedModels(): Record<string, string> {
-    return {
-      "openai/gpt-oss-120b": "openai/gpt-oss-120b",
-      "openai/gpt-oss-20b": "openai/gpt-oss-20b",
-    };
   }
 
   async initialize(config?: ApiKeyProviderConfig): Promise<this> {

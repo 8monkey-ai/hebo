@@ -12,17 +12,15 @@ export class VertexProviderAdapter
 {
   private config?: VertexProviderConfig;
 
+  static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {
+    "google/gemini-2.5-flash-preview-09-2025":
+      "gemini-2.5-flash-preview-09-2025",
+    "google/gemini-2.5-flash-lite-preview-09-2025":
+      "gemini-2.5-flash-lite-preview-09-2025",
+  };
+
   constructor(modelType: string) {
     super("vertex", modelType);
-  }
-
-  protected getSupportedModels(): Record<string, string> {
-    return {
-      "google/gemini-2.5-flash-preview-09-2025":
-        "gemini-2.5-flash-preview-09-2025",
-      "google/gemini-2.5-flash-lite-preview-09-2025":
-        "gemini-2.5-flash-lite-preview-09-2025",
-    };
   }
 
   transformConfigs(modelConfig: Record<string, any>): Record<string, any> {

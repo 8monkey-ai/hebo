@@ -24,12 +24,10 @@ export class BedrockProviderAdapter
     super("bedrock", modelType);
   }
 
-  protected getSupportedModels(): Record<string, string> {
-    return {
-      "openai/gpt-oss-120b": "openai.gpt-oss-120b-1:0",
-      "openai/gpt-oss-20b": "openai.gpt-oss-20b-1:0",
-    };
-  }
+  static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {
+    "openai/gpt-oss-120b": "openai.gpt-oss-120b-1:0",
+    "openai/gpt-oss-20b": "openai.gpt-oss-20b-1:0",
+  };
 
   private static toSnakeCase(str: string): string {
     return str.replaceAll(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
