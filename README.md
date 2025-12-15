@@ -115,6 +115,8 @@ Secret names:
   - Vertex: `VertexServiceAccountEmail`, `VertexAwsProviderAudience`, `VertexProject`, `VertexLocation`
   - Others: `CohereApiKey`, `GroqApiKey`
 
+Note for local development: if **auth is enabled** but SMTP secrets are not configured, the email OTP is logged to the console (look for `>>> OTP:`) so you can sign in without setting up an email provider.
+
 Local (Bun) examples:
 
 ```bash
