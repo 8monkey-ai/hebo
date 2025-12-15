@@ -11,18 +11,15 @@ export class GroqProviderAdapter
 {
   private config?: ApiKeyProviderConfig;
 
-  // modelType to modelId
-  private static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {
-    "openai/gpt-oss-120b": "openai/gpt-oss-120b",
-    "openai/gpt-oss-20b": "openai/gpt-oss-20b",
-  };
-
   constructor(modelType: string) {
     super("groq", modelType);
   }
 
-  supportsModel(modelType: string): boolean {
-    return modelType in GroqProviderAdapter.SUPPORTED_MODELS_MAP;
+  protected getSupportedModels(): Record<string, string> {
+    return {
+      "openai/gpt-oss-120b": "openai/gpt-oss-120b",
+      "openai/gpt-oss-20b": "openai/gpt-oss-20b",
+    };
   }
 
   async initialize(config?: ApiKeyProviderConfig): Promise<this> {
@@ -38,13 +35,5 @@ export class GroqProviderAdapter
   async getProvider() {
     const cfg = this.config!;
     return createGroq({ ...cfg });
-  }
-
-  async resolveModelId(): Promise<string> {
-    const modelId = GroqProviderAdapter.SUPPORTED_MODELS_MAP[this.modelType];
-    if (!modelId) {
-      throw new Error(`Model ${this.modelType} not supported by Groq.`);
-    }
-    return modelId;
   }
 }

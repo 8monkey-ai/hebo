@@ -24,7 +24,21 @@ export abstract class ProviderAdapterBase {
     return this.providerSlug;
   }
 
-  abstract supportsModel(modelType: string): boolean;
+  protected abstract getSupportedModels(): Record<string, string>;
+
+  supportsModel(modelType: string): boolean {
+    return modelType in this.getSupportedModels();
+  }
+
+  async resolveModelId(): Promise<string> {
+    const modelId = this.getSupportedModels()[this.modelType];
+    if (!modelId) {
+      throw new Error(
+        `Model ${this.modelType} not supported by ${this.providerSlug}.`,
+      );
+    }
+    return modelId;
+  }
 
   transformConfigs(modelConfig: Record<string, any>): Record<string, any> {
     return {

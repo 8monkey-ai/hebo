@@ -20,18 +20,15 @@ export class BedrockProviderAdapter
   private config?: BedrockProviderConfig;
   private credentials?: BedrockCredentials;
 
-  // modelType to modelId
-  private static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {
-    "openai/gpt-oss-120b": "openai.gpt-oss-120b-1:0",
-    "openai/gpt-oss-20b": "openai.gpt-oss-20b-1:0",
-  };
-
   constructor(modelType: string) {
     super("bedrock", modelType);
   }
 
-  supportsModel(modelType: string): boolean {
-    return modelType in BedrockProviderAdapter.SUPPORTED_MODELS_MAP;
+  protected getSupportedModels(): Record<string, string> {
+    return {
+      "openai/gpt-oss-120b": "openai.gpt-oss-120b-1:0",
+      "openai/gpt-oss-20b": "openai.gpt-oss-20b-1:0",
+    };
   }
 
   private static toSnakeCase(str: string): string {
@@ -94,10 +91,7 @@ export class BedrockProviderAdapter
   }
 
   async resolveModelId(): Promise<string> {
-    const modelId = BedrockProviderAdapter.SUPPORTED_MODELS_MAP[this.modelType];
-    if (!modelId) {
-      throw new Error(`Model ${this.modelType} not supported by Bedrock.`);
-    }
+    const modelId = await super.resolveModelId();
 
     // The remaining logic for ListInferenceProfilesCommand to verify ARN
     // can stay as it confirms the resolved modelId exists in AWS.
