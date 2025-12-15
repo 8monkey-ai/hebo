@@ -13,7 +13,7 @@ const createAuth = () =>
     .use(logger({ level: LOG_LEVEL }))
     .get("/", () => "🐵 Hebo Auth says hello!")
     .use(cors(corsConfig))
-    .group("/v1", (app) => app.mount(auth.handler));
+    .mount(auth.handler);
 
 if (import.meta.main) {
   const app = createAuth().listen(PORT);

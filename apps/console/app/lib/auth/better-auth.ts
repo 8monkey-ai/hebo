@@ -15,7 +15,7 @@ const appRedirectPath = "/";
 const appRedirectURL = `${globalThis.location.origin}${appRedirectPath}`;
 
 const authClient = createAuthClient({
-  baseURL: new URL("/v1/api", authUrl).toString(),
+  baseURL: new URL("/v1", authUrl).toString(),
   plugins: [emailOTPClient(), apiKeyClient()],
 });
 

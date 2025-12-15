@@ -3,7 +3,7 @@ import heboDatabase from "./db";
 import { allSecrets, isProd } from "./env";
 
 const authDomain = isProd ? "auth.hebo.ai" : `auth.${$app.stage}.hebo.ai`;
-export const authBaseUrl = `https://${authDomain}/v1`;
+export const authBaseUrl = `https://${authDomain}`;
 const authPort = "3000";
 
 const heboAuth = new sst.aws.Service("HeboAuth", {
