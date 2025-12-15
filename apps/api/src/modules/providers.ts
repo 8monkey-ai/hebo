@@ -7,7 +7,6 @@ import {
   supportedProviders,
 } from "@hebo/database/src/types/providers";
 import { dbClient } from "@hebo/shared-api/middlewares/db-client";
-import { type Models } from "@hebo/shared-data/types/models";
 
 export const providersModule = new Elysia({
   prefix: "/providers",
@@ -79,8 +78,8 @@ export const providersModule = new Elysia({
       const branches = await dbClient.branches.findMany();
 
       const affectedBranches = branches.filter((branch) => {
-        const models = branch.models as Models;
-        return models.some((model) =>
+        const models = branch.models as any[];
+        return models.some((model: any) =>
           model.routing?.only?.includes(params.slug),
         );
       });
@@ -88,11 +87,11 @@ export const providersModule = new Elysia({
       // Batch update all affected branches + delete provider in a single transaction
       await dbClient.$transaction([
         ...affectedBranches.map((branch) => {
-          const models = branch.models as Models;
+          const models = branch.models as any[];
           return dbClient.branches.update({
             where: { id: branch.id },
             data: {
-              models: models.map((model) =>
+              models: models.map((model: any) =>
                 model.routing?.only?.includes(params.slug)
                   ? { ...model, routing: undefined }
                   : model,

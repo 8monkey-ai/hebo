@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
 
-import supportedModels from "@hebo/shared-data/json/supported-models";
+import { ModelAdapterFactory } from "../middlewares/models";
 
 const model = t.Object({
   id: t.String(),
@@ -26,23 +26,23 @@ const model = t.Object({
 const modelsInclude = t.Optional(t.Object({ endpoints: t.Boolean() }));
 
 function modelToModelsResponse(
-  m: (typeof supportedModels)[0],
+  m: ReturnType<typeof ModelAdapterFactory.getAllModels>[0],
   withEndpoints = false,
 ) {
   const responseModel = {
     object: "model" as const,
-    id: m.type,
-    name: m.displayName,
+    id: m.id,
+    name: m.name,
     created: m.created,
-    owned_by: m.owner,
+    owned_by: m.owned_by,
     architecture: {
       output_modalities: [m.modality],
     },
     pricing: {
-      monthly_free_tokens: m.monthlyFreeTokens || 0,
+      monthly_free_tokens: m.pricing.monthly_free_tokens,
     },
     ...(withEndpoints && {
-      endpoints: Object.keys(m.providers[0]).map((tag) => ({ tag })),
+      endpoints: [], 
     }),
   };
 
@@ -57,6 +57,7 @@ export const models = new Elysia({
   .get(
     "/",
     ({ query }) => {
+      const supportedModels = ModelAdapterFactory.getAllModels();
       return {
         object: "list" as const,
         data: supportedModels.map((m) =>
@@ -77,7 +78,8 @@ export const models = new Elysia({
     "/:author/:slug/endpoints",
     ({ params }) => {
       const id = `${params.author}/${params.slug}`;
-      const m = supportedModels.find((model) => model.type === id);
+      const supportedModels = ModelAdapterFactory.getAllModels();
+      const m = supportedModels.find((model) => model.id === id);
       if (!m) return new Response("Model not found", { status: 404 });
 
       return {

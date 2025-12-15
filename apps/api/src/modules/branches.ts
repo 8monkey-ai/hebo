@@ -2,7 +2,6 @@ import { Elysia, status, t } from "elysia";
 
 import { createSlug } from "@hebo/database/src/utils/create-slug";
 import { dbClient } from "@hebo/shared-api/middlewares/db-client";
-import { Models } from "@hebo/shared-data/types/models";
 
 import {
   branches,
@@ -85,7 +84,7 @@ export const branchesModule = new Elysia({
     {
       body: t.Object({
         name: branchesInputUpdate.properties.name,
-        models: t.Optional(Models),
+        models: t.Optional(t.Array(t.Any())),
       }),
       response: { 200: branches, 404: t.String() },
     },

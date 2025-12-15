@@ -1,13 +1,22 @@
 import type { createDbClient } from "@hebo/database/client";
 import type { ProviderSlug } from "@hebo/database/src/types/providers";
-import type { Models } from "@hebo/shared-data/types/models";
+
+import { type SupportedModelType } from "./models";
+
+export interface ModelConfig {
+  alias: string;
+  type: SupportedModelType;
+  routing?: {
+    only: ProviderSlug[];
+  };
+}
 
 export class ModelConfigService {
-  private model?: Models[number];
+  private model?: ModelConfig;
 
   constructor(private readonly dbClient: ReturnType<typeof createDbClient>) {}
 
-  async getModelType(modelAliasPath: string) {
+  async getModelType(modelAliasPath: string): Promise<SupportedModelType> {
     const model = await this.getModel(modelAliasPath);
     return model.type;
   }
@@ -33,7 +42,7 @@ export class ModelConfigService {
       where: { agent_slug: agentSlug, slug: branchSlug },
       select: { models: true },
     });
-    const model = (branch.models as Models)?.find(
+    const model = (branch.models as unknown as ModelConfig[])?.find(
       ({ alias }) => alias === modelAlias,
     );
 
