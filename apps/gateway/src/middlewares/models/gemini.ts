@@ -8,9 +8,7 @@ import { ModelAdapterBase } from "./model";
 import type { ProviderOptions } from "@ai-sdk/provider-utils";
 
 export abstract class GeminiModelAdapter extends ModelAdapterBase {
-  getModality(): "chat" | "embedding" {
-    return "chat";
-  }
+  readonly modality = "chat";
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
     const config: Record<string, any> = {};
@@ -71,67 +69,31 @@ export abstract class GeminiModelAdapter extends ModelAdapterBase {
 }
 
 export class Gemini25FlashPreviewAdapter extends GeminiModelAdapter {
-  getModelType(): string {
-    return "google/gemini-2.5-flash-preview-09-2025";
-  }
-
-  getDisplayName(): string {
-    return "Gemini 2.5 Flash Preview (Sep 2025)";
-  }
-
-  getOwner(): string {
-    return "google";
-  }
-
-  getCreatedAt(): number {
-    return 1_764_888_221;
-  }
-
-  getMonthlyFreeTokens(): number {
-    return 0;
-  }
+  readonly id = "google/gemini-2.5-flash-preview-09-2025";
+  readonly name = "Gemini 2.5 Flash Preview (Sep 2025)";
+  readonly owned_by = "google";
+  readonly created = 1_764_888_221;
+  readonly pricing = {
+    monthly_free_tokens: 0,
+  };
 }
 
 export class Gemini25FlashLitePreviewAdapter extends GeminiModelAdapter {
-  getModelType(): string {
-    return "google/gemini-2.5-flash-lite-preview-09-2025";
-  }
-
-  getDisplayName(): string {
-    return "Gemini 2.5 Flash Lite Preview (Sep 2025)";
-  }
-
-  getOwner(): string {
-    return "google";
-  }
-
-  getCreatedAt(): number {
-    return 1_764_888_221;
-  }
-
-  getMonthlyFreeTokens(): number {
-    return 0;
-  }
+  readonly id = "google/gemini-2.5-flash-lite-preview-09-2025";
+  readonly name = "Gemini 2.5 Flash Lite Preview (Sep 2025)";
+  readonly owned_by = "google";
+  readonly created = 1_764_888_221;
+  readonly pricing = {
+    monthly_free_tokens: 0,
+  };
 }
 
 export class Gemini3ProPreviewAdapter extends GeminiModelAdapter {
-  getModelType(): string {
-    return "google/gemini-3-pro-preview";
-  }
-
-  getDisplayName(): string {
-    return "Gemini 3 Pro Preview";
-  }
-
-  getOwner(): string {
-    return "google";
-  }
-
-  getCreatedAt(): number {
-    return 1_765_855_208;
-  }
-
-  getMonthlyFreeTokens(): number {
-    return 0;
-  }
+  readonly id = "google/gemini-3-pro-preview";
+  readonly name = "Gemini 3 Pro Preview";
+  readonly owned_by = "google";
+  readonly created = 1_765_855_208;
+  readonly pricing = {
+    monthly_free_tokens: 0,
+  };
 }

@@ -1,6 +1,7 @@
 import { Elysia, t } from "elysia";
 
-import { getSupportedModels, type SupportedModel } from "../middlewares/models";
+import { getSupportedModels } from "../middlewares/models";
+import { type SupportedModel } from "../middlewares/models/model";
 import { ProviderAdapterFactory } from "../middlewares/providers";
 
 const model = t.Object({
@@ -40,10 +41,10 @@ function modelToModelsResponse(m: SupportedModel, withEndpoints = false) {
       monthly_free_tokens: m.pricing.monthly_free_tokens,
     },
     ...(withEndpoints && {
-      endpoints: ProviderAdapterFactory.ALL_PROVIDER_CLASSES.filter(
-        (ProviderClass) => ProviderClass.supportsModel(m.id),
-      ).map((ProviderClass) => {
-        const instance = new ProviderClass(m.id);
+      endpoints: ProviderAdapterFactory.ALL_PROVIDER_ADAPTER_CLASSES.filter(
+        (ProviderAdapterClass) => ProviderAdapterClass.supportsModel(m.id),
+      ).map((ProviderAdapterClass) => {
+        const instance = new ProviderAdapterClass(m.id);
         return { tag: instance.getProviderSlug() };
       }),
     }),
@@ -60,10 +61,9 @@ export const models = new Elysia({
   .get(
     "/",
     ({ query }) => {
-      const supportedModels = getSupportedModels();
       return {
         object: "list" as const,
-        data: supportedModels.map((m) =>
+        data: getSupportedModels().map((m) =>
           modelToModelsResponse(m, query.endpoints),
         ),
       };
@@ -81,8 +81,7 @@ export const models = new Elysia({
     "/:author/:slug/endpoints",
     ({ params }) => {
       const id = `${params.author}/${params.slug}`;
-      const supportedModels = getSupportedModels();
-      const m = supportedModels.find((model) => model.id === id);
+      const m = getSupportedModels().find((model) => model.id === id);
       if (!m) return new Response("Model not found", { status: 404 });
 
       return {

@@ -1,5 +1,3 @@
-import { t, type Static } from "elysia";
-
 import { CohereEmbedV4Adapter } from "./cohere";
 import {
   Gemini25FlashPreviewAdapter,
@@ -7,37 +5,26 @@ import {
   Gemini3ProPreviewAdapter,
 } from "./gemini";
 import { GptOss120bAdapter, GptOss20bAdapter } from "./gpt";
+import { type ModelAdapter, type SupportedModel } from "./model";
 
-import type { ModelAdapter } from "./model";
+const ALL_MODEL_ADAPTER_CLASSES = [
+  Gemini25FlashPreviewAdapter,
+  Gemini25FlashLitePreviewAdapter,
+  Gemini3ProPreviewAdapter,
+  GptOss120bAdapter,
+  GptOss20bAdapter,
+  CohereEmbedV4Adapter,
+];
 
-export const supportedModel = t.Object({
-  id: t.String(),
-  name: t.String(),
-  created: t.Number(),
-  owned_by: t.String(),
-  modality: t.Union([t.Literal("chat"), t.Literal("embedding")]),
-  pricing: t.Object({
-    monthly_free_tokens: t.Number(),
-  }),
-});
+const MODEL_ADAPTER_MAP: Record<string, () => ModelAdapter> = {};
 
-export type SupportedModel = Static<typeof supportedModel>;
-
-const MODEL_ADAPTER_MAP = {
-  "google/gemini-2.5-flash-preview-09-2025": () =>
-    new Gemini25FlashPreviewAdapter(),
-  "google/gemini-2.5-flash-lite-preview-09-2025": () =>
-    new Gemini25FlashLitePreviewAdapter(),
-  "google/gemini-3-pro-preview": () => new Gemini3ProPreviewAdapter(),
-  "openai/gpt-oss-120b": () => new GptOss120bAdapter(),
-  "openai/gpt-oss-20b": () => new GptOss20bAdapter(),
-  "cohere/embed-v4.0": () => new CohereEmbedV4Adapter(),
-};
-
-export type SupportedModelType = keyof typeof MODEL_ADAPTER_MAP;
+for (const AdapterClass of ALL_MODEL_ADAPTER_CLASSES) {
+  const instance = new AdapterClass();
+  MODEL_ADAPTER_MAP[instance.id] = () => new AdapterClass();
+}
 
 export const ModelAdapterFactory = {
-  getAdapter(modelType: SupportedModelType): ModelAdapter {
+  getAdapter(modelType: string): ModelAdapter {
     const factoryMethod = MODEL_ADAPTER_MAP[modelType];
     if (!factoryMethod) {
       throw new Error(`No model adapter found for model type: ${modelType}`);
@@ -47,17 +34,5 @@ export const ModelAdapterFactory = {
 };
 
 export function getSupportedModels(): SupportedModel[] {
-  return Object.values(MODEL_ADAPTER_MAP).map((factory) => {
-    const adapter = factory();
-    return {
-      id: adapter.getModelType(),
-      name: adapter.getDisplayName(),
-      created: adapter.getCreatedAt(),
-      owned_by: adapter.getOwner(),
-      modality: adapter.getModality(),
-      pricing: {
-        monthly_free_tokens: adapter.getMonthlyFreeTokens(),
-      },
-    };
-  });
+  return ALL_MODEL_ADAPTER_CLASSES.map((AdapterClass) => new AdapterClass());
 }

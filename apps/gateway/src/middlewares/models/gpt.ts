@@ -8,9 +8,7 @@ import { ModelAdapterBase } from "./model";
 import type { ProviderOptions } from "@ai-sdk/provider-utils";
 
 export abstract class GptModelAdapter extends ModelAdapterBase {
-  getModality(): "chat" | "embedding" {
-    return "chat";
-  }
+  readonly modality = "chat";
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
     const config: Record<string, any> = {};
@@ -55,45 +53,21 @@ export abstract class GptModelAdapter extends ModelAdapterBase {
 }
 
 export class GptOss120bAdapter extends GptModelAdapter {
-  getModelType(): string {
-    return "openai/gpt-oss-120b";
-  }
-
-  getDisplayName(): string {
-    return "OpenAI GPT OSS 120B";
-  }
-
-  getOwner(): string {
-    return "openai";
-  }
-
-  getCreatedAt(): number {
-    return 1_764_888_221;
-  }
-
-  getMonthlyFreeTokens(): number {
-    return 100_000_000;
-  }
+  readonly id = "openai/gpt-oss-120b";
+  readonly name = "OpenAI GPT OSS 120B";
+  readonly owned_by = "openai";
+  readonly created = 1_764_888_221;
+  readonly pricing = {
+    monthly_free_tokens: 100_000_000,
+  };
 }
 
 export class GptOss20bAdapter extends GptModelAdapter {
-  getModelType(): string {
-    return "openai/gpt-oss-20b";
-  }
-
-  getDisplayName(): string {
-    return "OpenAI GPT OSS 20B";
-  }
-
-  getOwner(): string {
-    return "openai";
-  }
-
-  getCreatedAt(): number {
-    return 1_764_888_221;
-  }
-
-  getMonthlyFreeTokens(): number {
-    return 400_000_000;
-  }
+  readonly id = "openai/gpt-oss-20b";
+  readonly name = "OpenAI GPT OSS 20B";
+  readonly owned_by = "openai";
+  readonly created = 1_764_888_221;
+  readonly pricing = {
+    monthly_free_tokens: 400_000_000,
+  };
 }

@@ -35,7 +35,7 @@ export class ModelConfigService {
       where: { agent_slug: agentSlug, slug: branchSlug },
       select: { models: true },
     });
-    const model = (branch.models as unknown as Models)?.find(
+    const model = (branch.models as Models)?.find(
       ({ alias }) => alias === modelAlias,
     );
 

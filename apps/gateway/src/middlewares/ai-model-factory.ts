@@ -1,7 +1,6 @@
 import { wrapLanguageModel } from "ai";
 import { Elysia } from "elysia";
 
-import { BadRequestError } from "@hebo/shared-api/errors";
 import { dbClient } from "@hebo/shared-api/middlewares/db-client";
 
 import { ModelConfigService } from "./model-config";
@@ -35,10 +34,9 @@ export const aiModelFactory = new Elysia({
     ): Promise<AiModelFor<M>> => {
       const modelType = await modelConfigService.getModelType(modelAliasPath);
       const modelAdapter = ModelAdapterFactory.getAdapter(modelType);
-
-      if (modelAdapter.getModality() !== modality)
-        throw new BadRequestError(
-          `Model ${modelAliasPath} (${modelType}) is not a ${modality} model.`,
+      if (modelAdapter.modality !== modality)
+        throw new Error(
+          `Model ${modelType} is not a ${modality} model. It is a ${modelAdapter.modality} model.`,
         );
 
       const customProviderSlug =

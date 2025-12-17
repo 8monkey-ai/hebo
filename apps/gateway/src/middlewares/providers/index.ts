@@ -15,7 +15,7 @@ import { VertexProviderAdapter } from "./vertex";
 import type { ProviderAdapter } from "./provider";
 
 export class ProviderAdapterFactory {
-  static readonly ALL_PROVIDER_CLASSES = [
+  static readonly ALL_PROVIDER_ADAPTER_CLASSES = [
     BedrockProviderAdapter,
     CohereProviderAdapter,
     GroqProviderAdapter,
@@ -25,9 +25,9 @@ export class ProviderAdapterFactory {
   constructor(private readonly dbClient: ReturnType<typeof createDbClient>) {}
 
   async createDefault(modelType: string): Promise<ProviderAdapter> {
-    for (const ProviderClass of ProviderAdapterFactory.ALL_PROVIDER_CLASSES) {
-      if (ProviderClass.supportsModel(modelType)) {
-        const tempInstance = new ProviderClass(modelType);
+    for (const ProviderAdapterClass of ProviderAdapterFactory.ALL_PROVIDER_ADAPTER_CLASSES) {
+      if (ProviderAdapterClass.supportsModel(modelType)) {
+        const tempInstance = new ProviderAdapterClass(modelType);
         const providerSlug = tempInstance.getProviderSlug();
         return await this.createAdapter(providerSlug, modelType);
       }
