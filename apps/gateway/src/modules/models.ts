@@ -45,7 +45,7 @@ function modelToModelsResponse(m: SupportedModel, withEndpoints = false) {
         (ProviderAdapterClass) => ProviderAdapterClass.supportsModel(m.id),
       ).map((ProviderAdapterClass) => {
         const instance = new ProviderAdapterClass(m.id);
-        return { tag: instance.getProviderSlug() };
+        return { tag: instance.providerSlug };
       }),
     }),
   };

@@ -22,8 +22,10 @@ export class BedrockProviderAdapter
   private config?: BedrockProviderConfig;
   private credentials?: BedrockCredentials;
 
+  static readonly providerSlug = "bedrock";
+
   constructor(modelType: string) {
-    super("bedrock", modelType);
+    super(modelType);
   }
 
   static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {

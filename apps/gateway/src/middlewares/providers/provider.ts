@@ -7,21 +7,20 @@ import type { ProviderOptions } from "@ai-sdk/provider-utils";
 import type { Provider } from "ai";
 
 export interface ProviderAdapter {
+  readonly providerSlug: ProviderSlug;
   initialize(config?: ProviderConfig): Promise<this>;
   getProvider(): Promise<Provider>;
   resolveModelId(): Promise<string>;
   transformOptions(options?: ProviderOptions): ProviderOptions;
-  getProviderSlug(): ProviderSlug;
 }
 
-export abstract class ProviderAdapterBase {
-  protected constructor(
-    protected readonly providerSlug: ProviderSlug,
-    protected readonly modelType: string,
-  ) {}
+export abstract class ProviderAdapterBase implements ProviderAdapter {
+  static readonly providerSlug: ProviderSlug;
 
-  public getProviderSlug(): ProviderSlug {
-    return this.providerSlug;
+  protected constructor(protected readonly modelType: string) {}
+
+  get providerSlug(): ProviderSlug {
+    return (this.constructor as typeof ProviderAdapterBase).providerSlug;
   }
 
   static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {};
@@ -54,4 +53,7 @@ export abstract class ProviderAdapterBase {
       [this.providerSlug]: mergedOptions,
     };
   }
+
+  abstract initialize(config?: ProviderConfig): Promise<this>;
+  abstract getProvider(): Promise<Provider>;
 }

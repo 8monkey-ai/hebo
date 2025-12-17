@@ -2,16 +2,14 @@ import type { createDbClient } from "@hebo/database/client";
 import type { ProviderSlug } from "@hebo/database/src/types/providers";
 import type { ModelConfig, Models } from "@hebo/shared-api/types/model-config";
 
-import { type SupportedModelType } from "./models";
-
 export class ModelConfigService {
   private model?: ModelConfig;
 
   constructor(private readonly dbClient: ReturnType<typeof createDbClient>) {}
 
-  async getModelType(modelAliasPath: string): Promise<SupportedModelType> {
+  async getModelType(modelAliasPath: string): Promise<string> {
     const model = await this.getModel(modelAliasPath);
-    return model.type as SupportedModelType;
+    return model.type;
   }
 
   async getCustomProviderSlug(

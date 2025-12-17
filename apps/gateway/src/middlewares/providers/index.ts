@@ -27,9 +27,10 @@ export class ProviderAdapterFactory {
   async createDefault(modelType: string): Promise<ProviderAdapter> {
     for (const ProviderAdapterClass of ProviderAdapterFactory.ALL_PROVIDER_ADAPTER_CLASSES) {
       if (ProviderAdapterClass.supportsModel(modelType)) {
-        const tempInstance = new ProviderAdapterClass(modelType);
-        const providerSlug = tempInstance.getProviderSlug();
-        return await this.createAdapter(providerSlug, modelType);
+        return await this.createAdapter(
+          ProviderAdapterClass.providerSlug,
+          modelType,
+        );
       }
     }
 

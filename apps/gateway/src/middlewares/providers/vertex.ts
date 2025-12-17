@@ -1,6 +1,5 @@
 import { createVertex } from "@ai-sdk/google-vertex";
 
-
 import type { VertexProviderConfig } from "@hebo/database/src/types/providers";
 import { getSecret } from "@hebo/shared-api/utils/secrets";
 
@@ -15,6 +14,8 @@ export class VertexProviderAdapter
 {
   private config?: VertexProviderConfig;
 
+  static readonly providerSlug = "vertex";
+
   static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {
     "google/gemini-2.5-flash-preview-09-2025":
       "gemini-2.5-flash-preview-09-2025",
@@ -24,7 +25,7 @@ export class VertexProviderAdapter
   };
 
   constructor(modelType: string) {
-    super("vertex", modelType);
+    super(modelType);
   }
 
   transformOptions(options?: ProviderOptions): ProviderOptions {

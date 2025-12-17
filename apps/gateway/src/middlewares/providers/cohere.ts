@@ -11,12 +11,14 @@ export class CohereProviderAdapter
 {
   private config?: ApiKeyProviderConfig;
 
+  static readonly providerSlug = "cohere";
+
   static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {
     "cohere/embed-v4.0": "embed-v4.0",
   };
 
   constructor(modelType: string) {
-    super("cohere", modelType);
+    super(modelType);
   }
 
   async initialize(config?: ApiKeyProviderConfig): Promise<this> {
