@@ -29,15 +29,6 @@ export const grafanaCloudOtlpHeaders = new sst.Secret(
   "GrafanaCloudOtlpHeaders",
   "undefined",
 );
-// Back-compat (optional): if you prefer to store instanceId + apiKey instead of full headers.
-export const grafanaCloudInstanceId = new sst.Secret(
-  "GrafanaCloudInstanceId",
-  "undefined",
-);
-export const grafanaCloudApiKey = new sst.Secret(
-  "GrafanaCloudApiKey",
-  "undefined",
-);
 
 export const allSecrets = [
   stackSecretServerKey,
@@ -53,7 +44,5 @@ export const allSecrets = [
   vertexLocation,
   grafanaCloudOtlpEndpoint,
   grafanaCloudOtlpHeaders,
-  grafanaCloudInstanceId,
-  grafanaCloudApiKey,
 ];
 export const isProd = $app.stage === "production";

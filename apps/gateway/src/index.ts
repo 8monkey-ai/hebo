@@ -2,11 +2,13 @@ import { logger } from "@bogeychan/elysia-logger";
 import { cors } from "@elysiajs/cors";
 import { openapi } from "@elysiajs/openapi";
 import { opentelemetry } from "@elysiajs/opentelemetry";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
 import Elysia from "elysia";
 
 import { authService } from "@hebo/shared-api/middlewares/auth/auth-service";
 import { corsConfig } from "@hebo/shared-api/middlewares/cors-config";
-import { initOtelFromGrafanaCloud } from "@hebo/shared-api/utils/otel";
+import { getGrafanaCloudOtelpConfig } from "@hebo/shared-api/utils/otel";
 
 import { errorHandler } from "./middlewares/error-handler";
 import { completions } from "./modules/completions";
@@ -15,18 +17,18 @@ import { models } from "./modules/models";
 
 const LOG_LEVEL = process.env.LOG_LEVEL ?? "info";
 const PORT = Number(process.env.PORT ?? 3002);
-
-let otelEnabled = false;
+const otelConfig = await getGrafanaCloudOtelpConfig();
 
 export const createGateway = () =>
-  (otelEnabled
-    ? new Elysia().use(
-        opentelemetry({
-          serviceName: "hebo-gateway",
-        }),
-      )
-    : new Elysia()
-  )
+  new Elysia()
+    .use(
+      opentelemetry({
+        serviceName: "hebo-gateway",
+        spanProcessors: [
+          new BatchSpanProcessor(new OTLPTraceExporter(otelConfig)),
+        ],
+      }),
+    )
     .use(logger({ level: LOG_LEVEL }))
     // Root route ("/") is unauthenticated and unprotected for health checks.
     .get("/", () => "🐵 Hebo AI Gateway says hello!")
@@ -53,7 +55,6 @@ export const createGateway = () =>
     );
 
 if (import.meta.main) {
-  otelEnabled = await initOtelFromGrafanaCloud();
   const app = createGateway().listen(PORT);
   console.log(`🐵 Hebo Gateway running at ${app.server!.url}`);
 }
