@@ -25,8 +25,12 @@ export const grafanaCloudOtlpEndpoint = new sst.Secret(
   "GrafanaCloudOtlpEndpoint",
   "undefined",
 );
-export const grafanaCloudOtlpHeaders = new sst.Secret(
-  "GrafanaCloudOtlpHeaders",
+export const grafanaCloudOtlpInstanceId = new sst.Secret(
+  "GrafanaCloudOtlpInstanceId",
+  "undefined",
+);
+export const grafanaCloudOtlpApiToken = new sst.Secret(
+  "GrafanaCloudOtlpApiToken",
   "undefined",
 );
 
@@ -43,6 +47,7 @@ export const allSecrets = [
   vertexProject,
   vertexLocation,
   grafanaCloudOtlpEndpoint,
-  grafanaCloudOtlpHeaders,
+  grafanaCloudOtlpInstanceId,
+  grafanaCloudOtlpApiToken,
 ];
 export const isProd = $app.stage === "production";
