@@ -33,6 +33,12 @@ describe("Model Adapter transformOptions", () => {
       expected: {},
     },
     {
+      name: "GPT: no openai-compatible options provided",
+      model: gptAdapter,
+      input: { abc: 123 },
+      expected: { abc: 123 },
+    },
+    {
       name: "GPT: basic options (no reasoning)",
       model: gptAdapter,
       input: {
