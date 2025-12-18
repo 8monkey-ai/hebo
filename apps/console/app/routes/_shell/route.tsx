@@ -130,7 +130,7 @@ export default function ShellLayout({ loaderData: { agents } }: Route.ComponentP
         </div>
       </Sidebar>
 
-      <SidebarInset className="min-w-0">
+      <SidebarInset className="min-w-0 bg-transparent">
         <Tooltip>
           <TooltipTrigger asChild>
             <SidebarTrigger className="fixed m-2" />
