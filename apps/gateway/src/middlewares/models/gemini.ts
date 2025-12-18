@@ -107,19 +107,19 @@ export class Gemini3ProPreviewAdapter extends GeminiModelAdapter {
 
     switch (params.effort) {
       case "low": {
-        thinkingConfig.thinkingLevel = "LOW";
+        thinkingConfig.thinkingLevel = "low";
         break;
       }
       case "medium": {
-        thinkingConfig.thinkingLevel = "HIGH";
+        thinkingConfig.thinkingLevel = "high";
         break;
       }
       case "high": {
-        thinkingConfig.thinkingLevel = "HIGH";
+        thinkingConfig.thinkingLevel = "high";
         break;
       }
       default: {
-        thinkingConfig.thinkingLevel = "HIGH";
+        thinkingConfig.thinkingLevel = "high";
         break;
       }
     }
@@ -140,19 +140,19 @@ export class Gemini3FlashPreviewAdapter extends GeminiModelAdapter {
 
     switch (params.effort) {
       case "low": {
-        thinkingConfig.thinkingLevel = "LOW";
+        thinkingConfig.thinkingLevel = "low";
         break;
       }
       case "medium": {
-        thinkingConfig.thinkingLevel = "MEDIUM";
+        thinkingConfig.thinkingLevel = "medium";
         break;
       }
       case "high": {
-        thinkingConfig.thinkingLevel = "HIGH";
+        thinkingConfig.thinkingLevel = "high";
         break;
       }
       default: {
-        thinkingConfig.thinkingLevel = "MEDIUM";
+        thinkingConfig.thinkingLevel = "medium";
         break;
       }
     }

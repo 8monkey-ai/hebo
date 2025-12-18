@@ -214,7 +214,7 @@ describe("Model Adapter transformOptions", () => {
         "openai-compatible": {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingLevel: "LOW",
+            thinkingLevel: "low",
           },
         },
       },
@@ -233,7 +233,7 @@ describe("Model Adapter transformOptions", () => {
         "openai-compatible": {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingLevel: "HIGH",
+            thinkingLevel: "high",
           },
         },
       },
@@ -254,7 +254,7 @@ describe("Model Adapter transformOptions", () => {
         "openai-compatible": {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingLevel: "LOW",
+            thinkingLevel: "low",
           },
         },
       },
@@ -273,7 +273,7 @@ describe("Model Adapter transformOptions", () => {
         "openai-compatible": {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingLevel: "MEDIUM",
+            thinkingLevel: "medium",
           },
         },
       },
@@ -292,7 +292,7 @@ describe("Model Adapter transformOptions", () => {
         "openai-compatible": {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingLevel: "HIGH",
+            thinkingLevel: "high",
           },
         },
       },
@@ -311,7 +311,7 @@ describe("Model Adapter transformOptions", () => {
         "openai-compatible": {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingLevel: "MEDIUM",
+            thinkingLevel: "medium",
           },
         },
       },
