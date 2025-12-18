@@ -15,6 +15,8 @@ export abstract class GeminiModelAdapter extends ModelAdapterBase {
   };
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { "openai-compatible": _, ...rest } = options || {};
     const config: Record<string, any> = {};
     const openAiOptions = options as OpenAICompatibleOptions;
 
@@ -28,6 +30,7 @@ export abstract class GeminiModelAdapter extends ModelAdapterBase {
     }
 
     return {
+      ...rest,
       "openai-compatible": config,
     };
   }
@@ -44,7 +47,7 @@ export abstract class GeminiModelAdapter extends ModelAdapterBase {
       const thinkingConfig: Record<string, any> = {};
 
       thinkingConfig.includeThoughts =
-        params.enabled !== false && params.exclude !== true;
+        params.enabled !== false && params.excluded !== true;
 
       const specificConfig = this.getThinkingConfig(params);
       Object.assign(thinkingConfig, specificConfig);

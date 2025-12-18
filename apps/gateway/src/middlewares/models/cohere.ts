@@ -12,9 +12,13 @@ export class CohereEmbedV4Adapter extends ModelAdapterBase {
     monthly_free_tokens: 0,
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  transformOptions(_options?: ProviderOptions): ProviderOptions {
+  transformOptions(options?: ProviderOptions): ProviderOptions {
+    const { "openai-compatible": openAiOptions, ...rest } = options || {};
+    if (!openAiOptions) {
+      return rest;
+    }
     return {
+      ...rest,
       "openai-compatible": {},
     };
   }

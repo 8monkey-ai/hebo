@@ -30,9 +30,7 @@ describe("Model Adapter transformOptions", () => {
       name: "GPT: no options provided",
       model: gptAdapter,
       input: undefined,
-      expected: {
-        "openai-compatible": {},
-      },
+      expected: {},
     },
     {
       name: "GPT: basic options (no reasoning)",
@@ -98,9 +96,7 @@ describe("Model Adapter transformOptions", () => {
       name: "Gemini: no options provided",
       model: geminiAdapter,
       input: undefined,
-      expected: {
-        "openai-compatible": {},
-      },
+      expected: {},
     },
     {
       name: "Gemini: reasoning enabled (boolean) defaults to 8192 budget",
@@ -185,7 +181,7 @@ describe("Model Adapter transformOptions", () => {
         "openai-compatible": {
           reasoning: {
             enabled: true,
-            exclude: true,
+            excluded: true,
           },
         },
       },
@@ -198,7 +194,6 @@ describe("Model Adapter transformOptions", () => {
         },
       },
     },
-
     // --- Gemini 3 Pro Scenarios ---
     {
       name: "Gemini 3 Pro: low effort -> LOW",

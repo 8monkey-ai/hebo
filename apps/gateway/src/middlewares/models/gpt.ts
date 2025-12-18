@@ -11,6 +11,8 @@ export abstract class GptModelAdapter extends ModelAdapterBase {
   readonly modality = "chat";
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { "openai-compatible": _, ...rest } = options || {};
     const config: Record<string, any> = {};
     const openAiOptions = options as OpenAICompatibleOptions;
 
@@ -24,6 +26,7 @@ export abstract class GptModelAdapter extends ModelAdapterBase {
     }
 
     return {
+      ...rest,
       "openai-compatible": config,
     };
   }
