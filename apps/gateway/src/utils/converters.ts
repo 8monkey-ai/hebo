@@ -110,6 +110,11 @@ export function toModelMessages(messages: OpenAICompatibleMessage[]) {
               toolCallId: toolCall.id,
               toolName: toolCall.function.name,
               input: JSON.parse(toolCall.function.arguments),
+              providerOptions: {
+                google: {
+                  thoughtSignature: "context_engineering_is_the_way_to_go",
+                },
+              },
             })),
           });
         } else {
