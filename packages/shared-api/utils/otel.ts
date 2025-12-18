@@ -13,7 +13,7 @@ const getGrafanaCloudOtlpConfig = async () => {
   ]);
 
   if (!endpoint || !instanceId || !apiToken) {
-    console.warn("⚠️ OpenTelemetry not configured. Skipping...");
+    console.warn("⚠️ OpenTelemetry Trace Exporter not configured. Skipping...");
     return;
   }
 
