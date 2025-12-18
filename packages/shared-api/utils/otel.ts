@@ -28,11 +28,13 @@ const getGrafanaCloudOtlpConfig = async () => {
   };
 };
 
-const grafanaOps = await getGrafanaCloudOtlpConfig();
+const grafanaConfig = await getGrafanaCloudOtlpConfig();
 
 export const getOtelConfig = (
   serviceName: string,
 ): ElysiaOpenTelemetryOptions => ({
   serviceName,
-  spanProcessors: [new BatchSpanProcessor(new OTLPTraceExporter(grafanaOps))],
+  spanProcessors: [
+    new BatchSpanProcessor(new OTLPTraceExporter(grafanaConfig)),
+  ],
 });
