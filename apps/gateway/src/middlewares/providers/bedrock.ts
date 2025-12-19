@@ -50,12 +50,13 @@ export class BedrockProviderAdapter
   }
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
-    const { openaiCompatible: openAiOptions, ...rest } = options || {};
+    const { openaiCompatible: openAiCompatibleOptions, ...rest } =
+      options || {};
 
-    if (!openAiOptions) return rest;
+    if (!openAiCompatibleOptions) return rest;
 
     const snakeCaseConfig = BedrockProviderAdapter.convertObjectKeysToSnakeCase(
-      openAiOptions as Record<string, any>,
+      openAiCompatibleOptions as Record<string, any>,
     );
 
     return {

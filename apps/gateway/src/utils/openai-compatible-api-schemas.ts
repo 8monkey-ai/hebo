@@ -146,21 +146,3 @@ export type OpenAICompatibleToolCallDelta = {
   function: { name: string; arguments: string };
   [key: string]: any;
 };
-
-export const OpenAICompatibleConfig = t.Object(
-  {
-    reasoning: t.Optional(OpenAICompatibleReasoning),
-  },
-  { additionalProperties: true },
-);
-
-export type OpenAICompatibleConfig = Static<typeof OpenAICompatibleConfig>;
-
-export const OpenAICompatibleOptions = t.Object(
-  {
-    openaiCompatible: t.Optional(OpenAICompatibleConfig),
-  },
-  { additionalProperties: true },
-);
-
-export type OpenAICompatibleOptions = Static<typeof OpenAICompatibleOptions>;

@@ -46,13 +46,14 @@ export abstract class ProviderAdapterBase implements ProviderAdapter {
   }
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
-    const { openaiCompatible: openAiOptions, ...rest } = options || {};
+    const { openaiCompatible: openAiCompatibleOptions, ...rest } =
+      options || {};
 
-    if (!openAiOptions) return rest;
+    if (!openAiCompatibleOptions) return rest;
 
     return {
       ...rest,
-      [this.providerSlug]: openAiOptions,
+      [this.providerSlug]: openAiCompatibleOptions,
     };
   }
 

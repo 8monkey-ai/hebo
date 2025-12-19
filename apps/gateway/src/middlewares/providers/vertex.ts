@@ -30,13 +30,14 @@ export class VertexProviderAdapter
   }
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
-    const { openaiCompatible: openAiOptions, ...rest } = options || {};
+    const { openaiCompatible: openAiCompatibleOptions, ...rest } =
+      options || {};
 
-    if (!openAiOptions) return rest;
+    if (!openAiCompatibleOptions) return rest;
 
     return {
       ...rest,
-      google: openAiOptions,
+      google: openAiCompatibleOptions,
     };
   }
 

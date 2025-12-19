@@ -12,12 +12,13 @@ export abstract class GeminiModelAdapter extends ModelAdapterBase {
   };
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
-    const { openaiCompatible: openAiOptions, ...rest } = options || {};
+    const { openaiCompatible: openAiCompatibleOptions, ...rest } =
+      options || {};
 
-    if (!openAiOptions) return rest;
+    if (!openAiCompatibleOptions) return rest;
 
     const config: Record<string, any> = {};
-    const reasoning = (openAiOptions as any)
+    const reasoning = (openAiCompatibleOptions as any)
       ?.reasoning as OpenAICompatibleReasoning;
 
     if (reasoning) {
@@ -67,6 +68,10 @@ export abstract class GeminiModelAdapter extends ModelAdapterBase {
         case "minimal":
         case "low": {
           thinkingConfig.thinkingBudget = 1024;
+          break;
+        }
+        case "medium": {
+          thinkingConfig.thinkingBudget = 8192;
           break;
         }
         case "high": {
@@ -160,10 +165,7 @@ export class Gemini3ProPreviewAdapter extends Gemini3ModelAdapter {
         thinkingConfig.thinkingLevel = "low";
         break;
       }
-      case "medium": {
-        thinkingConfig.thinkingLevel = "high";
-        break;
-      }
+      case "medium":
       case "high":
       case "xhigh": {
         thinkingConfig.thinkingLevel = "high";

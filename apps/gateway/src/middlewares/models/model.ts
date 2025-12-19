@@ -30,7 +30,17 @@ export abstract class ModelAdapterBase implements ModelAdapter {
     monthly_free_tokens: number;
   };
 
-  abstract transformOptions(options?: ProviderOptions): ProviderOptions;
+  transformOptions(options?: ProviderOptions): ProviderOptions {
+    const { openaiCompatible: openAiCompatibleOptions, ...rest } =
+      options || {};
+    if (!openAiCompatibleOptions) {
+      return rest;
+    }
+    return {
+      ...rest,
+      openaiCompatible: {},
+    };
+  }
 
   transformPrompt(prompt: any): any {
     return prompt;
