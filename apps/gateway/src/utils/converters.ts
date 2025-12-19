@@ -19,7 +19,6 @@ import type {
   ToolResultPart,
 } from "ai";
 
-
 function convertToModelContent(content: OpenAICompatibleContentPart[]) {
   return content.map((part) => {
     if (part.type === "image_url") {
@@ -104,11 +103,19 @@ export function toModelMessages(messages: OpenAICompatibleMessage[]) {
           modelMessages.push({
             role: "assistant",
             content: message.tool_calls.map((toolCall) => {
+              // Let the downstream sdk break if the json is malformed
+              let input;
+              try {
+                input = JSON.parse(toolCall.function.arguments);
+              } catch {
+                input = toolCall.function.arguments;
+              }
+
               return {
                 type: "tool-call",
                 toolCallId: toolCall.id,
                 toolName: toolCall.function.name,
-                input: JSON.parse(toolCall.function.arguments),
+                input,
               };
             }),
           });
