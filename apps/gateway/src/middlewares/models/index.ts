@@ -1,3 +1,5 @@
+import { BadRequestError } from "@hebo/shared-api/errors";
+
 import { CohereEmbedV4Adapter } from "./cohere";
 import {
   Gemini25FlashPreviewAdapter,
@@ -29,7 +31,9 @@ export const ModelAdapterFactory = {
   getAdapter(modelType: string): ModelAdapter {
     const factoryMethod = MODEL_ADAPTER_MAP[modelType];
     if (!factoryMethod) {
-      throw new Error(`No model adapter found for model type: ${modelType}`);
+      throw new BadRequestError(
+        `No model adapter found for model type: ${modelType}`,
+      );
     }
     return factoryMethod();
   },

@@ -6,6 +6,7 @@ import type {
   ProviderConfig,
   ProviderSlug,
 } from "@hebo/database/src/types/providers";
+import { BadRequestError } from "@hebo/shared-api/errors";
 
 import { BedrockProviderAdapter } from "./bedrock";
 import { CohereProviderAdapter } from "./cohere";
@@ -34,7 +35,7 @@ export class ProviderAdapterFactory {
       }
     }
 
-    throw new Error(
+    throw new BadRequestError(
       `Unable to create provider adapter: no providers available for model type ${modelType}`,
     );
   }
@@ -79,7 +80,7 @@ export class ProviderAdapterFactory {
         );
       }
       default: {
-        throw new Error(`Unsupported provider: ${providerSlug}`);
+        throw new BadRequestError(`Unsupported provider: ${providerSlug}`);
       }
     }
   }

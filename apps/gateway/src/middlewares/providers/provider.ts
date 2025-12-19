@@ -2,6 +2,7 @@ import type {
   ProviderConfig,
   ProviderSlug,
 } from "@hebo/database/src/types/providers";
+import { BadRequestError } from "@hebo/shared-api/errors";
 
 import type { ProviderOptions } from "@ai-sdk/provider-utils";
 import type { Provider } from "ai";
@@ -38,7 +39,7 @@ export abstract class ProviderAdapterBase implements ProviderAdapter {
       this.modelType,
     );
     if (!modelId) {
-      throw new Error(
+      throw new BadRequestError(
         `Model ${this.modelType} not supported by ${this.providerSlug}.`,
       );
     }

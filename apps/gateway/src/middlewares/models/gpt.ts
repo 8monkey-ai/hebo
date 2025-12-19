@@ -1,3 +1,5 @@
+import { BadRequestError } from "@hebo/shared-api/errors";
+
 import type { OpenAICompatibleReasoning } from "~gateway/utils/openai-compatible-api-schemas";
 
 import { ModelAdapterBase } from "./model";
@@ -34,10 +36,14 @@ export abstract class GptModelAdapter extends ModelAdapterBase {
     params: OpenAICompatibleReasoning,
   ): Record<string, any> | undefined {
     if (params.max_tokens !== undefined) {
-      throw new Error("GPT models do not support 'max_tokens' for reasoning.");
+      throw new BadRequestError(
+        "GPT models do not support 'max_tokens' for reasoning.",
+      );
     }
     if (params.exclude !== undefined) {
-      throw new Error("GPT models do not support 'exclude' for reasoning.");
+      throw new BadRequestError(
+        "GPT models do not support 'exclude' for reasoning.",
+      );
     }
 
     const isReasoningActive =
