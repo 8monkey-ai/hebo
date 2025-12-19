@@ -1,10 +1,11 @@
 import { describe, expect, test } from "bun:test";
 
 import { toModelMessages } from "~gateway/utils/converters";
+import type { OpenAICompatibleMessage } from "~gateway/utils/openai-compatible-api-schemas";
 
 describe("toModelMessages", () => {
   test("bundles parallel tool calls into a single tool message with multiple tool-result parts", () => {
-    const messages: any[] = [
+    const messages: OpenAICompatibleMessage[] = [
       {
         role: "system",
         content: "You are a helpful assistant.",
@@ -63,7 +64,7 @@ describe("toModelMessages", () => {
       },
     ];
 
-    const out = toModelMessages(messages as any);
+    const out = toModelMessages(messages);
 
     expect(out.map((m: any) => m.role)).toEqual([
       "system",
@@ -131,7 +132,7 @@ describe("toModelMessages", () => {
   });
 
   test("does not merge tool results across different assistant tool-call turns (same tool, different turns)", () => {
-    const messages: any[] = [
+    const messages: OpenAICompatibleMessage[] = [
       { role: "system", content: "You are a helpful assistant." },
       { role: "user", content: "Weather in San Francisco?" },
       {
@@ -202,7 +203,7 @@ describe("toModelMessages", () => {
       },
     ];
 
-    const out = toModelMessages(messages as any);
+    const out = toModelMessages(messages);
 
     expect(out.map((m: any) => m.role)).toEqual([
       "system",
