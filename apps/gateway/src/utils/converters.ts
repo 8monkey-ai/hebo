@@ -344,13 +344,21 @@ export function toOpenAICompatibleStream(
           }
 
           case "tool-call": {
-            const { toolCallId, toolName, input } = part;
+            const { toolCallId, toolName, input, providerMetadata } = part;
+
+            const metadata = {};
+            if (providerMetadata) {
+              for (const options of Object.values(providerMetadata)) {
+                Object.assign(metadata, options);
+              }
+            }
 
             const toolCall: OpenAICompatibleToolCallDelta = {
               id: toolCallId,
               index: toolCallIndexCounter++,
               type: "function",
               function: { name: toolName, arguments: JSON.stringify(input) },
+              ...metadata,
             };
 
             enqueue({
