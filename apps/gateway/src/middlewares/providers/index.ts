@@ -17,6 +17,7 @@ import type { ProviderAdapter } from "./provider";
 
 export class ProviderAdapterFactory {
   static readonly ALL_PROVIDER_ADAPTER_CLASSES = [
+    // FUTURE: error-prone for provider fallback feature
     BedrockProviderAdapter,
     CohereProviderAdapter,
     GroqProviderAdapter,

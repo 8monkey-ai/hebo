@@ -74,12 +74,9 @@ export abstract class GeminiModelAdapter extends ModelAdapterBase {
           thinkingConfig.thinkingBudget = 8192;
           break;
         }
-        case "high": {
-          thinkingConfig.thinkingBudget = 24_576;
-          break;
-        }
+        case "high":
         case "xhigh": {
-          thinkingConfig.thinkingBudget = 32_768; // assuming
+          thinkingConfig.thinkingBudget = 24_576;
           break;
         }
         default: {
