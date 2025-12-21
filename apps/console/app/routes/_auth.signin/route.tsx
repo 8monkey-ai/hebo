@@ -13,21 +13,22 @@ export default function SignIn() {
   return (
     <div className="relative min-h-dvh">
       {/* Marketing Message */}
-      <aside className="fixed min-h-dvh w-128 -translate-x-full bg-blue-100 bg-[url(/login-bg.png)] bg-bottom-left bg-no-repeat transition-transform duration-300 ease-in-out lg:translate-x-0">
+      <aside className="fixed min-h-dvh w-lg -translate-x-full bg-blue-100 bg-[url(/login-bg.png)] bg-bottom-left bg-no-repeat transition-transform duration-300 ease-in-out lg:translate-x-0">
         <Button
-          asChild
           variant="ghost"
           className="absolute top-5 left-6 bg-blue-200 hover:bg-blue-300"
-        >
+          nativeButton={false}
+          render={
           <a
             href="https://docs.hebo.ai"
             target="_blank"
             rel="noopener noreferrer"
           >
             <BookOpen />
-            Docs
+            <span>Docs</span>
           </a>
-        </Button>
+          }
+          />
 
         <div className="space-y-5 px-19 py-30 text-xl">
           <div className="flex items-center gap-2 text-3xl font-semibold">
@@ -70,9 +71,9 @@ export default function SignIn() {
           <div className="w-full space-y-4">
             <OAuthSignIn />
             <div className="flex items-center gap-4">
-              <div className="h-[1px] flex-1 bg-gray-300" />
+              <div className="h-px flex-1 bg-gray-300" />
               <span className="text-sm whitespace-nowrap">or</span>
-              <div className="h-[1px] flex-1 bg-gray-300" />
+              <div className="h-px flex-1 bg-gray-300" />
             </div>
             <MagicLinkSignIn />
           </div>

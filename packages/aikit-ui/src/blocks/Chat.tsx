@@ -191,20 +191,22 @@ export function Chat({
       {/* Header Controls */}
       <div className="absolute top-3 left-2">
         <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              ref={clearBtnRef}
-              disabled={!currentModelAlias}
-              variant="ghost"
-              size="icon"
-              className="hover:bg-sidebar-accent size-7"
-              onClick={() => setMessages([])}
-              aria-label="Clear conversation"
-              title="Clear conversation"
-            >
-              <Edit />
-            </Button>
-          </TooltipTrigger>
+          <TooltipTrigger
+            render={
+              <Button
+                ref={clearBtnRef}
+                disabled={!currentModelAlias}
+                variant="ghost"
+                size="icon"
+                className="hover:bg-sidebar-accent size-7"
+                onClick={() => setMessages([])}
+                aria-label="Clear conversation"
+                title="Clear conversation"
+              >
+                <Edit />
+              </Button>
+            }
+          />
           <TooltipContent>Clear conversation (⇧ + ⌘/Ctrl + O)</TooltipContent>
         </Tooltip>
       </div>
@@ -287,7 +289,6 @@ export function Chat({
                         <Item
                           key={`${message.id}-${i}`}
                           variant="outline"
-                          asChild
                           className="bg-card m-2 ml-auto w-3xs py-2"
                         >
                           <a href={part.url} download={part.filename}>

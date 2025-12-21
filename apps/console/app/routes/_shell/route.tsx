@@ -132,9 +132,9 @@ export default function ShellLayout({ loaderData: { agents } }: Route.ComponentP
 
       <SidebarInset className="min-w-0 bg-transparent">
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger render={
             <SidebarTrigger className="fixed m-2" />
-          </TooltipTrigger>
+          } />
           <TooltipContent side="right">
             Toggle Sidebar ({kbs("mod+S")})
           </TooltipContent>

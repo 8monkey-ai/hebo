@@ -33,15 +33,15 @@ export const SidebarNav = ({ activeAgent, activeBranch }: SidebarNavProps) => {
         return (
           <SidebarMenuItem key={label} className="group-data-[state=expanded]:mx-0.5 transition-[margin]">
             <SidebarMenuButton 
-              asChild 
               isActive={active}
-              tooltip={label}
-              >
+              // FUTURE: make this work with ShadCn BaseUI
+              //tooltip={label}
+              render={
               <Link to={path} viewTransition>
                 <Icon aria-hidden="true" />
-                {label}
+                <span>{label}</span>
               </Link>
-            </SidebarMenuButton>
+            } />
           </SidebarMenuItem>
         );
       })}
