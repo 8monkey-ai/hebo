@@ -7,6 +7,9 @@
   "exports": {
     "./blocks/*": "./src/blocks/*.tsx"
   },
+  "imports": {
+    "#/*": "./src/*"
+  },
   "scripts": {
     "clean": "git clean -fdx -e '.env*' .",
     "lint": "bunx eslint ."

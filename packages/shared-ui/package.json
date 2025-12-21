@@ -10,6 +10,9 @@
     "./hooks/*": "./src/hooks/*.ts",
     "./lib/*": "./src/lib/*.ts"
   },
+  "imports": {
+    "#/*": "./src/*"
+  },
   "scripts": {
     "clean": "git clean -fdx -e '.env*' .",
     "lint": "eslint ."

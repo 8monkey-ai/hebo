@@ -12,11 +12,11 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "_shadcn",
-    "utils": "lib/utils",
-    "ui": "_shadcn/ui",
-    "lib": "lib",
-    "hooks": "hooks"
+    "components": "#/_shadcn",
+    "utils": "#/lib/utils",
+    "ui": "#/_shadcn/ui",
+    "lib": "#/lib",
+    "hooks": "#/hooks"
   },
   "registries": {
     "@ai-elements": "https://registry.ai-sdk.dev/{name}.json"
