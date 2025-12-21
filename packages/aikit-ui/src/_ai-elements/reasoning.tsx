@@ -1,6 +1,6 @@
 "use client";
 
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { useControlled } from "@base-ui/utils/useControlled";
 import {
   Collapsible,
   CollapsibleContent,
@@ -52,14 +52,17 @@ export const Reasoning = memo(
     children,
     ...props
   }: ReasoningProps) => {
-    const [isOpen, setIsOpen] = useControllableState({
-      prop: open,
-      defaultProp: defaultOpen,
-      onChange: onOpenChange,
+    const [isOpen, setIsOpen] = useControlled<boolean>({
+      controlled: open,
+      default: defaultOpen,
+      name: "Reasoning",
+      state: "open",
     });
-    const [duration, setDuration] = useControllableState({
-      prop: durationProp,
-      defaultProp: undefined,
+    const [duration, setDuration] = useControlled<number | undefined>({
+      controlled: durationProp,
+      default: undefined,
+      name: "Reasoning",
+      state: "duration",
     });
 
     const [hasAutoClosed, setHasAutoClosed] = useState(false);
@@ -92,6 +95,7 @@ export const Reasoning = memo(
 
     const handleOpenChange = (newOpen: boolean) => {
       setIsOpen(newOpen);
+      onOpenChange?.(newOpen);
     };
 
     return (

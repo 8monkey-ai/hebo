@@ -4,6 +4,7 @@ import { clsx } from "clsx";
 import { Copy, Check } from "lucide-react";
 import { type ComponentPropsWithoutRef, useState } from "react";
 
+import { Button } from "../Button";
 import {
   copyToClipboard,
   type CopyToClipboardResult,
@@ -21,7 +22,7 @@ export function CopyToClipboardButton({
   const [showSuccess, setShowSuccess] = useState(false);
 
   return (
-    <button
+    <Button
       aria-label={"Copy code to clipboard"}
       onClick={async () => {
         const result = await copyToClipboard(textToCopy);
@@ -44,6 +45,6 @@ export function CopyToClipboardButton({
       ) : (
         <Copy size={16} className="text-foreground/60 hover:text-foreground" />
       )}
-    </button>
+    </Button>
   );
 }
