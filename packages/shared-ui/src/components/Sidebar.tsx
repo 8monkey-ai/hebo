@@ -1,15 +1,16 @@
 import { PanelLeftIcon } from "lucide-react";
 import React from "react";
 
-import { Button } from "./Button";
 import {
   useSidebar,
   Sidebar as ShadCnSidebar,
   SidebarContext,
   SidebarContextProps,
-} from "../_shadcn/ui/sidebar";
-import { useIsMobile } from "../hooks/use-mobile";
-import { cn } from "../lib/utils";
+} from "#/_shadcn/ui/sidebar";
+import { useIsMobile } from "#/hooks/use-mobile";
+import { cn } from "#/lib/utils";
+
+import { Button } from "./Button";
 
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_WIDTH = "16rem";
@@ -194,4 +195,4 @@ export {
   SidebarRail,
   SidebarSeparator,
   SidebarContext,
-} from "../_shadcn/ui/sidebar";
+} from "#/_shadcn/ui/sidebar";

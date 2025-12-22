@@ -1,6 +1,7 @@
-import { CopyButton } from "./code/CopyButton";
-import { Input as ShadCnInput } from "../_shadcn/ui/input";
-import { cn } from "../lib/utils";
+import { Input as ShadCnInput } from "#/_shadcn/ui/input";
+import { cn } from "#/lib/utils";
+
+import { CopyButton } from "./CopyButton";
 
 import type { LucideIcon } from "lucide-react";
 

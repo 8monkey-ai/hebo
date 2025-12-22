@@ -3,8 +3,8 @@ import { useRender } from "@base-ui/react/use-render";
 import { type FieldMetadata } from "@conform-to/react";
 import * as React from "react";
 
-import { Label } from "../_shadcn/ui/label";
-import { cn } from "../lib/utils";
+import { Label } from "#/_shadcn/ui/label";
+import { cn } from "#/lib/utils";
 
 const FieldCtx = React.createContext<FieldMetadata<string> | undefined>(
   undefined,

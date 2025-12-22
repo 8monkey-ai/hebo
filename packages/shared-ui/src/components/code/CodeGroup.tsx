@@ -5,7 +5,7 @@ import { clsx } from "clsx";
 import * as React from "react";
 
 import { styles, type CodeBlockProps } from "./CodeBlock";
-import { CopyButton } from "./CopyButton";
+import { CopyButton } from "../CopyButton";
 import { getNodeText } from "./utils/getNodeText";
 
 export type CodeGroupPropsBase = {

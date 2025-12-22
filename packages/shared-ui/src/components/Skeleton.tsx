@@ -1,5 +1,6 @@
+import { Skeleton as ShadCnSkeleton } from "#/_shadcn/ui/skeleton";
+
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "./Table";
-import { Skeleton as ShadCnSkeleton } from "../_shadcn/ui/skeleton";
 
 interface SkeletonProps extends React.ComponentProps<"div"> {
   count?: number;

@@ -1,8 +1,7 @@
 import { type Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 
-import { DialogTitle as ShadCnDialogTitle } from "../_shadcn/ui/dialog";
-import { cn } from "../lib/utils";
-
+import { DialogTitle as ShadCnDialogTitle } from "#/_shadcn/ui/dialog";
+import { cn } from "#/lib/utils";
 
 export function DialogTitle({
   className,
@@ -23,4 +22,4 @@ export {
   DialogOverlay,
   DialogPortal,
   DialogTrigger,
-} from "../_shadcn/ui/dialog";
+} from "#/_shadcn/ui/dialog";

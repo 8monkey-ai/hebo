@@ -3,7 +3,7 @@
 import { clsx } from "clsx";
 import * as React from "react";
 
-import { CopyButton } from "./CopyButton";
+import { CopyButton } from "../CopyButton";
 import { getNodeText } from "./utils/getNodeText";
 
 export const styles = {

@@ -1,8 +1,9 @@
 import { Check, Copy } from "lucide-react";
 import * as React from "react";
 
-import { cn } from "../../lib/utils";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../Tooltip";
+import { cn } from "#/lib/utils";
+
+import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 
 export function CopyButton({
   value,

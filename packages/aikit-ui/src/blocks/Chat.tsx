@@ -15,13 +15,13 @@ import {
   Conversation,
   ConversationContent,
   ConversationScrollButton,
-} from "../_ai-elements/conversation";
-import { Loader } from "../_ai-elements/loader";
+} from "#/_ai-elements/conversation";
+import { Loader } from "#/_ai-elements/loader";
 import {
   Message,
   MessageContent,
   MessageResponse,
-} from "../_ai-elements/message";
+} from "#/_ai-elements/message";
 import {
   PromptInput,
   PromptInputBody,
@@ -41,22 +41,22 @@ import {
   PromptInputButton,
   PromptInputProvider,
   usePromptInputAttachments,
-} from "../_ai-elements/prompt-input";
+} from "#/_ai-elements/prompt-input";
 import {
   Reasoning,
   ReasoningContent,
   ReasoningTrigger,
-} from "../_ai-elements/reasoning";
-import { Alert, AlertDescription, AlertTitle } from "../_shadcn/ui/alert";
-import { Avatar, AvatarFallback } from "../_shadcn/ui/avatar";
-import { Button } from "../_shadcn/ui/button";
+} from "#/_ai-elements/reasoning";
+import { Alert, AlertDescription, AlertTitle } from "#/_shadcn/ui/alert";
+import { Avatar, AvatarFallback } from "#/_shadcn/ui/avatar";
+import { Button } from "#/_shadcn/ui/button";
 import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from "../_shadcn/ui/empty";
+} from "#/_shadcn/ui/empty";
 import {
   Item,
   ItemActions,
@@ -64,10 +64,10 @@ import {
   ItemDescription,
   ItemMedia,
   ItemTitle,
-} from "../_shadcn/ui/item";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../_shadcn/ui/tooltip";
-import { OpenAIHttpChatTransport } from "../lib/openai-transport";
-import { cn } from "../lib/utils";
+} from "#/_shadcn/ui/item";
+import { Tooltip, TooltipContent, TooltipTrigger } from "#/_shadcn/ui/tooltip";
+import { OpenAIHttpChatTransport } from "#/lib/openai-transport";
+import { cn } from "#/lib/utils";
 
 // Types based on models.schema.json
 export type ModelsConfig = Array<{

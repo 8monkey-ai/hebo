@@ -7,7 +7,7 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
-} from "../_shadcn/ui/select";
+} from "#/_shadcn/ui/select";
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   items: Array<{ name: React.ReactNode; value: string }>;
