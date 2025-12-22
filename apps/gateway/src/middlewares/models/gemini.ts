@@ -134,18 +134,6 @@ export abstract class Gemini3ModelAdapter extends GeminiModelAdapter {
   }
 }
 
-export class Gemini25FlashPreviewAdapter extends GeminiModelAdapter {
-  readonly id = "google/gemini-2.5-flash-preview-09-2025";
-  readonly name = "Gemini 2.5 Flash Preview (Sep 2025)";
-  readonly created = 1_764_888_221;
-}
-
-export class Gemini25FlashLitePreviewAdapter extends GeminiModelAdapter {
-  readonly id = "google/gemini-2.5-flash-lite-preview-09-2025";
-  readonly name = "Gemini 2.5 Flash Lite Preview (Sep 2025)";
-  readonly created = 1_764_888_221;
-}
-
 export class Gemini3ProPreviewAdapter extends Gemini3ModelAdapter {
   readonly id = "google/gemini-3-pro-preview";
   readonly name = "Gemini 3 Pro Preview";

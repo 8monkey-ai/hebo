@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
 import {
-  Gemini25FlashPreviewAdapter,
   Gemini3FlashPreviewAdapter,
   Gemini3ProPreviewAdapter,
 } from "~gateway/middlewares/models/gemini";
@@ -20,7 +19,7 @@ describe("Model Adapter transformOptions", () => {
   };
 
   const gptAdapter = new GptOss120bAdapter();
-  const geminiAdapter = new Gemini25FlashPreviewAdapter();
+
   const gemini3ProAdapter = new Gemini3ProPreviewAdapter();
   const gemini3FlashAdapter = new Gemini3FlashPreviewAdapter();
 
@@ -97,16 +96,16 @@ describe("Model Adapter transformOptions", () => {
       shouldThrow: true,
     },
 
-    // --- Gemini Scenarios ---
+    // --- Gemini 3 Pro Scenarios ---
     {
-      name: "Gemini: no options provided",
-      model: geminiAdapter,
+      name: "Gemini 3 Pro: no options provided",
+      model: gemini3ProAdapter,
       input: undefined,
       expected: {},
     },
     {
-      name: "Gemini: reasoning enabled (boolean) defaults to 8192 budget",
-      model: geminiAdapter,
+      name: "Gemini 3 Pro: reasoning enabled (boolean) defaults to 8192 budget",
+      model: gemini3ProAdapter,
       input: {
         openaiCompatible: {
           reasoning: {
@@ -118,14 +117,14 @@ describe("Model Adapter transformOptions", () => {
         openaiCompatible: {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingBudget: 8192,
+            thinkingLevel: "high",
           },
         },
       },
     },
     {
-      name: "Gemini: reasoning with low effort",
-      model: geminiAdapter,
+      name: "Gemini 3 Pro: reasoning with low effort",
+      model: gemini3ProAdapter,
       input: {
         openaiCompatible: {
           reasoning: {
@@ -137,14 +136,14 @@ describe("Model Adapter transformOptions", () => {
         openaiCompatible: {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingBudget: 1024,
+            thinkingLevel: "low",
           },
         },
       },
     },
     {
-      name: "Gemini: reasoning with high effort",
-      model: geminiAdapter,
+      name: "Gemini 3 Pro: reasoning with high effort",
+      model: gemini3ProAdapter,
       input: {
         openaiCompatible: {
           reasoning: {
@@ -156,14 +155,14 @@ describe("Model Adapter transformOptions", () => {
         openaiCompatible: {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingBudget: 24_576,
+            thinkingLevel: "high",
           },
         },
       },
     },
     {
-      name: "Gemini: reasoning with minimal effort",
-      model: geminiAdapter,
+      name: "Gemini 3 Pro: reasoning with minimal effort",
+      model: gemini3ProAdapter,
       input: {
         openaiCompatible: {
           reasoning: {
@@ -175,14 +174,14 @@ describe("Model Adapter transformOptions", () => {
         openaiCompatible: {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingBudget: 1024,
+            thinkingLevel: "low",
           },
         },
       },
     },
     {
-      name: "Gemini: reasoning with xhigh effort",
-      model: geminiAdapter,
+      name: "Gemini 3 Pro: reasoning with xhigh effort",
+      model: gemini3ProAdapter,
       input: {
         openaiCompatible: {
           reasoning: {
@@ -194,14 +193,14 @@ describe("Model Adapter transformOptions", () => {
         openaiCompatible: {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingBudget: 24_576,
+            thinkingLevel: "high",
           },
         },
       },
     },
     {
-      name: "Gemini: reasoning disabled with none effort",
-      model: geminiAdapter,
+      name: "Gemini 3 Pro: reasoning disabled with none effort",
+      model: gemini3ProAdapter,
       input: {
         openaiCompatible: {
           reasoning: {
@@ -214,8 +213,8 @@ describe("Model Adapter transformOptions", () => {
       },
     },
     {
-      name: "Gemini: reasoning with specific max_tokens",
-      model: geminiAdapter,
+      name: "Gemini 3 Pro: reasoning with specific max_tokens",
+      model: gemini3ProAdapter,
       input: {
         openaiCompatible: {
           reasoning: {
@@ -227,14 +226,14 @@ describe("Model Adapter transformOptions", () => {
         openaiCompatible: {
           thinkingConfig: {
             includeThoughts: true,
-            thinkingBudget: 5000,
+            thinkingLevel: "high",
           },
         },
       },
     },
     {
-      name: "Gemini: exclude thoughts",
-      model: geminiAdapter,
+      name: "Gemini 3 Pro: exclude thoughts",
+      model: gemini3ProAdapter,
       input: {
         openaiCompatible: {
           reasoning: {
@@ -247,7 +246,7 @@ describe("Model Adapter transformOptions", () => {
         openaiCompatible: {
           thinkingConfig: {
             includeThoughts: false,
-            thinkingBudget: 8192,
+            thinkingLevel: "high",
           },
         },
       },
