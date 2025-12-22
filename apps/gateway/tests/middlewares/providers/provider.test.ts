@@ -91,6 +91,34 @@ describe("Provider Adapter transformOptions", () => {
         },
       },
     },
+    {
+      name: "Bedrock: converts deeply nested transformed openai-compatible options to snake_case",
+      provider: bedrockProvider,
+      input: {
+        openaiCompatible: {
+          optionOne: "value1",
+          nestedOption: {
+            nestedOptionOne: "value2",
+            anotherNestedOption: {
+              deeplyNestedOption: "value3",
+            },
+          },
+        },
+      } as any,
+      expected: {
+        bedrock: {
+          additionalModelRequestFields: {
+            option_one: "value1",
+            nested_option: {
+              nested_option_one: "value2",
+              another_nested_option: {
+                deeply_nested_option: "value3",
+              },
+            },
+          },
+        },
+      },
+    },
 
     // --- Vertex Scenarios ---
     {

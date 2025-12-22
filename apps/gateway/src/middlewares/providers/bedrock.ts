@@ -44,7 +44,14 @@ export class BedrockProviderAdapter
     const newObj: Record<string, any> = {};
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        newObj[BedrockProviderAdapter.toSnakeCase(key)] = obj[key];
+        const originalValue = obj[key];
+        const convertedValue =
+          typeof originalValue === "object" &&
+          originalValue !== null &&
+          !Array.isArray(originalValue)
+            ? BedrockProviderAdapter.convertObjectKeysToSnakeCase(originalValue)
+            : originalValue;
+        newObj[BedrockProviderAdapter.toSnakeCase(key)] = convertedValue;
       }
     }
     return newObj;

@@ -537,7 +537,7 @@ describe("Model Adapter transformPrompt", () => {
               toolName: "get_time",
               args: { timezone: "UTC" },
               providerOptions: {
-                openaiCompatible: {
+                google: {
                   thoughtSignature: "existing_signature",
                 },
               },
