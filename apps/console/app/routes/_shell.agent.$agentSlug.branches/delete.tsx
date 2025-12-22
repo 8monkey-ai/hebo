@@ -45,7 +45,7 @@ export default function DeleteBranchDialog({ open, onOpenChange, branchSlug }: D
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent>
         <fetcher.Form method="post" {...getFormProps(form)} className="contents">
           <DialogHeader>
             <DialogTitle>Delete Branch</DialogTitle>

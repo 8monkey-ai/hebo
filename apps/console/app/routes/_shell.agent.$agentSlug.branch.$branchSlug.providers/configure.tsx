@@ -89,7 +89,7 @@ export function ConfigureProviderDialog({ open, onOpenChange, provider }: Config
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-lg">
         <fetcher.Form
           method="post"
           {...getFormProps(form)}
@@ -119,11 +119,10 @@ export function ConfigureProviderDialog({ open, onOpenChange, provider }: Config
                 </FormField>
               )
             })}
-            
-            <div className="text-sm">
-              The configured provider will only handle requests after you enable it for a specific model. 
-            </div>
-          
+          </div>
+
+          <div className="text-sm">
+            The configured provider will only handle requests after you enable it for a specific model. 
           </div>
 
           <DialogFooter>

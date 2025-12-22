@@ -65,7 +65,7 @@ export function DangerSettings({ agent }: { agent: { slug: string }}) {
               <Button variant="destructive">Delete agent</Button>
             } />
 
-            <DialogContent className="sm:max-w-md">
+            <DialogContent>
               <Form method="post" {...getFormProps(form)} className="contents">
                 <DialogHeader>
                   <DialogTitle>Delete Agent</DialogTitle>

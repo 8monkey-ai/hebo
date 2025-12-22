@@ -69,7 +69,7 @@ export default function CreateBranch({ branches }: CreateBranchProps) {
           </Button>
         } />
       </div>
-      <DialogContent>
+      <DialogContent className="sm:max-w-lg">
         <fetcher.Form method="post" {...getFormProps(form)} className="contents">
           <DialogHeader>
             <DialogTitle>Create Banch</DialogTitle>

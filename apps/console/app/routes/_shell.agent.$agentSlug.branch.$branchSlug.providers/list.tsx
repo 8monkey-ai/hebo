@@ -39,7 +39,7 @@ export function ProvidersList({ providers }: { providers: Provider[] }) {
     const [selectedProvider, setSelectedProvider] = useState<Provider | undefined>(undefined);
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
             {providers.map((provider) => {
                 return (
                     <Item key={provider.slug} variant="outline" className="bg-background">
@@ -68,15 +68,15 @@ export function ProvidersList({ providers }: { providers: Provider[] }) {
                                                 <MoreVertical className="size-4" aria-hidden="true" />
                                             </Button>
                                         } />
-                                        <DropdownMenuContent align="end">
+                                        <DropdownMenuContent className="min-w-44" align="end">
                                             <DropdownMenuItem
-                                                className="text-destructive hover:text-destructive!"
+                                                className="text-destructive"
                                                 onClick={() => {
                                                     setSelectedProvider(provider);
                                                     setClearOpen(true);
                                                 }}
                                                 >
-                                                <Eraser className="text-destructive" />
+                                                <Eraser />
                                                 Clear Credentials
                                             </DropdownMenuItem>
                                         </DropdownMenuContent>

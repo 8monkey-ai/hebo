@@ -151,17 +151,14 @@ function ApiKeyRevealDialog({ apiKey, open, onOpenChange }: ApiKeyRevealDialogPr
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Info className="size-4" aria-hidden="true" />
             API Key
           </DialogTitle>
           <DialogDescription>
-            Here is your API key.{" "}
-            <span className="font-semibold">
-              Copy it to a safe place—you will not be able to view it again.
-            </span>
+            Copy your key to a safe place, you won't be able to view it again
           </DialogDescription>
         </DialogHeader>
 
@@ -184,7 +181,7 @@ function ApiKeyRevealDialog({ apiKey, open, onOpenChange }: ApiKeyRevealDialogPr
                 checked={acknowledged}
                 onChange={(event) => setAcknowledged(event.target.checked)}
               />
-              <span>I understand that I will not be able to view this key again.</span>
+              <span>I understand that I won't be able to view this key again</span>
             </Label>
           </AlertTitle>
         </Alert>
