@@ -59,7 +59,7 @@ export function ProvidersList({ providers }: { providers: Provider[] }) {
                                 <>
                                     Last updated {formatDateTime(provider.updated_at ?? new Date(0))}
                                     <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
+                                        <DropdownMenuTrigger render={
                                             <Button
                                             variant="ghost"
                                             size="icon"
@@ -67,11 +67,11 @@ export function ProvidersList({ providers }: { providers: Provider[] }) {
                                             >
                                                 <MoreVertical className="size-4" aria-hidden="true" />
                                             </Button>
-                                        </DropdownMenuTrigger>
+                                        } />
                                         <DropdownMenuContent align="end">
                                             <DropdownMenuItem
-                                                className="text-destructive hover:!text-destructive"
-                                                onSelect={() => {
+                                                className="text-destructive hover:text-destructive!"
+                                                onClick={() => {
                                                     setSelectedProvider(provider);
                                                     setClearOpen(true);
                                                 }}

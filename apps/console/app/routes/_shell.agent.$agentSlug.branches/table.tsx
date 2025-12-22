@@ -60,30 +60,28 @@ export default function BranchesTable({ agent }: BranchesTableProps) {
               const copyValue = `${agent.slug}/${branch.slug}`;
               return (
                 <TableRow key={branch.slug}>
-                  <TableCell className="align-middle">
-                    <div className="flex gap-2">
-                      <Badge variant="outline">
-                        <span className="text-ellipsis-start">
-                          {branch.slug}
-                        </span>
-                      </Badge>
-                      <CopyToClipboardButton textToCopy={copyValue} />
-                    </div>
+                  <TableCell className="flex items-center gap-2">
+                    <Badge variant="outline">
+                      <span className="text-ellipsis-start">
+                        {branch.slug}
+                      </span>
+                    </Badge>
+                    <CopyToClipboardButton textToCopy={copyValue} />
                   </TableCell>
                   <TableCell className="hidden sm:table-cell text-muted-foreground">
                     {`${branch.updated_by ?? "Dummy User"} (${formatDateTime(branch.updated_at ?? new Date(0))})`}
                   </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                      <DropdownMenuTrigger render={
                         <Button variant="ghost" size="icon" aria-label="Branch actions">
                           <MoreVertical className="size-4" aria-hidden="true" />
                         </Button>
-                      </DropdownMenuTrigger>
+                      } />
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem
                           className="text-destructive"
-                          onSelect={() => {
+                          onClick={() => {
                             setSelectedBranchSlug(branch.slug);
                             setDeleteOpen(true);
                           }}

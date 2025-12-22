@@ -72,16 +72,16 @@ export function CreateApiKeyDialog() {
     <>
       <Dialog open={createOpen} onOpenChange={createSetOpen}>
         <div>
-          <DialogTrigger asChild>
+          <DialogTrigger render={
             <Button variant="outline" type="button">+ Create API Key</Button>
-          </DialogTrigger>
+          } />
         </div>
         <DialogContent>
           <fetcher.Form method="post" {...getFormProps(form)} className="contents">
             <DialogHeader>
               <DialogTitle>Create API key</DialogTitle>
               <DialogDescription>
-                Provide a brief description and expiration window for this key.
+                Provide a brief description and expiration window.
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
@@ -106,11 +106,11 @@ export function CreateApiKeyDialog() {
               </FormField>
             </div>
             <DialogFooter>
-              <DialogClose asChild>
+              <DialogClose render={
                 <Button type="button" variant="ghost">
                   Cancel
                 </Button>
-              </DialogClose>
+              } />
               <Button
                 type="submit"
                 name="intent"
@@ -173,7 +173,7 @@ function ApiKeyRevealDialog({ apiKey, open, onOpenChange }: ApiKeyRevealDialogPr
           </div>
         </div>
 
-        <label className="flex items-center gap-3 rounded-md border border-border p-3 text-sm">
+        <label className="flex items-center gap-3 rounded-md border border-border p-3 text-sm bg-muted/50">
           <input
             type="checkbox"
             className="size-4 accent-foreground"
@@ -184,14 +184,14 @@ function ApiKeyRevealDialog({ apiKey, open, onOpenChange }: ApiKeyRevealDialogPr
         </label>
 
         <DialogFooter>
-          <DialogClose asChild>
+          <DialogClose render={
             <Button
               type="button"
               disabled={!acknowledged}
             >
               Close
             </Button>
-          </DialogClose>
+          } />
         </DialogFooter>
       </DialogContent>
     </Dialog>

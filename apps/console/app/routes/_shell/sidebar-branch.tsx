@@ -52,7 +52,7 @@ export function BranchSelect({
             </SidebarMenuButton>
           }/>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-42 rounded-md"
+            className="min-w-42"
             align="start"
             side="bottom"
             sideOffset={4}

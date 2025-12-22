@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@hebo/shared-ui/components/Dialog";
-import { FormControl, FormField, FormMessage } from "@hebo/shared-ui/components/Form";
+import { FormControl, FormField } from "@hebo/shared-ui/components/Form";
 
 import { useFormErrorToast } from "~console/lib/errors";
 
@@ -53,13 +53,13 @@ export function ClearCredentialsDialog({open, onOpenChange, provider}: ClearCred
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-sidebar">
+      <DialogContent className="sm:max-w-md">
         <fetcher.Form method="post" {...getFormProps(form)} className="contents">
           <DialogHeader>
             <DialogTitle>Clear {provider?.name} Credentials</DialogTitle>
             <DialogDescription>Are you sure you want to clear the credentials? </DialogDescription>
           </DialogHeader>
-          <Alert variant="destructive">
+          <Alert variant="destructive" className="bg-muted/50">
             <AlertDescription>
               All gateway requests to {provider?.name} will immediately go back to using the default Hebo built-in provider.
             </AlertDescription>

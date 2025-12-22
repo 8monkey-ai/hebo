@@ -177,43 +177,42 @@ function ModelCard(props: {
 
   return (
     <Collapsible open={isExpanded} onOpenChange={onOpenChange}>
-      <Card className="gap-0">
-        <CardHeader>
-          <div className="grid gap-4 min-w-0 sm:grid-cols-[minmax(0,1fr)_auto_auto] sm:items-center">
-            <div className="flex min-w-0 flex-col gap-2">
-              <span className="text-xs uppercase text-muted-foreground">Alias path</span>
-              <div className="inline-flex gap-2 items-center">
-                <span className="text-sm font-medium text-ellipsis-start">{aliasPath}</span>
-                <CopyToClipboardButton textToCopy={aliasPath} />
-              </div>
+      <Card size="sm">
+        <CardHeader className="grid gap-4 min-w-0 sm:grid-cols-[minmax(0,1fr)_auto_auto] sm:items-center">
+          <div className="flex min-w-0 flex-col gap-2">
+            <span className="text-xs uppercase text-muted-foreground">Alias path</span>
+            <div className="inline-flex gap-2 items-center">
+              <span className="text-sm font-medium text-ellipsis-start">{aliasPath}</span>
+              <CopyToClipboardButton textToCopy={aliasPath} />
             </div>
-
-            <Badge variant="outline">
-              <Brain />
-              {modelFieldset.type.value ?? "undefined"}
-            </Badge>
-
-            <CollapsibleTrigger asChild>
-              <Button type="button" variant="outline" disabled={isExpanded}>
-                <Edit />
-                Edit
-              </Button>
-            </CollapsibleTrigger>
           </div>
+
+          <Badge variant="outline">
+            <Brain />
+            {modelFieldset.type.value ?? "undefined"}
+          </Badge>
+
+          <CollapsibleTrigger render={
+            <Button type="button" variant="outline" disabled={isExpanded}>
+              <Edit />
+              Edit
+            </Button>
+          } />
         </CardHeader>
 
         <CollapsibleContent 
-          forceMount
+          keepMounted
           inert={!isExpanded}
           className="
             overflow-hidden
-            data-[state=closed]:animate-[collapsible-up_300ms_ease-in]
-            data-[state=closed]:h-0
+            h-(--collapsible-panel-height)
+            [&[data-starting-style],&[data-ending-style]]:h-0
+            transition-all duration-150 ease-out
             "
           >
-            <Separator className="mt-4" />
+            <Separator />
 
-            <CardContent className="flex flex-col gap-4 my-4">
+            <CardContent className="flex flex-col gap-4 my-3">
 
               {/* FUTURE: follow layout pattern of new shadcn fields components */}
               <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
@@ -235,15 +234,15 @@ function ModelCard(props: {
               </div>
 
               <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen}>
-                <div className="flex items-center gap-1 mb-2">
+                <div className="flex items-center gap-1">
                   <h4 className="text-sm font-medium">Advanced options</h4>
-                  <CollapsibleTrigger asChild>
+                  <CollapsibleTrigger render={
                     <Button variant="ghost" size="icon" className="size-6" type="button">
                       <ChevronsUpDown />
                     </Button>
-                  </CollapsibleTrigger>
+                  } />
                 </div>
-                <CollapsibleContent forceMount inert={!advancedOpen}  className="overflow-hidden data-[state=closed]:h-0">
+                <CollapsibleContent keepMounted inert={!advancedOpen} className="overflow-hidden h-(--collapsible-panel-height)">
                   <FormField field={routingOnlyField}>
                     <Item variant="outline" size="sm">
                       <ItemMedia className="pt-1">
@@ -298,9 +297,9 @@ function ModelCard(props: {
               </Collapsible>
             </CardContent>
 
-            <CardFooter className="pb-1">
+            <CardFooter>
               <Dialog>
-                <DialogTrigger asChild>
+                <DialogTrigger render={
                   <Button
                     type="button"
                     variant="destructive"
@@ -308,7 +307,7 @@ function ModelCard(props: {
                   >
                     Remove
                   </Button>
-                </DialogTrigger>
+                } />
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Remove model</DialogTitle>
@@ -317,11 +316,11 @@ function ModelCard(props: {
                     </DialogDescription>
                   </DialogHeader>
                   <DialogFooter>
-                    <DialogClose asChild>
+                    <DialogClose render={
                       <Button type="button" variant="outline">
                         Cancel
                       </Button>
-                    </DialogClose>
+                    } />
 
                     <Button
                       type="button"

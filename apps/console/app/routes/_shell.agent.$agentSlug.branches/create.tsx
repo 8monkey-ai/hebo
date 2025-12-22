@@ -60,24 +60,24 @@ export default function CreateBranch({ branches }: CreateBranchProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <div>
-        <DialogTrigger asChild>
+        <DialogTrigger render={
           <Button
             type="button"
             variant="outline"
           >
             + Create Branch
           </Button>
-        </DialogTrigger>
+        } />
       </div>
       <DialogContent>
         <fetcher.Form method="post" {...getFormProps(form)} className="contents">
           <DialogHeader>
             <DialogTitle>Create Banch</DialogTitle>
             <DialogDescription>
-              Set a name and choose a source from which to branch out.
+              Set a name and choose a source branch.
             </DialogDescription>
           </DialogHeader>
-          <div>
+          <div className="flex flex-col gap-4">
             <FormField field={fields.branchName}>
               <FormLabel>Branch name</FormLabel>
               <FormControl>
@@ -85,8 +85,7 @@ export default function CreateBranch({ branches }: CreateBranchProps) {
               </FormControl>
               <FormMessage />
             </FormField>
-          </div>
-          <div>
+
             <FormField field={fields.sourceBranchSlug}>
               <FormLabel>Source</FormLabel>
               <FormControl>
@@ -108,11 +107,11 @@ export default function CreateBranch({ branches }: CreateBranchProps) {
             </FormField>
           </div>
           <DialogFooter>
-            <DialogClose asChild>
+            <DialogClose render={
               <Button type="button" variant="ghost">
                 Cancel
               </Button>
-            </DialogClose>
+            } />
             <Button
               type="submit"
               name="intent"

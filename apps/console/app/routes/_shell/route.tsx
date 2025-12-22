@@ -93,7 +93,6 @@ export default function ShellLayout({ loaderData: { agents } }: Route.ComponentP
       style={
         {
           "--sidebar-width": "12rem",
-          "--sidebar-width-mobile": "12rem",
           "--sidebar-width-icon": "4rem",
         } as React.CSSProperties
       }
@@ -159,7 +158,6 @@ export default function ShellLayout({ loaderData: { agents } }: Route.ComponentP
         style={
           {
             "--sidebar-width": "24rem",
-            "--sidebar-width-mobile": "24rem", 
             "--sidebar-width-icon": "0rem",
           } as React.CSSProperties
         }

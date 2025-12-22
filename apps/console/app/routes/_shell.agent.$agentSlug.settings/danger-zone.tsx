@@ -6,13 +6,6 @@ import { getZodConstraint } from "@conform-to/zod/v4";
 import { Alert, AlertTitle } from "@hebo/shared-ui/components/Alert";
 import { Button } from "@hebo/shared-ui/components/Button";
 import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@hebo/shared-ui/components/Card";
-import {
   Dialog,
   DialogFooter,
   DialogClose,
@@ -29,9 +22,9 @@ import {
   FormMessage,
 } from "@hebo/shared-ui/components/Form";
 import { Input } from "@hebo/shared-ui/components/Input";
+import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from "@hebo/shared-ui/components/Item";
 
 import { useFormErrorToast } from "~console/lib/errors";
-import { Item, ItemActions, ItemContent, ItemDescription, ItemHeader, ItemTitle } from "@hebo/shared-ui/components/Item";
 
 
 export function createAgentDeleteSchema(agentSlug: string) {
@@ -80,26 +73,29 @@ export function DangerSettings({ agent }: { agent: { slug: string }}) {
                     This will delete your agent irreversibly.
                   </DialogDescription>
                 </DialogHeader>
-                <Alert variant="destructive" className="bg-muted/50">
-                  <AlertTitle>
-                    <strong>Warning:</strong> This action is not reversible.
-                    Be certain.
-                  </AlertTitle>
-                </Alert>
 
-                <FormField field={fields.slugConfirm}>
-                  <FormLabel>
-                    <div>
-                      To confirm, type{" "}
-                      <strong>{agent.slug}</strong> in
-                      the box below:
-                    </div>
-                  </FormLabel>
-                  <FormControl>
-                    <Input autoComplete="off" />
-                  </FormControl>
-                  <FormMessage />
-                </FormField>
+                <div className="flex flex-col gap-4">
+                  <Alert variant="destructive" className="bg-muted/50">
+                    <AlertTitle>
+                      <strong>Warning:</strong> This action is not reversible.
+                      Be certain.
+                    </AlertTitle>
+                  </Alert>
+
+                  <FormField field={fields.slugConfirm}>
+                    <FormLabel>
+                      <div>
+                        To confirm, type{" "}
+                        <strong>{agent.slug}</strong> in
+                        the box below:
+                      </div>
+                    </FormLabel>
+                    <FormControl>
+                      <Input autoComplete="off" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormField>
+                </div>
 
                 <DialogFooter>
                   <DialogClose render={

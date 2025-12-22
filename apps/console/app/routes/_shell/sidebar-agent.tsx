@@ -48,19 +48,19 @@ export function AgentSelect({
             </SidebarMenuButton>
             } />
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="min-w-52"
             align="start"
             side="bottom"
             sideOffset={4}
           >
             <DropdownMenuGroup>
               <div className="flex items-center justify-between py-1">
-                <DropdownMenuLabel className="font-normal pr-0 text-foreground">
+                <DropdownMenuLabel className="text-foreground">
                   <div className="flex items-center gap-2">
-                    <div className="aspect-square size-6 rounded-lg">
+                    <div className="size-6 rounded-lg">
                       <AgentLogo size={24} />
                     </div>
-                    <div className="grid flex-1 text-left leading-tight">
+                    <div className="grid flex-1">
                       <span className="truncate text-base font-medium">
                         {activeAgent?.name ?? "hebo.ai"}
                       </span>

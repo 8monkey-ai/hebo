@@ -53,7 +53,7 @@ export function RevokeApiKeyDialog({open, onOpenChange, apiKey}: RevokeApiKeyDia
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-sidebar">
+      <DialogContent className="sm:max-w-md">
         <fetcher.Form method="post" {...getFormProps(form)} className="contents">
           <DialogHeader>
             <DialogTitle>Revoke API key</DialogTitle>
@@ -61,7 +61,7 @@ export function RevokeApiKeyDialog({open, onOpenChange, apiKey}: RevokeApiKeyDia
               Revoking immediately blocks the key from future use.
             </DialogDescription>
           </DialogHeader>
-          <Alert variant="destructive">
+          <Alert variant="destructive" className="bg-muted/50">
             <AlertDescription>
               Key ({apiKey?.value ?? ""}) will stop working immediately.
             </AlertDescription>

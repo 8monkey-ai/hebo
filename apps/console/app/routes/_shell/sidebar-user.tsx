@@ -48,7 +48,7 @@ export function UserMenu({ user }: { user?: User}) {
                   {user?.initials}
                 </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="grid flex-1 text-sm leading-tight">
                 <span className="truncate font-medium">{user?.name}</span>
                 <span className="truncate text-xs">{user?.email}</span>
               </div>
@@ -56,7 +56,7 @@ export function UserMenu({ user }: { user?: User}) {
             </SidebarMenuButton>
           } />
           <DropdownMenuContent
-            className="m-2 w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="min-w-56"
             side="bottom"
             align="end"
             sideOffset={4}
@@ -70,7 +70,7 @@ export function UserMenu({ user }: { user?: User}) {
                       {user?.initials}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
+                  <div className="grid flex-1 text-sm leading-tight">
                     <span className="truncate font-medium">{user?.name}</span>
                     <span className="truncate text-xs">{user?.email}</span>
                   </div>
@@ -90,7 +90,7 @@ export function UserMenu({ user }: { user?: User}) {
               } />
               <DropdownMenuItem onClick={() => setShortcutsOpen(true)}>
                 <Keyboard />
-                Shortcuts
+                <span>Shortcuts</span>
                 <DropdownMenuShortcut>{kbs("mod+/")}</DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
