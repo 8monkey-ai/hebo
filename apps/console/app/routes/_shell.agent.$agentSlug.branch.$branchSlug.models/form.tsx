@@ -21,7 +21,7 @@ import {
 import { Input } from "@hebo/shared-ui/components/Input";
 import { Select } from "@hebo/shared-ui/components/Select";
 import { Separator } from "@hebo/shared-ui/components/Separator";
-import { CopyButton } from "@hebo/shared-ui/components/code/CopyButton";
+import { CopyButton } from "@hebo/shared-ui/components/CopyButton";
 import { Badge } from "@hebo/shared-ui/components/Badge";
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@hebo/shared-ui/components/Item";
 import {

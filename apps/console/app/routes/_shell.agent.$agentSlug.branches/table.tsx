@@ -3,7 +3,7 @@ import { MoreVertical, Trash } from "lucide-react";
 
 import { Badge } from "@hebo/shared-ui/components/Badge";
 import { Button } from "@hebo/shared-ui/components/Button";
-import { CopyButton } from "@hebo/shared-ui/components/code/CopyButton";
+import { CopyButton } from "@hebo/shared-ui/components/CopyButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -60,13 +60,15 @@ export default function BranchesTable({ agent }: BranchesTableProps) {
               const copyValue = `${agent.slug}/${branch.slug}`;
               return (
                 <TableRow key={branch.slug}>
-                  <TableCell className="flex items-center gap-2">
-                    <Badge variant="outline">
-                      <span className="text-ellipsis-start">
-                        {branch.slug}
-                      </span>
-                    </Badge>
-                    <CopyButton value={copyValue} />
+                  <TableCell className="align-middle">
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">
+                        <span className="text-ellipsis-start">
+                          {branch.slug}
+                        </span>
+                      </Badge>
+                      <CopyButton value={copyValue} />
+                    </div>
                   </TableCell>
                   <TableCell className="hidden sm:table-cell text-muted-foreground">
                     {`${branch.updated_by ?? "Dummy User"} (${formatDateTime(branch.updated_at ?? new Date(0))})`}

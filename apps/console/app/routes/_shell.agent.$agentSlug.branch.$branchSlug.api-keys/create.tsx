@@ -6,7 +6,7 @@ import { getFormProps, useForm } from "@conform-to/react";
 import { getZodConstraint } from "@conform-to/zod/v4";
 
 import { Button } from "@hebo/shared-ui/components/Button";
-import { CopyButton } from "@hebo/shared-ui/components/code/CopyButton";
+import { CopyButton } from "@hebo/shared-ui/components/CopyButton";
 import {
   Dialog,
   DialogClose,
