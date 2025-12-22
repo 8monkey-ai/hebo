@@ -291,7 +291,11 @@ export function Chat({
                           variant="outline"
                           className="bg-card m-2 ml-auto w-3xs py-2"
                         >
-                          <a href={part.url} download={part.filename}>
+                          <a
+                            href={part.url}
+                            download={part.filename}
+                            className="contents"
+                          >
                             <ItemMedia className="translate-y-0! self-center!">
                               <FileUp size={24} className="text-foreground" />
                             </ItemMedia>
