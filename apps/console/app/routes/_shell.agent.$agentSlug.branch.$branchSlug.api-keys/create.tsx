@@ -158,7 +158,7 @@ function ApiKeyRevealDialog({ apiKey, open, onOpenChange }: ApiKeyRevealDialogPr
             API Key
           </DialogTitle>
           <DialogDescription>
-            Copy your key to a safe place, you won't be able to view it again
+            Copy your key to a safe place, you won't be able to view it again.
           </DialogDescription>
         </DialogHeader>
 
