@@ -55,16 +55,12 @@ export function AgentSelect({
           >
             <DropdownMenuGroup>
               <div className="flex items-center justify-between py-1">
-                <DropdownMenuLabel className="text-foreground">
-                  <div className="flex items-center gap-2">
-                    <div className="size-6 rounded-lg">
-                      <AgentLogo size={24} />
-                    </div>
-                    <div className="grid flex-1">
-                      <span className="truncate text-base font-medium">
-                        {activeAgent?.name ?? "hebo.ai"}
-                      </span>
-                    </div>
+                <DropdownMenuLabel className="flex items-center gap-2 text-foreground">
+                  <AgentLogo size={24} />
+                  <div className="grid flex-1">
+                    <span className="truncate text-base font-medium">
+                      {activeAgent?.name ?? "hebo.ai"}
+                    </span>
                   </div>
                 </DropdownMenuLabel>
                 {activeAgent && (

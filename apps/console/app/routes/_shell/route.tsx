@@ -163,7 +163,7 @@ export default function ShellLayout({ loaderData: { agents } }: Route.ComponentP
         }
       >
         <SidebarTrigger 
-          className="fixed top-3 right-2 w-fit" 
+          className="fixed top-3 right-3 w-fit px-2" 
           icon={<div className="flex items-center space-x-1.5">
               <SquareChevronRight size={16} />
               <span>Playground</span>

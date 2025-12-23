@@ -42,9 +42,9 @@ export function UserMenu({ user }: { user?: User}) {
         <DropdownMenu>
           <DropdownMenuTrigger render={
             <SidebarMenuButton size="lg">
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar>
                 <AvatarImage src={user?.avatar} alt={user?.name} />
-                <AvatarFallback className="rounded-lg">
+                <AvatarFallback>
                   {user?.initials}
                 </AvatarFallback>
               </Avatar>
@@ -62,18 +62,16 @@ export function UserMenu({ user }: { user?: User}) {
             sideOffset={4}
           >
             <DropdownMenuGroup>
-              <DropdownMenuLabel className="p-0 font-normal text-foreground">
-                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={user?.avatar} alt={user?.name} />
-                    <AvatarFallback className="rounded-lg">
-                      {user?.initials}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-sm leading-tight">
-                    <span className="truncate font-medium">{user?.name}</span>
-                    <span className="truncate text-xs">{user?.email}</span>
-                  </div>
+              <DropdownMenuLabel className="flex items-center gap-2 px-1 py-1.5 text-left text-sm font-normal text-foreground">
+                <Avatar>
+                  <AvatarImage src={user?.avatar} alt={user?.name} />
+                  <AvatarFallback>
+                    {user?.initials}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-sm leading-tight">
+                  <span className="truncate font-medium">{user?.name}</span>
+                  <span className="truncate text-xs">{user?.email}</span>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
