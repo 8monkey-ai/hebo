@@ -272,7 +272,7 @@ function ModelCard(props: {
                             return (
                               <Select
                                 disabled={!routingEnabled}
-                                defaultValue={routingOnlyField.value}
+                                defaultValue={routingEnabled ? routingOnlyField.value ?? "" : ""}
                                 items={
                                   availableProviders
                                     .map((provider) => ({
