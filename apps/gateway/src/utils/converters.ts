@@ -189,13 +189,6 @@ export const toOpenAICompatibleMessage = (
 
   if (result.toolCalls && result.toolCalls.length > 0) {
     message.tool_calls = result.toolCalls.map((toolCall: any) => {
-      const metadata = {};
-      if (toolCall.providerMetadata) {
-        for (const options of Object.values(toolCall.providerMetadata)) {
-          Object.assign(metadata, options);
-        }
-      }
-
       return {
         id: toolCall.toolCallId,
         type: "function" as const,
@@ -203,7 +196,7 @@ export const toOpenAICompatibleMessage = (
           name: toolCall.toolName,
           arguments: JSON.stringify(toolCall.input),
         },
-        ...metadata,
+        extra_content: toolCall.providerMetadata,
       };
     });
   } else {
@@ -346,19 +339,12 @@ export function toOpenAICompatibleStream(
           case "tool-call": {
             const { toolCallId, toolName, input, providerMetadata } = part;
 
-            const metadata = {};
-            if (providerMetadata) {
-              for (const options of Object.values(providerMetadata)) {
-                Object.assign(metadata, options);
-              }
-            }
-
             const toolCall: OpenAICompatibleToolCallDelta = {
               id: toolCallId,
               index: toolCallIndexCounter++,
               type: "function",
               function: { name: toolName, arguments: JSON.stringify(input) },
-              ...metadata,
+              extra_content: providerMetadata,
             };
 
             enqueue({
