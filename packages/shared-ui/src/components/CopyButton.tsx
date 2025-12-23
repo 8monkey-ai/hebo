@@ -9,11 +9,12 @@ export function CopyButton({
   value,
   className,
   tooltip = "Copy to Clipboard",
+  ...props
 }: {
   value: string;
   tooltip?: string;
   className?: string;
-}) {
+} & React.ComponentProps<"button">) {
   const [hasCopied, setHasCopied] = React.useState(false);
 
   React.useEffect(() => {
@@ -33,9 +34,14 @@ export function CopyButton({
           className,
         )}
         onClick={() => {
-          navigator.clipboard.writeText(value);
-          setHasCopied(true);
+          try {
+            navigator.clipboard.writeText(value);
+            setHasCopied(true);
+          } catch (error) {
+            console.error("Failed to copy to clipboard:", error);
+          }
         }}
+        {...props}
       >
         <span className="sr-only">Copy</span>
         {hasCopied ? <Check className="text-green-800" /> : <Copy />}
