@@ -17,7 +17,7 @@ import type { ProviderAdapter } from "./provider";
 
 export class ProviderAdapterFactory {
   static readonly ALL_PROVIDER_ADAPTER_CLASSES = [
-    // FUTURE: error-prone for provider fallback feature
+    // FUTURE: error-prone for provider fallback feature. Fallback provider depends on the order of this list when the same model is supported by multiple providers.
     BedrockProviderAdapter,
     CohereProviderAdapter,
     GroqProviderAdapter,
