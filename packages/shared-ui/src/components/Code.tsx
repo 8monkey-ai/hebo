@@ -42,7 +42,7 @@ export function CodeBlock({
       {...props}
     >
       {title ? (
-        <div className="bg-secondary flex items-center justify-between gap-1 p-2">
+        <div className="bg-accent flex items-center justify-between gap-1 p-2">
           <span className="text-foreground text-sm font-medium">{title}</span>
           <CopyButton value={getNodeText(children)} className="" />
         </div>
@@ -66,9 +66,9 @@ export function CodeGroup({ className, ...props }: CodeGroupProps) {
     <Tabs
       className={cn(
         "relative flex h-full w-full min-h-0 min-w-0 gap-0",
-        "bg-secondary overflow-hidden rounded-lg",
+        "bg-accent overflow-hidden rounded-lg",
         "**:data-[slot=tabs-list]:py-1",
-        "**:data-[slot=tabs-list]:bg-secondary",
+        "**:data-[slot=tabs-list]:bg-accent",
         "**:data-[slot=tabs-content]:min-h-0",
         "**:data-[slot=tabs-content]:overflow-hidden",
         "**:data-[slot=code-block]:static",

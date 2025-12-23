@@ -19,7 +19,7 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
 
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
-    <ShadCnTableHeader className={cn("bg-secondary", className)} {...props} />
+    <ShadCnTableHeader className={cn("bg-accent", className)} {...props} />
   );
 }
 

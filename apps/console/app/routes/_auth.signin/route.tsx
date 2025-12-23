@@ -13,10 +13,10 @@ export default function SignIn() {
   return (
     <div className="relative min-h-dvh">
       {/* Marketing Message */}
-      <aside className="fixed min-h-dvh w-lg -translate-x-full bg-blue-100 bg-[url(/login-bg.png)] bg-bottom-left bg-no-repeat transition-transform duration-300 ease-in-out lg:translate-x-0">
+      <aside className="fixed min-h-dvh w-lg -translate-x-full bg-accent bg-[url(/login-bg.png)] bg-bottom-left bg-no-repeat transition-transform duration-300 ease-in-out lg:translate-x-0">
         <Button
-          variant="ghost"
-          className="absolute top-5 left-6 bg-blue-200 hover:bg-blue-300"
+          variant="secondary"
+          className="absolute top-5 left-6"
           nativeButton={false}
           render={
           <a
