@@ -72,7 +72,7 @@ export default function CreateBranch({ branches }: CreateBranchProps) {
       <DialogContent className="sm:max-w-lg">
         <fetcher.Form method="post" {...getFormProps(form)} className="contents">
           <DialogHeader>
-            <DialogTitle>Create Banch</DialogTitle>
+            <DialogTitle>Create Branch</DialogTitle>
             <DialogDescription>
               Set a name and choose a source branch.
             </DialogDescription>

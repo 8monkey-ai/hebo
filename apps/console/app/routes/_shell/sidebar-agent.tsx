@@ -76,7 +76,7 @@ export function AgentSelect({
                     >
                       <Settings
                         size={16}
-                        className="ml-auto "
+                        className="ml-auto"
                         aria-hidden="true"
                       />
                     </Link>

@@ -49,7 +49,7 @@ export function CodeBlock({
       ) : (
         <CopyButton
           value={getNodeText(children)}
-          className="absolute top-0 right-0 z-10 bg-white p-2.5"
+          className="bg-background absolute top-0 right-0 z-10 p-2.5"
         />
       )}
       <pre className="h-full w-full overflow-auto p-2 font-mono text-sm whitespace-pre">

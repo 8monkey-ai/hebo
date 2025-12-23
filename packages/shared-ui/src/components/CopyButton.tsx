@@ -13,7 +13,7 @@ export function CopyButton({
   value: string;
   tooltip?: string;
   className?: string;
-} & React.ComponentProps<"button">) {
+}) {
   const [hasCopied, setHasCopied] = React.useState(false);
 
   React.useEffect(() => {
