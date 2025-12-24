@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@hebo/shared-ui/components/Dialog";
-import { FormControl, FormField } from "@hebo/shared-ui/components/Form";
+import { FieldControl, Field } from "@hebo/shared-ui/components/Form";
 
 import { useFormErrorToast } from "~console/lib/errors";
 
@@ -65,11 +65,11 @@ export function ClearCredentialsDialog({open, onOpenChange, provider}: ClearCred
             </AlertDescription>
           </Alert>
 
-          <FormField field={fields.providerSlug} className="hidden">
-            <FormControl render={
+          <Field field={fields.providerSlug} className="hidden">
+            <FieldControl render={
               <input type="hidden" />
               } />
-          </FormField>
+          </Field>
 
           <DialogFooter>
             <Button

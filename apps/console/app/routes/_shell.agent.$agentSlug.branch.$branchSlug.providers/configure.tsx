@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@hebo/shared-ui/components/Dialog";
-import { FormControl, FormField, FormLabel, FormMessage } from "@hebo/shared-ui/components/Form";
+import { FieldControl, Field, FieldLabel, FieldError } from "@hebo/shared-ui/components/Form";
 import { Input } from "@hebo/shared-ui/components/Input";
 
 import { useFormErrorToast } from "~console/lib/errors";
@@ -101,22 +101,22 @@ export function ConfigureProviderDialog({ open, onOpenChange, provider }: Config
           </DialogHeader>
 
           <div className="flex flex-col gap-4">
-            <FormField field={fields.slug} className="hidden">
-              <FormControl render={
+            <Field field={fields.slug} className="hidden">
+              <FieldControl render={
                 <input type="hidden" value={provider?.slug} />
                 } />
-            </FormField>
+            </Field>
 
             {(activeKeys as (keyof typeof configFieldset)[]).map((key) => {
               const field = configFieldset[key];
               return (
-                <FormField key={key} field={field}>
-                  <FormLabel>{labelize(key)}</FormLabel>
-                  <FormControl render={
+                <Field key={key} field={field}>
+                  <FieldLabel>{labelize(key)}</FieldLabel>
+                  <FieldControl render={
                     <Input placeholder={`Set ${labelize(key).toLowerCase()}`} autoComplete="off" />
                     } />
-                  <FormMessage />
-                </FormField>
+                  <FieldError />
+                </Field>
               )
             })}
           </div>

@@ -8,7 +8,7 @@ import { getZodConstraint } from "@conform-to/zod/v4";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@hebo/shared-ui/components/Dialog";
 import { Alert, AlertTitle } from "@hebo/shared-ui/components/Alert";
 import { Button } from "@hebo/shared-ui/components/Button";
-import { FormControl, FormField, FormLabel, FormMessage } from "@hebo/shared-ui/components/Form";
+import { FieldControl, Field, FieldLabel, FieldError } from "@hebo/shared-ui/components/Form";
 import { Input } from "@hebo/shared-ui/components/Input";
 
 import { useFormErrorToast } from "~console/lib/errors";
@@ -63,18 +63,18 @@ export default function DeleteBranchDialog({ open, onOpenChange, branchSlug }: D
 
             <input type="hidden" name="branchSlug" value={branchSlug} />
 
-            <FormField field={fields.slugConfirm}>
-              <FormLabel>
+            <Field field={fields.slugConfirm}>
+              <FieldLabel>
                 <div>
                   To confirm, type{" "}
                   <strong>{branchSlug}</strong> in the box below:
                 </div>
-              </FormLabel>
-              <FormControl render={
+              </FieldLabel>
+              <FieldControl render={
                 <Input autoComplete="off" />
               } />
-              <FormMessage />
-            </FormField>
+              <FieldError />
+            </Field>
           </div>
           <DialogFooter>
             <Button

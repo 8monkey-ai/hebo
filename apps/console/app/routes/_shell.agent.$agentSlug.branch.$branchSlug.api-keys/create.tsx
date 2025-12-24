@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@hebo/shared-ui/components/Dialog";
-import { FormControl, FormField, FormLabel, FormMessage } from "@hebo/shared-ui/components/Form";
+import { FieldControl, Field, FieldLabel, FieldError } from "@hebo/shared-ui/components/Form";
 import { Input } from "@hebo/shared-ui/components/Input";
 import { Label } from "@hebo/shared-ui/components/Label";
 import { Select } from "@hebo/shared-ui/components/Select";
@@ -87,16 +87,16 @@ export function CreateApiKeyDialog() {
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
-              <FormField field={fields.description}>
-                <FormLabel>Description</FormLabel>
-                <FormControl render={
+              <Field field={fields.description}>
+                <FieldLabel>Description</FieldLabel>
+                <FieldControl render={
                   <Input placeholder="API key description" autoComplete="off" />
                   } />
-                <FormMessage />
-              </FormField>
-              <FormField field={fields.expiresIn}>
-                <FormLabel>Expires in</FormLabel>
-                <FormControl render={
+                <FieldError />
+              </Field>
+              <Field field={fields.expiresIn}>
+                <FieldLabel>Expires in</FieldLabel>
+                <FieldControl render={
                   <Select
                     items={API_KEY_EXPIRATION_OPTIONS.map((option) => ({
                       value: option.value,
@@ -104,8 +104,8 @@ export function CreateApiKeyDialog() {
                     }))}
                   />
                   } />
-                <FormMessage />
-              </FormField>
+                <FieldError />
+              </Field>
             </div>
             <DialogFooter>
               <DialogClose render={

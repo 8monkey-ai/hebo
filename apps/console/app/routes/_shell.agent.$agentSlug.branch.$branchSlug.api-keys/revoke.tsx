@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@hebo/shared-ui/components/Dialog";
-import { FormControl, FormField, FormMessage } from "@hebo/shared-ui/components/Form";
+import { FieldControl, Field, FieldError } from "@hebo/shared-ui/components/Form";
 
 import { useFormErrorToast } from "~console/lib/errors";
 
@@ -67,11 +67,11 @@ export function RevokeApiKeyDialog({open, onOpenChange, apiKey}: RevokeApiKeyDia
             </AlertDescription>
           </Alert>
 
-          <FormField field={fields.apiKeyId} className="hidden">
-            <FormControl render={
+          <Field field={fields.apiKeyId} className="hidden">
+            <FieldControl render={
               <input type="hidden" />
               } />
-          </FormField>
+          </Field>
 
           <DialogFooter>
             <Button
