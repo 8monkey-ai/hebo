@@ -205,8 +205,10 @@ export const toOpenAICompatibleMessage = (
     message.content = result.text;
   }
 
-  if (result.reasoningText) {
-    message.reasoning_content = result.reasoningText;
+  const reasoning = result.reasoning && result.reasoning[0];
+  if (reasoning) {
+    message.reasoning_content = reasoning.text;
+    message.extra_content = reasoning.providerMetadata;
   }
 
   return message;
@@ -326,6 +328,7 @@ export function toOpenAICompatibleStream(
           case "reasoning-delta": {
             const delta = {
               reasoning_content: part.text,
+              extra_content: part.providerMetadata,
             };
             enqueue({
               id: streamId,
