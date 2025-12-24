@@ -12,19 +12,21 @@ import {
   CardFooter,
   CardHeader,
 } from "@hebo/shared-ui/components/Card";
+import { Checkbox } from "@hebo/shared-ui/components/Checkbox";
 import {
   FieldControl,
   Field,
   FieldLabel,
   FieldError,
   FieldGroup,
+  FieldContent,
+  FieldDescription,
 } from "@hebo/shared-ui/components/Field";
 import { Input } from "@hebo/shared-ui/components/Input";
 import { Select } from "@hebo/shared-ui/components/Select";
 import { Separator } from "@hebo/shared-ui/components/Separator";
 import { CopyButton } from "@hebo/shared-ui/components/CopyButton";
 import { Badge } from "@hebo/shared-ui/components/Badge";
-import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@hebo/shared-ui/components/Item";
 import {
   Dialog,
   DialogClose,
@@ -40,7 +42,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@hebo/shared-ui/components/Collapsible";
-import { Label } from "@hebo/shared-ui/components/Label";
 
 import { useFormErrorToast } from "~console/lib/errors";
 import { objectId } from "~console/lib/utils";
@@ -52,6 +53,8 @@ import {
   type ModelConfigFormValue,
   type ModelsConfigFormValues,
 } from "./schema";
+import { Item } from "@hebo/shared-ui/components/Item";
+import { Label } from "@hebo/shared-ui/components/Label";
 
 
 type ModelsConfigProps = {
@@ -64,13 +67,13 @@ type ModelsConfigProps = {
 export default function ModelsConfigForm({ agentSlug, branchSlug, models, providers }: ModelsConfigProps) {
   const fetcher = useFetcher();
 
+  console.log(fetcher.data);
+
   const [form, fields] = useForm<ModelsConfigFormValues>({
     id: objectId(models),
-    lastResult: fetcher.data,
+    lastResult: fetcher.data ,
     constraint: getZodConstraint(modelsConfigFormSchema),
-    defaultValue: { 
-      models
-    }
+    defaultValue: { models }
   });
   useFormErrorToast(form.allErrors);
 
@@ -233,48 +236,43 @@ function ModelCard(props: {
                     </Button>
                   } />
                 </div>
-                <CollapsibleContent keepMounted inert={!advancedOpen} className="overflow-hidden h-(--collapsible-panel-height)">
-                  <Item variant="outline" size="sm">
-                    <ItemMedia className="pt-1">
-                      <input
+                <CollapsibleContent keepMounted inert={!advancedOpen} className="overflow-hidden h-(--collapsible-panel-height) pt-2">
+                  <Item variant="outline">
+                    <Field orientation="horizontal">
+                      <Checkbox
                         id={`byo-${aliasPath}`}
-                        type="checkbox"
                         checked={routingEnabled}
-                        onChange={(e) => setRoutingEnabled(e.target.checked)}
-                        className="h-4 w-4 accent-primary"
-                        aria-label="Enable bring your own provider routing"
+                        onCheckedChange={setRoutingEnabled}
                       />
-                    </ItemMedia>
-                    <ItemContent>
-                      <ItemTitle>
+                      <FieldContent>
                         <Label htmlFor={`byo-${aliasPath}`} className="mb-0">Bring Your Own Provider</Label>
-                      </ItemTitle>
-                      <ItemDescription className="line-clamp-1">Setup your credentials first in providers settings</ItemDescription>
-                    </ItemContent>
-                    <ItemActions>
+                        <FieldDescription className="line-clamp-1">Setup your credentials first in providers settings</FieldDescription>
+                      </FieldContent>
                       {(() => {
                         const availableProviders = providers.filter((p) => models?.[modelFieldset.type.value ?? ""]?.providers?.includes(p.slug));
                         return (
-                          <Select
-                            disabled={!routingEnabled}
-                            name={`${model.name}.routing.only[0]`}
-                            defaultValue={routingOnlyField.getFieldList()[0]?.value ?? ""}
-                            items={
-                              availableProviders
-                                .map((provider) => ({
-                                  value: provider.slug,
-                                  label: provider.name,
-                                }))
+                          <FieldContent className="max-w-48">
+                            <Select
+                              name={`${model.name}.routing.only[0]`}
+                              defaultValue={routingOnlyField.getFieldList()[0]?.value ?? ""}
+                              items={
+                                availableProviders
+                                  .map((provider) => ({
+                                    value: provider.slug,
+                                    label: provider.name,
+                                  }))
+                                }
+                              placeholder={
+                                availableProviders.length
+                                  ? "Select provider"
+                                  : "No supported providers configured"
                               }
-                            placeholder={
-                              availableProviders.length
-                                ? "Select provider"
-                                : "No supported providers configured"
-                            }
-                          />
+                              disabled={!routingEnabled}
+                            />
+                          </FieldContent>
                         )
                       })()}
-                    </ItemActions>
+                    </Field>
                   </Item>
                 </CollapsibleContent>
               </Collapsible>
