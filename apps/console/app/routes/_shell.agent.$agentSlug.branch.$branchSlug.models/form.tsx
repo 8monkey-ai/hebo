@@ -13,10 +13,10 @@ import {
   CardHeader,
 } from "@hebo/shared-ui/components/Card";
 import {
-  FormControl,
-  FormField,
-  FormLabel,
-  FormMessage,
+  FieldControl,
+  Field,
+  FieldLabel,
+  FieldError,
 } from "@hebo/shared-ui/components/Form";
 import { Input } from "@hebo/shared-ui/components/Input";
 import { Select } from "@hebo/shared-ui/components/Select";
@@ -208,21 +208,21 @@ function ModelCard(props: {
 
               {/* FUTURE: follow layout pattern of new shadcn fields components */}
               <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-                <FormField field={modelFieldset.alias} className="flex flex-col gap-2">
-                  <FormLabel>Alias</FormLabel>
-                  <FormControl render={
+                <Field field={modelFieldset.alias} className="flex flex-col gap-2">
+                  <FieldLabel>Alias</FieldLabel>
+                  <FieldControl render={
                     <Input placeholder="Set alias name" autoComplete="off" />
                     } /> 
-                  <FormMessage />
-                </FormField>
+                  <FieldError />
+                </Field>
 
-                <FormField field={modelFieldset.type} className="flex flex-col gap-2">
-                  <FormLabel>Type</FormLabel>
-                  <FormControl render={
+                <Field field={modelFieldset.type} className="flex flex-col gap-2">
+                  <FieldLabel>Type</FieldLabel>
+                  <FieldControl render={
                     <ModelSelector models={models} />
                     } />
-                  <FormMessage />
-                </FormField>
+                  <FieldError />
+                </Field>
               </div>
 
               <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen}>

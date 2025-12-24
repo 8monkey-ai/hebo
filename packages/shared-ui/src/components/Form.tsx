@@ -13,12 +13,12 @@ const useField = () => {
   const f = React.useContext(FieldCtx);
   if (!f)
     throw new Error(
-      "Use <FormLabel/FormControl/FormDescription/FormMessage> inside <FormField>.",
+      "Use <FieldLabel/FieldControl/FieldDescription/FieldMessage> inside <Field>.",
     );
   return f;
 };
 
-function FormField({
+function Field({
   field,
   children,
   className,
@@ -34,7 +34,7 @@ function FormField({
   );
 }
 
-function FormLabel({ className, ...props }: React.ComponentProps<"label">) {
+function FieldLabel({ className, ...props }: React.ComponentProps<"label">) {
   const { id, valid } = useField();
 
   return (
@@ -48,7 +48,7 @@ function FormLabel({ className, ...props }: React.ComponentProps<"label">) {
   );
 }
 
-function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
+function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
   const { descriptionId } = useField();
 
   return (
@@ -61,7 +61,7 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   );
 }
 
-function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
+function FieldError({ className, ...props }: React.ComponentProps<"p">) {
   const { errorId, errors } = useField();
 
   if (!errors?.length) return <></>;
@@ -79,7 +79,7 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   );
 }
 
-function FormControl({ render, ...props }: useRender.ComponentProps<"input">) {
+function FieldControl({ render, ...props }: useRender.ComponentProps<"input">) {
   const { descriptionId, errorId, id, initialValue, name, valid } = useField();
 
   return useRender({
@@ -98,4 +98,4 @@ function FormControl({ render, ...props }: useRender.ComponentProps<"input">) {
   });
 }
 
-export { FormControl, FormField, FormLabel, FormDescription, FormMessage };
+export { Field, FieldControl, FieldDescription, FieldError, FieldLabel };

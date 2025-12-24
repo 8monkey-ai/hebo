@@ -17,7 +17,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@hebo/shared-ui/components/Dialog";
-import { FormControl, FormField, FormLabel, FormMessage } from "@hebo/shared-ui/components/Form";
+import { FieldControl, Field, FieldLabel, FieldError } from "@hebo/shared-ui/components/Form";
 import { Input } from "@hebo/shared-ui/components/Input";
 import { Select } from "@hebo/shared-ui/components/Select";
 
@@ -78,17 +78,17 @@ export default function CreateBranch({ branches }: CreateBranchProps) {
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-4">
-            <FormField field={fields.branchName}>
-              <FormLabel>Branch name</FormLabel>
-              <FormControl render={
+            <Field field={fields.branchName}>
+              <FieldLabel>Branch name</FieldLabel>
+              <FieldControl render={
                 <Input autoComplete="off" placeholder="Set a branch name" />
               } />
-              <FormMessage />
-            </FormField>
+              <FieldError />
+            </Field>
 
-            <FormField field={fields.sourceBranchSlug}>
-              <FormLabel>Source</FormLabel>
-              <FormControl render={
+            <Field field={fields.sourceBranchSlug}>
+              <FieldLabel>Source</FieldLabel>
+              <FieldControl render={
                 <Select
                   items={
                     branches.map(branch => ({
@@ -103,8 +103,8 @@ export default function CreateBranch({ branches }: CreateBranchProps) {
                   }
                 />
                 } />
-              <FormMessage />
-            </FormField>
+              <FieldError />
+            </Field>
           </div>
           <DialogFooter>
             <DialogClose render={

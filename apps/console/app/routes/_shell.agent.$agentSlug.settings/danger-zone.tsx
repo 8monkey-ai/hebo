@@ -16,10 +16,10 @@ import {
   DialogHeader,
 } from "@hebo/shared-ui/components/Dialog";
 import {
-  FormControl,
-  FormField,
-  FormLabel,
-  FormMessage,
+  FieldControl,
+  Field,
+  FieldLabel,
+  FieldError,
 } from "@hebo/shared-ui/components/Form";
 import { Input } from "@hebo/shared-ui/components/Input";
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from "@hebo/shared-ui/components/Item";
@@ -82,19 +82,19 @@ export function DangerSettings({ agent }: { agent: { slug: string }}) {
                     </AlertTitle>
                   </Alert>
 
-                  <FormField field={fields.slugConfirm}>
-                    <FormLabel>
+                  <Field field={fields.slugConfirm}>
+                    <FieldLabel>
                       <div>
                         To confirm, type{" "}
                         <strong>{agent.slug}</strong> in
                         the box below:
                       </div>
-                    </FormLabel>
-                    <FormControl render={
+                    </FieldLabel>
+                    <FieldControl render={
                       <Input autoComplete="off" />
                       } />
-                    <FormMessage />
-                  </FormField>
+                    <FieldError />
+                  </Field>
                 </div>
 
                 <DialogFooter>
