@@ -49,6 +49,7 @@ export const auth = betterAuth({
         charactersLength: 8,
       },
       defaultPrefix: "sk_",
+      enableMetadata: true,
     }),
     emailOTP({
       async sendVerificationOTP({ email, otp }) {
