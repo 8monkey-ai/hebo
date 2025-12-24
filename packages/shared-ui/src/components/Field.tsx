@@ -33,7 +33,13 @@ function Field({
 }) {
   return (
     <FieldCtx.Provider value={field}>
-      <ShadCnField className={cn("gap-2", className)} {...props} />
+      <ShadCnField
+        className={cn(
+          "gap-2 @md/field-group:[&>[data-slot=field-label]]:flex-initial @md/field-group:[&>[data-slot=field-label]]:min-w-32",
+          className,
+        )}
+        {...props}
+      />
     </FieldCtx.Provider>
   );
 }
