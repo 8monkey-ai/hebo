@@ -1,6 +1,6 @@
 import heboCluster from "./cluster";
 import heboDatabase from "./db";
-import { allSecrets, isProd } from "./env";
+import { authSecrets, otelExporterSecrets, isProd } from "./env";
 import heboVpc from "./network";
 
 const authDomain = isProd ? "auth.hebo.ai" : `auth.${$app.stage}.hebo.ai`;
@@ -12,7 +12,7 @@ const heboAuth = new sst.aws.Service("HeboAuth", {
   architecture: "arm64",
   cpu: isProd ? "1 vCPU" : "0.25 vCPU",
   memory: isProd ? "2 GB" : "0.5 GB",
-  link: [heboDatabase, ...allSecrets],
+  link: [heboDatabase, ...authSecrets, ...otelExporterSecrets],
   image: {
     context: ".",
     dockerfile: "infra/docker/Dockerfile.auth",

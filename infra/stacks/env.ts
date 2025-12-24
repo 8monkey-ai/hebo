@@ -40,7 +40,7 @@ export const grafanaCloudOtlpApiToken = new sst.Secret(
   "undefined",
 );
 
-export const allSecrets = [
+export const authSecrets = [
   authSecret,
   githubClientId,
   githubClientSecret,
@@ -53,6 +53,9 @@ export const allSecrets = [
   smtpUser,
   smtpPass,
   smtpFrom,
+];
+
+export const llmSecrets = [
   bedrockRoleArn,
   bedrockRegion,
   cohereApiKey,
@@ -61,8 +64,12 @@ export const allSecrets = [
   vertexAwsProviderAudience,
   vertexProject,
   vertexLocation,
+];
+
+export const otelExporterSecrets = [
   grafanaCloudOtlpEndpoint,
   grafanaCloudOtlpInstanceId,
   grafanaCloudOtlpApiToken,
 ];
+
 export const isProd = $app.stage === "production";
