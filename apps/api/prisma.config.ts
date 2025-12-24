@@ -1,7 +1,7 @@
 export default {
-  schema: "./schema.prisma",
+  schema: "prisma/schema.prisma",
   migrations: {
-    path: "./migrations",
+    path: "prisma/migrations",
   },
   datasource: {
     url:

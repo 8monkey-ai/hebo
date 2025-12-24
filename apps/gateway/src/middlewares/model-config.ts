@@ -1,5 +1,5 @@
+import type { createDbClient } from "~api/middleware/db-client";
 import type { Models, ProviderSlug } from "~api/modules/providers/types";
-import type { createDbClient } from "~api/prisma/client";
 type ModelConfig = (typeof Models)[number];
 
 export class ModelConfigService {
