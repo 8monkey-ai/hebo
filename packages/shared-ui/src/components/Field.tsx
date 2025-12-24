@@ -18,7 +18,7 @@ const FieldCtx = React.createContext<FieldMetadata<string> | undefined>(
 const useField = () => {
   const f = React.useContext(FieldCtx);
   if (!f)
-    throw new Error(
+    console.warn(
       "Use <FieldLabel/FieldControl/FieldDescription/FieldMessage> inside <Field>.",
     );
   return f;
@@ -47,25 +47,30 @@ function Field({
 function FieldLabel({
   ...props
 }: React.ComponentProps<typeof ShadCnFieldLabel>) {
-  const { id, valid } = useField();
+  const field = useField();
 
-  return <ShadCnFieldLabel data-error={!valid} htmlFor={id} {...props} />;
+  return (
+    <ShadCnFieldLabel
+      data-error={!field?.valid}
+      htmlFor={field?.id}
+      {...props}
+    />
+  );
 }
 
 function FieldDescription({
   ...props
 }: React.ComponentProps<typeof ShadCnFieldDescription>) {
-  const { descriptionId } = useField();
+  const field = useField();
 
-  return <ShadCnFieldDescription id={descriptionId} {...props} />;
+  return <ShadCnFieldDescription id={field?.descriptionId} {...props} />;
 }
 
 function FieldError() {
-  const { errorId, errors } = useField();
+  const field = useField();
+  const errorsDict = field?.errors?.map((message) => ({ message }));
 
-  const errorsDict = errors?.map((message) => ({ message }));
-
-  return <ShadCnFieldError id={errorId} errors={errorsDict} />;
+  return <ShadCnFieldError id={field?.errorId} errors={errorsDict} />;
 }
 
 function FieldGroup({
@@ -76,17 +81,19 @@ function FieldGroup({
 }
 
 function FieldControl({ render, ...props }: useRender.ComponentProps<"input">) {
-  const { descriptionId, errorId, id, initialValue, name, valid } = useField();
+  const field = useField();
 
   return useRender({
     defaultTagName: "input",
     props: mergeProps<"input">(
       {
-        id,
-        name,
-        defaultValue: initialValue,
-        "aria-describedby": valid ? `${descriptionId}` : `${errorId}`,
-        "aria-invalid": !valid,
+        id: field?.id,
+        name: field?.name,
+        defaultValue: field?.initialValue,
+        "aria-describedby": field?.valid
+          ? `${field?.descriptionId}`
+          : `${field?.errorId}`,
+        "aria-invalid": !field?.valid,
       },
       props,
     ),
