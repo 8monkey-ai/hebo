@@ -19,6 +19,7 @@ import {
   FieldLabel,
   FieldError,
   FieldGroup,
+  FieldContent,
 } from "@hebo/shared-ui/components/Field";
 import { Input } from "@hebo/shared-ui/components/Input";
 
@@ -63,18 +64,22 @@ export function AgentCreateForm() {
           <FieldGroup>
             <Field field={fields.agentName} orientation="responsive">
               <FieldLabel>Agent Name</FieldLabel>
-              <FieldControl render={
-                <Input placeholder="Set an agent name" autoComplete="off" className="w-xs" />
-                } />
-              <FieldError />
+              <FieldContent>
+                <FieldControl render={
+                  <Input placeholder="Set an agent name" autoComplete="off" />
+                  } />
+                <FieldError />
+              </FieldContent>
             </Field>
 
             <Field field={fields.defaultModel} orientation="responsive">
               <FieldLabel>Default Model</FieldLabel>
-              <FieldControl render={
-                <ModelSelector models={models} className="w-xs" />
-                } />
-              <FieldError />
+              <FieldContent>
+                <FieldControl render={
+                  <ModelSelector models={models} />
+                  } />
+                <FieldError />
+              </FieldContent>
             </Field>
           </FieldGroup>
         </CardContent>
