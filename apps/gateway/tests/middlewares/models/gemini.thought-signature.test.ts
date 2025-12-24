@@ -63,7 +63,7 @@ describe("Gemini Adapter transformPrompt", () => {
               args: { timezone: "UTC" },
               providerOptions: {
                 openaiCompatible: {
-                  thoughtSignature: "existing_signature",
+                  thought_signature: "existing_signature",
                 },
               },
             },
