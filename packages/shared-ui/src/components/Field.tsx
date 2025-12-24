@@ -26,6 +26,7 @@ const useField = () => {
 
 function Field({
   field,
+  orientation,
   className,
   ...props
 }: React.ComponentProps<typeof ShadCnField> & {
@@ -36,8 +37,11 @@ function Field({
       <ShadCnField
         className={cn(
           "gap-2 @md/field-group:[&>[data-slot=field-label]]:flex-initial @md/field-group:[&>[data-slot=field-label]]:min-w-32",
+          (orientation === "horizontal" || orientation === "responsive") &&
+            "@md/field-group:[&>[data-slot=field-label]]:mt-2",
           className,
         )}
+        orientation={orientation}
         {...props}
       />
     </FieldCtx.Provider>
