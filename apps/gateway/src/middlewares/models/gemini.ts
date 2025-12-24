@@ -1,7 +1,4 @@
-
-
 import { ModelAdapterBase } from "./model";
-
 
 export abstract class GeminiModelAdapter extends ModelAdapterBase {
   readonly modality = "chat";

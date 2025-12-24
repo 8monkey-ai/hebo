@@ -1,15 +1,14 @@
 import { Elysia, status, t } from "elysia";
 
-import { createSlug } from "@hebo/database/src/utils/create-slug";
-import { dbClient } from "@hebo/shared-api/middlewares/db-client";
-
 import {
   agentsInclude,
   agentsInputCreate,
   agentsInputUpdate,
   agentsPlain,
   agentsRelations,
-} from "~api/generated/prismabox/agents";
+} from "~api/database/generated/prismabox/agents";
+import { createSlug } from "~api/database/utils/create-slug";
+import { dbClient } from "~api/middleware/db-client";
 
 export const agents = t.Composite([agentsPlain, t.Partial(agentsRelations)], {
   additionalProperties: false,

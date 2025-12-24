@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~auth/*": ["./src/*"],
+      "~auth/lib/*": ["./lib/*"]
+    },
+    "types": ["bun-types"],
+    "verbatimModuleSyntax": true
+  }
+}

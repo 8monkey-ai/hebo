@@ -1,4 +1,5 @@
-export const isStackAuthEnabled = !!import.meta.env.VITE_STACK_PROJECT_ID;
+export const isAuthEnabled = Boolean(import.meta.env.VITE_AUTH_URL);
+
 // isDevLocal is true only in pure local dev: no Turbo/CI context and no explicit service URLs
 export const isDevLocal =
   !process.env.TURBO_HASH &&

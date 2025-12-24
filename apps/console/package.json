@@ -26,6 +26,7 @@
     "@react-router/fs-routes": "^7.9.6",
     "@react-router/node": "^7.9.6",
     "@react-router/serve": "^7.9.6",
+    "better-auth": "^1.4.5",
     "@stackframe/react": "^2.8.28",
     "ai": "^5.0.116",
     "cmdk": "^1.1.1",

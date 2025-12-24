@@ -1,14 +1,14 @@
 import { Elysia, status, t } from "elysia";
 
-import { createSlug } from "@hebo/database/src/utils/create-slug";
-import { dbClient } from "@hebo/shared-api/middlewares/db-client";
-import { Models } from "@hebo/shared-api/types/model-config";
-
 import {
   branches,
   branchesInputCreate,
   branchesInputUpdate,
-} from "~api/generated/prismabox/branches";
+} from "~api/database/generated/prismabox/branches";
+import { createSlug } from "~api/database/utils/create-slug";
+import { dbClient } from "~api/middleware/db-client";
+
+import { Models } from "./providers/types";
 
 export const branchesModule = new Elysia({
   prefix: "/:agentSlug/branches",

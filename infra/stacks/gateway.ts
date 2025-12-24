@@ -1,6 +1,7 @@
+import { authUrl } from "./auth";
 import heboCluster from "./cluster";
 import heboDatabase from "./db";
-import { allSecrets, isProd } from "./env";
+import { llmSecrets, otelExporterSecrets, isProd } from "./env";
 
 const gatewayDomain = isProd
   ? "gateway.hebo.ai"
@@ -18,7 +19,7 @@ const heboGateway = new sst.aws.Service("HeboGateway", {
       resources: ["*"],
     },
   ],
-  link: [heboDatabase, ...allSecrets],
+  link: [heboDatabase, ...llmSecrets, ...otelExporterSecrets],
   image: {
     context: ".",
     dockerfile: "infra/docker/Dockerfile.gateway",
@@ -26,6 +27,7 @@ const heboGateway = new sst.aws.Service("HeboGateway", {
   },
   environment: {
     IS_REMOTE: $dev ? "false" : "true",
+    AUTH_URL: authUrl,
     LOG_LEVEL: isProd ? "info" : "debug",
     NODE_EXTRA_CA_CERTS: "/etc/ssl/certs/rds-bundle.pem",
     PORT: gatewayPort,
@@ -38,7 +40,7 @@ const heboGateway = new sst.aws.Service("HeboGateway", {
     ],
   },
   scaling: {
-    min: isProd ? 2 : 1,
+    min: isProd ? 4 : 1,
     max: isProd ? 16 : 1,
   },
   capacity: isProd ? undefined : "spot",

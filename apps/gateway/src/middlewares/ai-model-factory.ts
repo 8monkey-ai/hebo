@@ -2,7 +2,8 @@ import { wrapLanguageModel } from "ai";
 import { Elysia } from "elysia";
 
 import { BadRequestError } from "@hebo/shared-api/errors";
-import { dbClient } from "@hebo/shared-api/middlewares/db-client";
+
+import { dbClient } from "~api/middleware/db-client";
 
 import { ModelConfigService } from "./model-config";
 import { ModelAdapterFactory } from "./models";

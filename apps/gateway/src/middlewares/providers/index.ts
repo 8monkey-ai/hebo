@@ -1,12 +1,12 @@
-import type { createDbClient } from "@hebo/database/client";
+import { BadRequestError } from "@hebo/shared-api/errors";
+
 import type {
   ApiKeyProviderConfig,
   BedrockProviderConfig,
   VertexProviderConfig,
   ProviderConfig,
   ProviderSlug,
-} from "@hebo/database/src/types/providers";
-import { BadRequestError } from "@hebo/shared-api/errors";
+} from "~api/modules/providers/types";
 
 import { BedrockProviderAdapter } from "./bedrock";
 import { CohereProviderAdapter } from "./cohere";
@@ -14,6 +14,7 @@ import { GroqProviderAdapter } from "./groq";
 import { VertexProviderAdapter } from "./vertex";
 
 import type { ProviderAdapter } from "./provider";
+import type { createDbClient } from "../../../../api/prisma/client";
 
 export class ProviderAdapterFactory {
   static readonly ALL_PROVIDER_ADAPTER_CLASSES = [

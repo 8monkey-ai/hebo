@@ -1,7 +1,4 @@
-
-
 import { ModelAdapterBase } from "./model";
-
 
 export abstract class GptModelAdapter extends ModelAdapterBase {
   readonly modality = "chat";

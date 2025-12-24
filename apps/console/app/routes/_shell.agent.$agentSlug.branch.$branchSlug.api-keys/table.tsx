@@ -38,7 +38,7 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Description</TableHead>
+            <TableHead>Name</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Key</TableHead>
             <TableHead>Created</TableHead>
@@ -62,7 +62,7 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 
               return (
                 <TableRow key={key.id}>
-                  <TableCell>{key.description || "—"}</TableCell>
+                  <TableCell>{key.name || "—"}</TableCell>
                   <TableCell className="align-middle">
                     <Tooltip>
                       <TooltipTrigger render={
@@ -84,7 +84,7 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2 font-mono text-sm">
-                      <span className="truncate">{key.value}</span>
+                      <span className="truncate">{key.key}</span>
                     </div>
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">

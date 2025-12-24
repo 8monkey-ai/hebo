@@ -1,32 +1,26 @@
 import { treaty } from "@elysiajs/eden";
 import ky, { HTTPError } from "ky";
 
-import { authService } from "~console/lib/auth";
 import { isDevLocal } from "~console/lib/env";
 
 import type { Api } from "~api";
 import type { Gateway } from "~gateway";
 
-const apiUrl = isDevLocal
+export const apiUrl = isDevLocal
   ? "http://localhost:5173/api"
   : import.meta.env.VITE_API_URL || "http://localhost:3001";
+
+export const authUrl = import.meta.env.VITE_AUTH_URL || "http://localhost:3000";
 
 export const gatewayUrl = isDevLocal
   ? "http://localhost:5173/gateway"
   : import.meta.env.VITE_GATEWAY_URL || "http://localhost:3002";
 
 export const kyFetch = ky.extend({
+  credentials: "include",
   timeout: 60_000, // 60 seconds
   throwHttpErrors: false,
   hooks: {
-    beforeRequest: [
-      (request) => {
-        request.headers.set(
-          "x-stack-access-token",
-          authService.getAccessToken()!,
-        );
-      },
-    ],
     afterResponse: [
       async (_req, _opts, res) => {
         // Successful response, all good

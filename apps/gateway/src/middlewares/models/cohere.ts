@@ -1,6 +1,5 @@
 import { ModelAdapterBase } from "./model";
 
-
 export class CohereEmbedV4Adapter extends ModelAdapterBase {
   readonly id = "cohere/embed-v4.0";
   readonly modality = "embedding";
