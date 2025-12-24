@@ -10,7 +10,6 @@ import { getSecret } from "@hebo/shared-api/utils/secrets";
 import { assumeRole } from "./adapters/aws";
 import { ProviderAdapterBase, type ProviderAdapter } from "./provider";
 
-import type { ProviderOptions } from "@ai-sdk/provider-utils";
 
 type BedrockCredentials =
   ReturnType<typeof assumeRole> extends Promise<infer T> ? T : never;
@@ -33,50 +32,6 @@ export class BedrockProviderAdapter
     "openai/gpt-oss-20b": "openai.gpt-oss-20b-1:0",
     "anthropic/claude-opus-4-5-v1": "anthropic.claude-opus-4-5-20251101-v1:0",
   };
-
-  private static toSnakeCase(str: string): string {
-    return str.replaceAll(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
-  }
-
-  private static convertObjectKeysToSnakeCase(
-    obj: Record<string, any>,
-  ): Record<string, any> {
-    const newObj: Record<string, any> = {};
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        const originalValue = obj[key];
-        const convertedValue =
-          typeof originalValue === "object" &&
-          originalValue !== null &&
-          !Array.isArray(originalValue)
-            ? BedrockProviderAdapter.convertObjectKeysToSnakeCase(originalValue)
-            : originalValue;
-        newObj[BedrockProviderAdapter.toSnakeCase(key)] = convertedValue;
-      }
-    }
-    return newObj;
-  }
-
-  transformOptions(options?: ProviderOptions): ProviderOptions {
-    const { modelConfig, ...rest } = options || {};
-
-    let modifiedOptions: ProviderOptions = { ...rest };
-
-    if (modelConfig) {
-      const snakeCaseConfig =
-        BedrockProviderAdapter.convertObjectKeysToSnakeCase(
-          modelConfig as Record<string, any>,
-        );
-      modifiedOptions = {
-        ...modifiedOptions,
-        bedrock: {
-          additionalModelRequestFields: snakeCaseConfig,
-        },
-      };
-    }
-
-    return modifiedOptions;
-  }
 
   private async getCredentials() {
     if (!this.credentials) {

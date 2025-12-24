@@ -105,30 +105,12 @@ export function toModelMessages(messages: OpenAICompatibleMessage[]) {
         if (message.tool_calls) {
           modelMessages.push({
             role: "assistant",
-            content: message.tool_calls.map((toolCall) => {
-              const {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                type,
-                id,
-                function: toolFunction,
-                ...metadata
-              } = toolCall;
-
-              const content: any = {
-                type: "tool-call",
-                toolCallId: id,
-                toolName: toolFunction.name,
-                input: JSON.parse(toolFunction.arguments),
-              };
-
-              if (Object.keys(metadata).length > 0) {
-                content.providerOptions = {
-                  openaiCompatible: metadata,
-                };
-              }
-
-              return content;
-            }),
+            content: message.tool_calls.map((toolCall) => ({
+              type: "tool-call",
+              toolCallId: toolCall.id,
+              toolName: toolCall.function.name,
+              input: JSON.parse(toolCall.function.arguments),
+            })),
           });
         } else {
           modelMessages.push(message as ModelMessage);
@@ -188,17 +170,14 @@ export const toOpenAICompatibleMessage = (
   };
 
   if (result.toolCalls && result.toolCalls.length > 0) {
-    message.tool_calls = result.toolCalls.map((toolCall: any) => {
-      return {
-        id: toolCall.toolCallId,
-        type: "function" as const,
-        function: {
-          name: toolCall.toolName,
-          arguments: JSON.stringify(toolCall.input),
-        },
-        extra_content: toolCall.providerMetadata,
-      };
-    });
+    message.tool_calls = result.toolCalls.map((toolCall: any) => ({
+      id: toolCall.toolCallId,
+      type: "function" as const,
+      function: {
+        name: toolCall.toolName,
+        arguments: JSON.stringify(toolCall.input),
+      },
+    }));
   } else {
     message.content = result.text;
   }
@@ -337,14 +316,13 @@ export function toOpenAICompatibleStream(
           }
 
           case "tool-call": {
-            const { toolCallId, toolName, input, providerMetadata } = part;
+            const { toolCallId, toolName, input } = part;
 
             const toolCall: OpenAICompatibleToolCallDelta = {
               id: toolCallId,
               index: toolCallIndexCounter++,
               type: "function",
               function: { name: toolName, arguments: JSON.stringify(input) },
-              extra_content: providerMetadata,
             };
 
             enqueue({

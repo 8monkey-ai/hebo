@@ -47,18 +47,7 @@ export abstract class ProviderAdapterBase implements ProviderAdapter {
   }
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
-    const { modelConfig, ...rest } = options || {};
-
-    let modifiedOptions: ProviderOptions = { ...rest };
-
-    if (modelConfig) {
-      modifiedOptions = {
-        ...modifiedOptions,
-        [this.providerSlug]: modelConfig,
-      };
-    }
-
-    return modifiedOptions;
+    return options || {};
   }
 
   abstract initialize(config?: ProviderConfig): Promise<this>;
