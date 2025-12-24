@@ -1,43 +1,42 @@
-// Auth
-export const authSecret = new sst.Secret("AuthSecret");
-export const githubClientId = new sst.Secret("GithubClientId");
-export const githubClientSecret = new sst.Secret("GithubClientSecret");
-export const googleClientId = new sst.Secret("GoogleClientId");
-export const googleClientSecret = new sst.Secret("GoogleClientSecret");
-export const microsoftClientId = new sst.Secret("MicrosoftClientId");
-export const microsoftClientSecret = new sst.Secret("MicrosoftClientSecret");
-export const smtpHost = new sst.Secret("SmtpHost");
-export const smtpPort = new sst.Secret("SmtpPort");
-export const smtpUser = new sst.Secret("SmtpUser");
-export const smtpPass = new sst.Secret("SmtpPass");
-export const smtpFrom = new sst.Secret("SmtpFrom");
-// LLMs
-export const bedrockRoleArn = new sst.Secret("BedrockRoleArn", "undefined");
-export const bedrockRegion = new sst.Secret("BedrockRegion", "undefined");
-export const cohereApiKey = new sst.Secret("CohereApiKey", "undefined");
-export const groqApiKey = new sst.Secret("GroqApiKey", "undefined");
-export const vertexServiceAccountEmail = new sst.Secret(
-  "VertexServiceAccountEmail",
-  "undefined",
-);
-export const vertexAwsProviderAudience = new sst.Secret(
-  "VertexAwsProviderAudience",
-  "undefined",
-);
-export const vertexProject = new sst.Secret("VertexProject", "undefined");
-export const vertexLocation = new sst.Secret("VertexLocation", "undefined");
+const getSstSecret = (name: string) => new sst.Secret(name, "undefined");
 
-export const grafanaCloudOtlpEndpoint = new sst.Secret(
+// Auth
+export const authSecret = getSstSecret("AuthSecret");
+export const githubClientId = getSstSecret("GithubClientId");
+export const githubClientSecret = getSstSecret("GithubClientSecret");
+export const googleClientId = getSstSecret("GoogleClientId");
+export const googleClientSecret = getSstSecret("GoogleClientSecret");
+export const microsoftClientId = getSstSecret("MicrosoftClientId");
+export const microsoftClientSecret = getSstSecret("MicrosoftClientSecret");
+export const smtpHost = getSstSecret("SmtpHost");
+export const smtpPort = getSstSecret("SmtpPort");
+export const smtpUser = getSstSecret("SmtpUser");
+export const smtpPass = getSstSecret("SmtpPass");
+export const smtpFrom = getSstSecret("SmtpFrom");
+
+// LLMs
+export const bedrockRoleArn = getSstSecret("BedrockRoleArn");
+export const bedrockRegion = getSstSecret("BedrockRegion");
+export const cohereApiKey = getSstSecret("CohereApiKey");
+export const groqApiKey = getSstSecret("GroqApiKey");
+export const vertexServiceAccountEmail = getSstSecret(
+  "VertexServiceAccountEmail",
+);
+export const vertexAwsProviderAudience = getSstSecret(
+  "VertexAwsProviderAudience",
+);
+export const vertexProject = getSstSecret("VertexProject");
+export const vertexLocation = getSstSecret("VertexLocation");
+
+// OTEL Exporter
+export const grafanaCloudOtlpEndpoint = getSstSecret(
   "GrafanaCloudOtlpEndpoint",
-  "undefined",
 );
-export const grafanaCloudOtlpInstanceId = new sst.Secret(
+export const grafanaCloudOtlpInstanceId = getSstSecret(
   "GrafanaCloudOtlpInstanceId",
-  "undefined",
 );
-export const grafanaCloudOtlpApiToken = new sst.Secret(
+export const grafanaCloudOtlpApiToken = getSstSecret(
   "GrafanaCloudOtlpApiToken",
-  "undefined",
 );
 
 export const authSecrets = [
