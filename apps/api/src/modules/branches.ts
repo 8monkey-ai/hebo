@@ -1,12 +1,11 @@
 import { Elysia, status, t } from "elysia";
 
-import { createSlug } from "prisma/src/utils/create-slug";
-
 import {
   branches,
   branchesInputCreate,
   branchesInputUpdate,
-} from "~api/generated/prismabox/branches";
+} from "~api/database/generated/prismabox/branches";
+import { createSlug } from "~api/database/utils/create-slug";
 import { dbClient } from "~api/middleware/db-client";
 
 import { Models } from "./providers/types";

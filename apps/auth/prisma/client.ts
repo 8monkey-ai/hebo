@@ -3,7 +3,6 @@ import { Resource } from "sst";
 
 import { PrismaClient } from "./src/generated/prisma/client";
 
-
 export const getConnectionString = () => {
   try {
     // @ts-expect-error: HeboDatabase may not be defined
@@ -15,8 +14,6 @@ export const getConnectionString = () => {
   }
 };
 
-export const connectionString = getConnectionString();
-
 export const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString, max: 25 }),
+  adapter: new PrismaPg({ connectionString: getConnectionString(), max: 25 }),
 });

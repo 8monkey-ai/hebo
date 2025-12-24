@@ -11,8 +11,6 @@
     "build": "bun run db:generate && bun build src/index.ts --compile --minify-whitespace --minify-syntax --target=bun --outfile dist/server",
     "clean": "git clean -fdx -e '.env*' .",
     "db": "prisma",
-    "db:format": "prisma format",
-    "db:generate": "prisma generate",
     "dev": "bun --hot src/index.ts | pino-pretty",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",

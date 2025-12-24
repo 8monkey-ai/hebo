@@ -4,7 +4,6 @@
     "baseUrl": ".",
     "paths": {
       "~auth/*": ["./src/*"],
-      "~auth/database/*": ["./prisma/*"],
       "~auth/lib/*": ["./lib/*"]
     },
     "types": ["bun-types"],

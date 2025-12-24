@@ -4,10 +4,9 @@
     "baseUrl": ".",
     "paths": {
       "~api/*": ["./src/*"],
-      "~api/database/*": ["prisma/*"],
+      "~api/database/*": ["./prisma/src/*"],
       "~auth": ["../auth/src/index.ts"],
-      "~auth/*": ["../auth/src/*"],
-      "~auth/lib/*": ["../auth/lib/*"]
+      "~auth/*": ["../auth/src/*"]
     },
     "types": ["bun-types"],
     "verbatimModuleSyntax": true

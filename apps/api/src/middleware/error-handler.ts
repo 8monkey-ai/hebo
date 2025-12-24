@@ -1,8 +1,9 @@
 import { Elysia, status } from "elysia";
 
-import { identifyPrismaError } from "prisma/src/errors";
-
 import { HttpError } from "@hebo/shared-api/errors";
+
+import { identifyPrismaError } from "~api/database/errors";
+
 
 export const errorHandler = new Elysia({ name: "error-handler" })
   .onError(function handleApiError({ error }) {

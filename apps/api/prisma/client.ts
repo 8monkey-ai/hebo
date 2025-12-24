@@ -1,10 +1,10 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Resource } from "sst";
 
-import { PrismaClient, Prisma } from "./src/generated/prisma/client";
-import { redactProviderConfigValue } from "./src/utils/redact-provider";
+import type { ProviderConfig } from "~api/modules/providers/types";
 
-import type { ProviderConfig } from "../src/modules/providers/types";
+import { PrismaClient } from "./src/generated/prisma/client";
+import { redactProviderConfigValue } from "./src/utils/redact-provider";
 
 export const getConnectionString = () => {
   try {
@@ -17,13 +17,11 @@ export const getConnectionString = () => {
   }
 };
 
-export const connectionString = getConnectionString();
-
 // eslint-disable-next-line unicorn/no-null
 const dbNull = null;
 
 export const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString, max: 25 }),
+  adapter: new PrismaPg({ connectionString: getConnectionString(), max: 25 }),
 });
 
 export const createDbClient = (userId: string) => {
@@ -48,12 +46,17 @@ export const createDbClient = (userId: string) => {
             updated_by: userId,
           };
 
-          if (model === "agents" && args.data.branches) {
-            args.data.branches.create = {
-              ...args.data.branches.create,
-              created_by: userId,
-              updated_by: userId,
-            };
+          if (model === "agents" && args.data.branches?.create) {
+            const existing = args.data.branches.create;
+            args.data.branches.create = Array.isArray(existing) ? existing.map((item) => ({
+                ...item,
+                created_by: userId,
+                updated_by: userId,
+              })) : {
+                ...existing,
+                created_by: userId,
+                updated_by: userId,
+              };
           }
           return query(args);
         },
@@ -68,9 +71,9 @@ export const createDbClient = (userId: string) => {
     },
     model: {
       $allModels: {
-        async softDelete<T>(where: T) {
-          const context = Prisma.getExtensionContext(this);
-          return context.update({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        async softDelete<T>(this: any, where: T) {
+          return this.update({
             where,
             data: { deleted_by: userId, deleted_at: new Date() },
           });

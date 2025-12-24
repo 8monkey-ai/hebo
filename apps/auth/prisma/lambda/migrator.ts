@@ -1,7 +1,7 @@
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
 
-import { getConnectionString } from "../src/connection";
+import { getConnectionString } from "../client";
 
 export const handler = async () => {
   await promisify(exec)(
@@ -9,7 +9,7 @@ export const handler = async () => {
     {
       env: {
         ...process.env,
-        DATABASE_URL: getConnectionString(),
+        DATABASE_URL: `${getConnectionString()}?schema=auth`,
       },
     },
   );

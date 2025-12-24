@@ -1,6 +1,13 @@
 import { t, type Static } from "elysia";
 
-import supportedModels from "@hebo/shared-data/json/supported-models";
+const SUPPORTED_MODELS = [
+  "google/gemini-3-pro-preview",
+  "google/gemini-3-flash-preview",
+  "openai/gpt-oss-120b",
+  "openai/gpt-oss-20b",
+  "claude/opus-4-5",
+  "cohere/embed-v4",
+];
 
 export const supportedProviders = {
   bedrock: { name: "Amazon Bedrock" },
@@ -43,7 +50,7 @@ export const Provider = t.Object({
 });
 
 export const SupportedModelType = t.Enum(
-  Object.fromEntries(supportedModels.map(({ type }) => [type, type])),
+  Object.fromEntries(SUPPORTED_MODELS.map((model) => [model, model])),
   { error: "Invalid model type" },
 );
 

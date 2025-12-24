@@ -1,14 +1,13 @@
 import { Elysia, status, t } from "elysia";
 
-import { createSlug } from "prisma/src/utils/create-slug";
-
 import {
   agentsInclude,
   agentsInputCreate,
   agentsInputUpdate,
   agentsPlain,
   agentsRelations,
-} from "~api/generated/prismabox/agents";
+} from "~api/database/generated/prismabox/agents";
+import { createSlug } from "~api/database/utils/create-slug";
 import { dbClient } from "~api/middleware/db-client";
 
 export const agents = t.Composite([agentsPlain, t.Partial(agentsRelations)], {

@@ -4,8 +4,6 @@ export default {
     path: "prisma/migrations",
   },
   datasource: {
-    url:
-      process.env.DATABASE_URL ??
-      "postgresql://postgres:password@localhost:5432/local",
+    url: `${process.env.DATABASE_URL ?? "postgresql://postgres:password@localhost:5432/local"}?schema=auth`,
   },
 };
