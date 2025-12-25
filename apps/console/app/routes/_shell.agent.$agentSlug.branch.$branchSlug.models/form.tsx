@@ -67,8 +67,6 @@ type ModelsConfigProps = {
 export default function ModelsConfigForm({ agentSlug, branchSlug, models, providers }: ModelsConfigProps) {
   const fetcher = useFetcher();
 
-  console.log(fetcher.data);
-
   const [form, fields] = useForm<ModelsConfigFormValues>({
     id: objectId(models),
     lastResult: fetcher.data ,
@@ -88,11 +86,10 @@ export default function ModelsConfigForm({ agentSlug, branchSlug, models, provid
   }, [fetcher.state, form.status]);
 
   const formRef = useRef<HTMLFormElement>(null);
-  const modelItems = fields.models.getFieldList();
 
   return (
     <fetcher.Form method="post" ref={formRef} {...getFormProps(form)} className="flex flex-col gap-4">
-      {modelItems.map((model, index) => (
+      {fields.models.getFieldList().map((model, index) => (
         <ModelCard
           key={model.key}
           model={model}
@@ -127,7 +124,7 @@ export default function ModelsConfigForm({ agentSlug, branchSlug, models, provid
             form.insert({
               name: fields.models.name,
             });
-            setExpandedCardId(modelItems.length);
+            setExpandedCardId(fields.models.getFieldList().length);
           }}
           disabled={expandedCardId !== null}
         >
@@ -164,12 +161,10 @@ function ModelCard(props: {
 
   const { models } = useSnapshot(shellStore);
 
-  const modelFieldset = model.getFieldset();
-  const aliasPath = [agentSlug, branchSlug, modelFieldset.alias.value || "alias"].join("/");
+  const aliasPath = [agentSlug, branchSlug, model.getFieldset().alias.value || "alias"].join("/");
 
   const [advancedOpen, setAdvancedOpen] = useState(false);
-  const routingOnlyField = modelFieldset.routing.getFieldset().only;
-  const [routingEnabled, setRoutingEnabled] = useState(Boolean(routingOnlyField.value));
+  const [routingEnabled, setRoutingEnabled] = useState(Boolean(model.getFieldset().routing.value));
 
   return (
     <Collapsible open={isExpanded} onOpenChange={onOpenChange}>
@@ -185,7 +180,7 @@ function ModelCard(props: {
 
           <Badge variant="outline">
             <Brain />
-            {modelFieldset.type.value ?? "undefined"}
+            {model.getFieldset().type.value ?? "undefined"}
           </Badge>
 
           <CollapsibleTrigger render={
@@ -210,7 +205,7 @@ function ModelCard(props: {
 
             <CardContent className="flex flex-col gap-4 my-3">
               <FieldGroup className="grid gap-4 grid-cols-1 md:grid-cols-2">
-                <Field field={modelFieldset.alias}>
+                <Field field={model.getFieldset().alias}>
                   <FieldLabel>Alias</FieldLabel>
                   <FieldControl render={
                     <Input placeholder="Set alias name" autoComplete="off" />
@@ -218,7 +213,7 @@ function ModelCard(props: {
                   <FieldError />
                 </Field>
 
-                <Field field={modelFieldset.type}>
+                <Field field={model.getFieldset().type}>
                   <FieldLabel>Type</FieldLabel>
                   <FieldControl render={
                     <ModelSelector models={models} />
@@ -249,12 +244,12 @@ function ModelCard(props: {
                         <FieldDescription className="line-clamp-1">Setup your credentials first in providers settings</FieldDescription>
                       </FieldContent>
                       {(() => {
-                        const availableProviders = providers.filter((p) => models?.[modelFieldset.type.value ?? ""]?.providers?.includes(p.slug));
+                        const availableProviders = providers.filter((p) => models?.[model.getFieldset().type.value ?? ""]?.providers?.includes(p.slug));
                         return (
                           <FieldContent className="max-w-48">
                             <Select
-                              name={`${model.name}.routing.only[0]`}
-                              defaultValue={routingOnlyField.getFieldList()[0]?.value ?? ""}
+                              name={`${model.getFieldset().routing.getFieldset().only.name}[0]`}
+                              defaultValue={model.getFieldset().routing.getFieldset().only.getFieldList()[0]?.value ?? ""}
                               items={
                                 availableProviders
                                   .map((provider) => ({
