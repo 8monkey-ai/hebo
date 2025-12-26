@@ -10,7 +10,7 @@ export abstract class GptModelAdapter extends ModelAdapterBase {
   readonly modality = "chat";
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
-    const transformed: Record<string, any> = {};
+    const transformed: ProviderOptions = {};
 
     if (options?.reasoning) {
       const reasoningConfig = this.transformReasoning(options.reasoning);

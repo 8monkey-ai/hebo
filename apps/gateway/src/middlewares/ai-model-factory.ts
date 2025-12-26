@@ -57,30 +57,24 @@ export const aiModelFactory = new Elysia({
       if (modality === "chat") {
         const modelSpecificMiddleware: LanguageModelMiddleware = {
           transformParams: ({ params }: { params: any }) => {
-            const transformedOptions = modelAdapter.transformOptions(
-              params.providerOptions ?? {},
-            );
-
-            const transformedPrompt = modelAdapter.transformPrompt(
-              params.prompt,
-            );
-
             return {
               ...params,
-              providerOptions: transformedOptions,
-              prompt: transformedPrompt,
+              providerOptions: modelAdapter.transformOptions(
+                params.providerOptions,
+              ),
+              prompt: modelAdapter.transformPrompt(params.prompt),
             };
           },
         };
 
         const providerSpecificMiddleware: LanguageModelMiddleware = {
           transformParams: ({ params }: { params: any }) => {
-            const transformed = providerAdapter.transformOptions(
-              params.providerOptions ?? {},
-            );
             return {
               ...params,
-              providerOptions: transformed,
+              providerOptions: {
+                [providerAdapter.getProviderOptionsName()]:
+                  providerAdapter.transformOptions(params.providerOptions),
+              },
             };
           },
         };

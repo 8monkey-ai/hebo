@@ -14,7 +14,7 @@ export abstract class GeminiModelAdapter extends ModelAdapterBase {
   };
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
-    const transformed: Record<string, any> = {};
+    const transformed: ProviderOptions = {};
 
     if (options?.reasoning) {
       const thinkingConfig = this.transformReasoning(options.reasoning);

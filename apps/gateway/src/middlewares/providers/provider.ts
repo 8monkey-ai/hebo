@@ -34,6 +34,10 @@ export abstract class ProviderAdapterBase implements ProviderAdapter {
     return !!this.getModelId(modelType);
   }
 
+  getProviderOptionsName(): string {
+    return (this.constructor as typeof ProviderAdapterBase).providerSlug;
+  }
+
   async resolveModelId(): Promise<string> {
     const modelId = (this.constructor as typeof ProviderAdapterBase).getModelId(
       this.modelType,
@@ -47,18 +51,7 @@ export abstract class ProviderAdapterBase implements ProviderAdapter {
   }
 
   transformOptions(options?: ProviderOptions): ProviderOptions {
-    const { modelConfig, ...rest } = options || {};
-
-    let modifiedOptions: ProviderOptions = { ...rest };
-
-    if (modelConfig) {
-      modifiedOptions = {
-        ...modifiedOptions,
-        [this.providerSlug]: modelConfig,
-      };
-    }
-
-    return modifiedOptions;
+    return options;
   }
 
   abstract initialize(config?: ProviderConfig): Promise<this>;

@@ -6,7 +6,6 @@ import { getSecret } from "@hebo/shared-api/utils/secrets";
 import { injectMetadataCredentials, buildWifOptions } from "./adapters/aws";
 import { ProviderAdapterBase, type ProviderAdapter } from "./provider";
 
-import type { ProviderOptions } from "@ai-sdk/provider-utils";
 
 export class VertexProviderAdapter
   extends ProviderAdapterBase
@@ -23,21 +22,6 @@ export class VertexProviderAdapter
 
   constructor(modelType: string) {
     super(modelType);
-  }
-
-  transformOptions(options?: ProviderOptions): ProviderOptions {
-    const { modelConfig, ...rest } = options || {};
-
-    let modifiedOptions: ProviderOptions = { ...rest };
-
-    if (modelConfig) {
-      modifiedOptions = {
-        ...modifiedOptions,
-        google: modelConfig,
-      };
-    }
-
-    return modifiedOptions;
   }
 
   async initialize(config?: VertexProviderConfig): Promise<this> {
@@ -68,5 +52,9 @@ export class VertexProviderAdapter
       location,
       project,
     });
+  }
+
+  getProviderOptionsName(): string {
+    return "google";
   }
 }
