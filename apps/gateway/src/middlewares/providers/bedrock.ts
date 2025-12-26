@@ -49,7 +49,9 @@ export class BedrockProviderAdapter
           typeof originalValue === "object" &&
           originalValue !== null &&
           !Array.isArray(originalValue)
-            ? BedrockProviderAdapter.convertObjectKeysToSnakeCase(originalValue)
+            ? BedrockProviderAdapter.convertObjectKeysToSnakeCase(
+                originalValue as ProviderOptions,
+              )
             : originalValue;
         newObj[BedrockProviderAdapter.toSnakeCase(key)] = convertedValue;
       }
@@ -57,13 +59,14 @@ export class BedrockProviderAdapter
     return newObj;
   }
 
-  transformOptions(options?: ProviderOptions): ProviderOptions {
+  transformOptions(options: ProviderOptions): ProviderOptions {
     const transformed: ProviderOptions = {};
 
-    const snakeCaseConfig = BedrockProviderAdapter.convertObjectKeysToSnakeCase(
-      options || {},
-    );
-    transformed.additionalModelRequestFields = snakeCaseConfig;
+    const snakeCaseConfig =
+      BedrockProviderAdapter.convertObjectKeysToSnakeCase(options);
+    if (Object.keys(snakeCaseConfig).length > 0) {
+      transformed.additionalModelRequestFields = snakeCaseConfig;
+    }
 
     return Object.keys(transformed).length > 0 ? transformed : options;
   }

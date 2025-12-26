@@ -9,21 +9,14 @@ describe("GPT Adapter transformOptions", () => {
   type TestCase = {
     name: string;
     model: ModelAdapter;
-    input: ProviderOptions | undefined;
-    expected: ProviderOptions | Record<string, any>;
+    input: ProviderOptions;
+    expected: ProviderOptions;
     shouldThrow?: boolean;
   };
 
   const gptAdapter = new GptOss120bAdapter();
 
   const testCases: TestCase[] = [
-    // --- GPT Scenarios ---
-    {
-      name: "GPT: no options provided",
-      model: gptAdapter,
-      input: undefined,
-      expected: {},
-    },
     {
       name: "GPT: non openai-compatible options provided",
       model: gptAdapter,
@@ -31,81 +24,45 @@ describe("GPT Adapter transformOptions", () => {
       expected: { abc: { key: "value" } },
     },
     {
-      name: "GPT: basic options (no reasoning)",
-      model: gptAdapter,
-      input: {
-        openaiCompatible: {
-          otherParam: 123,
-        },
-      },
-      expected: {
-        openaiCompatible: {
-          otherParam: 123,
-        },
-      },
-    },
-    {
       name: "GPT: reasoning enabled with effort",
       model: gptAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "high",
-          },
+        reasoning: {
+          effort: "high",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "high",
-          },
-        },
-        modelConfig: {
-          reasoningEffort: "high",
-        },
+        reasoningEffort: "high",
       },
     },
     {
       name: "GPT: reasoning enabled (boolean) defaults to medium",
       model: gptAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-          },
+        reasoning: {
+          enabled: true,
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-          },
-        },
-        modelConfig: {
-          reasoningEffort: "medium",
-        },
+        reasoningEffort: "medium",
       },
     },
     {
       name: "GPT: throws on max_tokens in reasoning",
       model: gptAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-            max_tokens: 1000,
-          },
-        },
-      },
-      expected: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-            max_tokens: 1000,
-          },
+        reasoning: {
+          enabled: true,
+          max_tokens: 1000,
         },
       },
       shouldThrow: true,
+      expected: {
+        reasoning: {
+          enabled: true,
+          max_tokens: 1000,
+        },
+      },
     },
   ];
 

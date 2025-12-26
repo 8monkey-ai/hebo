@@ -9,11 +9,13 @@ import type { ProviderOptions } from "@ai-sdk/provider-utils";
 export abstract class GptModelAdapter extends ModelAdapterBase {
   readonly modality = "chat";
 
-  transformOptions(options?: ProviderOptions): ProviderOptions {
+  transformOptions(options: ProviderOptions): ProviderOptions {
     const transformed: ProviderOptions = {};
 
-    if (options?.reasoning) {
-      const reasoningConfig = this.transformReasoning(options.reasoning);
+    if (options.reasoning) {
+      const reasoningConfig = this.transformReasoning(
+        options.reasoning as OpenAICompatibleReasoning,
+      );
       if (reasoningConfig) {
         Object.assign(transformed, reasoningConfig);
       }

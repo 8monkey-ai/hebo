@@ -59,9 +59,9 @@ export const aiModelFactory = new Elysia({
           transformParams: ({ params }: { params: any }) => {
             return {
               ...params,
-              providerOptions: modelAdapter.transformOptions(
-                params.providerOptions,
-              ),
+              providerOptions: params.providerOptions
+                ? modelAdapter.transformOptions(params.providerOptions)
+                : undefined,
               prompt: modelAdapter.transformPrompt(params.prompt),
             };
           },
@@ -71,10 +71,12 @@ export const aiModelFactory = new Elysia({
           transformParams: ({ params }: { params: any }) => {
             return {
               ...params,
-              providerOptions: {
-                [providerAdapter.getProviderOptionsName()]:
-                  providerAdapter.transformOptions(params.providerOptions),
-              },
+              providerOptions: params.providerOptions
+                ? {
+                    [providerAdapter.getProviderOptionsName()]:
+                      providerAdapter.transformOptions(params.providerOptions),
+                  }
+                : undefined,
             };
           },
         };

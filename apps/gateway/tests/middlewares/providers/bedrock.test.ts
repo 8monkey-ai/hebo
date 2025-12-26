@@ -9,7 +9,7 @@ describe("BedrockProviderAdapter transformOptions", () => {
   type TestCase = {
     name: string;
     provider: ProviderAdapter;
-    input: ProviderOptions | undefined;
+    input: ProviderOptions;
     expected: ProviderOptions;
   };
 
@@ -19,24 +19,14 @@ describe("BedrockProviderAdapter transformOptions", () => {
 
   const testCases: TestCase[] = [
     {
-      name: "Bedrock: no options returns empty object",
-      provider: bedrockProvider,
-      input: undefined,
-      expected: {},
-    },
-    {
       name: "Bedrock: converts transformed openai-compatible options to snake_case",
       provider: bedrockProvider,
       input: {
-        modelConfig: {
-          reasoningEffort: "medium",
-        },
-      } as any,
+        reasoningEffort: "medium",
+      },
       expected: {
-        bedrock: {
-          additionalModelRequestFields: {
-            reasoning_effort: "medium",
-          },
+        additionalModelRequestFields: {
+          reasoning_effort: "medium",
         },
       },
     },
@@ -44,25 +34,21 @@ describe("BedrockProviderAdapter transformOptions", () => {
       name: "Bedrock: converts deeply nested transformed openai-compatible options to snake_case",
       provider: bedrockProvider,
       input: {
-        modelConfig: {
-          optionOne: "value1",
-          nestedOption: {
-            nestedOptionOne: "value2",
-            anotherNestedOption: {
-              deeplyNestedOption: "value3",
-            },
+        optionOne: "value1",
+        nestedOption: {
+          nestedOptionOne: "value2",
+          anotherNestedOption: {
+            deeplyNestedOption: "value3",
           },
         },
-      } as any,
+      },
       expected: {
-        bedrock: {
-          additionalModelRequestFields: {
-            option_one: "value1",
-            nested_option: {
-              nested_option_one: "value2",
-              another_nested_option: {
-                deeply_nested_option: "value3",
-              },
+        additionalModelRequestFields: {
+          option_one: "value1",
+          nested_option: {
+            nested_option_one: "value2",
+            another_nested_option: {
+              deeply_nested_option: "value3",
             },
           },
         },

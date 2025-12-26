@@ -9,7 +9,7 @@ describe("GroqProviderAdapter transformOptions", () => {
   type TestCase = {
     name: string;
     provider: ProviderAdapter;
-    input: ProviderOptions | undefined;
+    input: ProviderOptions;
     expected: ProviderOptions;
   };
 
@@ -17,43 +17,13 @@ describe("GroqProviderAdapter transformOptions", () => {
 
   const testCases: TestCase[] = [
     {
-      name: "Groq: no options provided",
-      provider: groqProvider,
-      input: undefined,
-      expected: {},
-    },
-    {
       name: "Groq: passes through transformed reasoningEffort",
       provider: groqProvider,
       input: {
-        modelConfig: {
-          reasoningEffort: "medium",
-        },
-      } as any,
-      expected: {
-        groq: {
-          reasoningEffort: "medium",
-        },
+        reasoningEffort: "medium",
       },
-    },
-    {
-      name: "Groq: preserves other provider options",
-      provider: groqProvider,
-      input: {
-        "other-provider": {
-          key: "value",
-        },
-        modelConfig: {
-          reasoningEffort: "high",
-        },
-      } as any,
       expected: {
-        "other-provider": {
-          key: "value",
-        },
-        groq: {
-          reasoningEffort: "high",
-        },
+        reasoningEffort: "medium",
       },
     },
   ];

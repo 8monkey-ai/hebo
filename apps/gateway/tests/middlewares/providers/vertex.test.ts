@@ -9,7 +9,7 @@ describe("VertexProviderAdapter transformOptions", () => {
   type TestCase = {
     name: string;
     provider: ProviderAdapter;
-    input: ProviderOptions | undefined;
+    input: ProviderOptions;
     expected: ProviderOptions;
   };
 
@@ -17,28 +17,18 @@ describe("VertexProviderAdapter transformOptions", () => {
 
   const testCases: TestCase[] = [
     {
-      name: "Vertex: no options provided",
-      provider: vertexProvider,
-      input: undefined,
-      expected: {},
-    },
-    {
       name: "Vertex: passes through transformed thinkingConfig",
       provider: vertexProvider,
       input: {
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingBudget: 8192,
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingBudget: 8192,
         },
       },
       expected: {
-        google: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingBudget: 8192,
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingBudget: 8192,
         },
       },
     },

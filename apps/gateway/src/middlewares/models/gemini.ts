@@ -13,11 +13,13 @@ export abstract class GeminiModelAdapter extends ModelAdapterBase {
     monthly_free_tokens: 0,
   };
 
-  transformOptions(options?: ProviderOptions): ProviderOptions {
+  transformOptions(options: ProviderOptions): ProviderOptions {
     const transformed: ProviderOptions = {};
 
-    if (options?.reasoning) {
-      const thinkingConfig = this.transformReasoning(options.reasoning);
+    if (options.reasoning) {
+      const thinkingConfig = this.transformReasoning(
+        options.reasoning as OpenAICompatibleReasoning,
+      );
       if (thinkingConfig) {
         transformed.thinkingConfig = thinkingConfig;
       }

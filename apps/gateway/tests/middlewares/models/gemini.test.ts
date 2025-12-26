@@ -12,8 +12,8 @@ describe("Gemini Adapter transformOptions", () => {
   type TestCase = {
     name: string;
     model: ModelAdapter;
-    input: ProviderOptions | undefined;
-    expected: ProviderOptions | Record<string, any>;
+    input: ProviderOptions;
+    expected: ProviderOptions;
     shouldThrow?: boolean;
   };
 
@@ -21,34 +21,18 @@ describe("Gemini Adapter transformOptions", () => {
   const gemini3FlashAdapter = new Gemini3FlashPreviewAdapter();
 
   const testCases: TestCase[] = [
-    // --- Gemini 3 Pro Scenarios ---
-    {
-      name: "Gemini 3 Pro: no options provided",
-      model: gemini3ProAdapter,
-      input: undefined,
-      expected: {},
-    },
     {
       name: "Gemini 3 Pro: reasoning enabled (boolean) defaults to 8192 budget",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-          },
+        reasoning: {
+          enabled: true,
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "high",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "high",
         },
       },
     },
@@ -56,23 +40,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: reasoning with low effort",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "low",
-          },
+        reasoning: {
+          effort: "low",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "low",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "low",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "low",
         },
       },
     },
@@ -80,23 +55,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: reasoning with high effort",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "high",
-          },
+        reasoning: {
+          effort: "high",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "high",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "high",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "high",
         },
       },
     },
@@ -104,23 +70,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: reasoning with minimal effort",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "minimal",
-          },
+        reasoning: {
+          effort: "minimal",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "minimal",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "low",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "low",
         },
       },
     },
@@ -128,23 +85,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: reasoning with xhigh effort",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "xhigh",
-          },
+        reasoning: {
+          effort: "xhigh",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "xhigh",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "high",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "high",
         },
       },
     },
@@ -152,17 +100,13 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: reasoning disabled with none effort",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "none",
-          },
+        reasoning: {
+          effort: "none",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "none",
-          },
+        reasoning: {
+          effort: "none",
         },
       },
     },
@@ -170,25 +114,15 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: exclude thoughts",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-            exclude: true,
-          },
+        reasoning: {
+          enabled: true,
+          exclude: true,
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-            exclude: true,
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: false,
-            thinkingLevel: "high",
-          },
+        thinkingConfig: {
+          includeThoughts: false,
+          thinkingLevel: "high",
         },
       },
     },
@@ -198,23 +132,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: low effort -> LOW",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "low",
-          },
+        reasoning: {
+          effort: "low",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "low",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "low",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "low",
         },
       },
     },
@@ -222,23 +147,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: medium effort -> HIGH",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "medium",
-          },
+        reasoning: {
+          effort: "medium",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "medium",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "high",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "high",
         },
       },
     },
@@ -246,23 +162,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: minimal effort -> LOW",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "minimal",
-          },
+        reasoning: {
+          effort: "minimal",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "minimal",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "low",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "low",
         },
       },
     },
@@ -270,23 +177,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: xhigh effort -> HIGH",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "xhigh",
-          },
+        reasoning: {
+          effort: "xhigh",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "xhigh",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "high",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "high",
         },
       },
     },
@@ -296,23 +194,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Flash: low effort -> LOW",
       model: gemini3FlashAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "low",
-          },
+        reasoning: {
+          effort: "low",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "low",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "low",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "low",
         },
       },
     },
@@ -320,23 +209,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Flash: medium effort -> MEDIUM",
       model: gemini3FlashAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "medium",
-          },
+        reasoning: {
+          effort: "medium",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "medium",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "medium",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "medium",
         },
       },
     },
@@ -344,23 +224,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Flash: high effort -> HIGH",
       model: gemini3FlashAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "high",
-          },
+        reasoning: {
+          effort: "high",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "high",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "high",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "high",
         },
       },
     },
@@ -368,23 +239,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Flash: minimal effort -> MINIMAL",
       model: gemini3FlashAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "minimal",
-          },
+        reasoning: {
+          effort: "minimal",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "minimal",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "minimal",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "minimal",
         },
       },
     },
@@ -392,23 +254,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Flash: xhigh effort -> HIGH",
       model: gemini3FlashAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "xhigh",
-          },
+        reasoning: {
+          effort: "xhigh",
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "xhigh",
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "high",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "high",
         },
       },
     },
@@ -416,23 +269,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Flash: default effort -> MEDIUM",
       model: gemini3FlashAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-          },
+        reasoning: {
+          enabled: true,
         },
       },
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-          },
-        },
-        modelConfig: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "medium",
-          },
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "medium",
         },
       },
     },
@@ -440,18 +284,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Pro: throws error if max_tokens is provided in reasoning",
       model: gemini3ProAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            max_tokens: 100,
-          },
+        reasoning: {
+          max_tokens: 100,
         },
       },
       shouldThrow: true,
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            max_tokens: 100,
-          },
+        reasoning: {
+          max_tokens: 100,
         },
       },
     },
@@ -459,18 +299,14 @@ describe("Gemini Adapter transformOptions", () => {
       name: "Gemini 3 Flash: throws error if max_tokens is provided in reasoning",
       model: gemini3FlashAdapter,
       input: {
-        openaiCompatible: {
-          reasoning: {
-            max_tokens: 100,
-          },
+        reasoning: {
+          max_tokens: 100,
         },
       },
       shouldThrow: true,
       expected: {
-        openaiCompatible: {
-          reasoning: {
-            max_tokens: 100,
-          },
+        reasoning: {
+          max_tokens: 100,
         },
       },
     },
