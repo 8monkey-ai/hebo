@@ -23,7 +23,7 @@ describe("Gemini Adapter transformOptions", () => {
   const testCases: TestCase[] = [
     // --- Gemini 3 Pro Scenarios ---
     {
-      name: "Gemini 3 Pro: reasoning enabled (boolean) defaults to 8192 budget",
+      name: "Gemini 3 Pro: reasoning enabled (boolean) defaults to high effort",
       model: gemini3ProAdapter,
       input: {
         reasoning: {

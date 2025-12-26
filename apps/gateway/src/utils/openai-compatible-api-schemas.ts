@@ -111,7 +111,7 @@ export const OpenAICompatibleReasoningEffort = t.Union([
 ]);
 
 export const OpenAICompatibleReasoning = t.Object({
-  enabled: t.Boolean(),
+  enabled: t.Optional(t.Boolean()),
   max_tokens: t.Optional(t.Number()),
   effort: t.Optional(OpenAICompatibleReasoningEffort),
   exclude: t.Optional(t.Boolean()),

@@ -13,7 +13,7 @@ export interface ProviderAdapter {
   getProvider(): Promise<Provider>;
   getProviderOptionsName(): string;
   resolveModelId(): Promise<string>;
-  transformOptions(options?: ProviderOptions): ProviderOptions;
+  transformOptions(options: ProviderOptions): ProviderOptions;
 }
 
 export abstract class ProviderAdapterBase implements ProviderAdapter {
