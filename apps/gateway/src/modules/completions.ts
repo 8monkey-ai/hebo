@@ -16,6 +16,8 @@ import {
   OpenAICompatibleReasoning,
 } from "~gateway/utils/openai-compatible-api-schemas";
 
+import type { ProviderOptions } from "@ai-sdk/provider-utils";
+
 export const completions = new Elysia({
   name: "completions",
   prefix: "/chat/completions",
@@ -39,9 +41,9 @@ export const completions = new Elysia({
       const modelMessages = toModelMessages(messages);
       const coreToolChoice = toToolChoice(tool_choice);
 
-      const providerOptions: Record<string, any> = {};
+      const providerOptions: ProviderOptions = {};
       if (reasoning) {
-        providerOptions.openaiCompatible = { reasoning };
+        providerOptions.reasoning = reasoning;
       }
 
       if (stream) {
