@@ -27,7 +27,7 @@ export function CopyButton({
   }, [hasCopied]);
 
   const render = (
-    <button>
+    <button type="button">
       <span className="sr-only">Copy</span>
       {hasCopied ? <Check className="text-green-800" /> : <Copy />}
     </button>
