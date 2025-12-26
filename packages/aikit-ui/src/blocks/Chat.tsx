@@ -374,6 +374,7 @@ export function Chat({
               {/* Model selector */}
               {modelsConfig.length > 1 && (
                 <PromptInputSelect
+                  id="pg-model-select"
                   onValueChange={(alias) => setSelectedModelAlias(alias)}
                   value={currentModelAlias}
                   disabled={status === "submitted" || modelsConfig.length === 0}
