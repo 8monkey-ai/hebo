@@ -11,8 +11,9 @@ export interface ProviderAdapter {
   readonly providerSlug: ProviderSlug;
   initialize(config?: ProviderConfig): Promise<this>;
   getProvider(): Promise<Provider>;
+  getProviderOptionsName(): string;
   resolveModelId(): Promise<string>;
-  transformOptions(options?: ProviderOptions): ProviderOptions;
+  transformOptions(options: ProviderOptions): ProviderOptions;
 }
 
 export abstract class ProviderAdapterBase implements ProviderAdapter {
@@ -34,6 +35,10 @@ export abstract class ProviderAdapterBase implements ProviderAdapter {
     return !!this.getModelId(modelType);
   }
 
+  getProviderOptionsName(): string {
+    return (this.constructor as typeof ProviderAdapterBase).providerSlug;
+  }
+
   async resolveModelId(): Promise<string> {
     const modelId = (this.constructor as typeof ProviderAdapterBase).getModelId(
       this.modelType,
@@ -46,8 +51,8 @@ export abstract class ProviderAdapterBase implements ProviderAdapter {
     return modelId;
   }
 
-  transformOptions(options?: ProviderOptions): ProviderOptions {
-    return options || {};
+  transformOptions(options: ProviderOptions): ProviderOptions {
+    return options;
   }
 
   abstract initialize(config?: ProviderConfig): Promise<this>;

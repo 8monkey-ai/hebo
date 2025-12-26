@@ -5,8 +5,8 @@
     "": {
       "name": "hebo",
       "dependencies": {
-        "hebo": ".",
         "@ai-sdk/provider-utils": "^4.0.1",
+        "hebo": ".",
       },
       "devDependencies": {
         "@eslint/js": "^9.33.0",
