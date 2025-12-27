@@ -210,17 +210,17 @@ function ModelCard(props: {
             <FieldGroup className="grid gap-4 grid-cols-1 md:grid-cols-2">
               <Field name={model.getFieldset().alias.name}>
                 <FieldLabel>Alias</FieldLabel>
-                <FieldControl render={
+                <FieldControl>
                   <Input placeholder="Set alias name" autoComplete="off" />
-                } /> 
+                </FieldControl> 
                 <FieldError />
               </Field>
 
               <Field name={model.getFieldset().type.name}>
                 <FieldLabel>Type</FieldLabel>
-                <FieldControl render={
+                <FieldControl>
                   <ModelSelector models={supportedModels} />
-                } />
+                </FieldControl>
                 <FieldError />
               </Field>
             </FieldGroup>
@@ -248,7 +248,7 @@ function ModelCard(props: {
                   <Field
                     name={`${model.getFieldset().routing.getFieldset().only.name}[0]`} 
                     className="max-w-44">
-                    <FieldControl disabled={!routingEnabled} render={
+                    <FieldControl disabled={!routingEnabled}>
                       <Select
                         items={
                           availableProviders
@@ -264,7 +264,7 @@ function ModelCard(props: {
                         }
                         aria-label="Select Provider"
                       />
-                      } />
+                    </FieldControl>
                   </Field>
                 </Field>
               </CollapsibleContent>

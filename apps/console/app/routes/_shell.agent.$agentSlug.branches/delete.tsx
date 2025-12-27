@@ -62,9 +62,9 @@ export default function DeleteBranchDialog({ branchSlug, ...props }: DeleteBranc
             </Alert>
 
             <Field name={fields.branchSlug.name} className="hidden">
-              <FieldControl render={
+              <FieldControl>
                 <input type="hidden" name="branchSlug" />
-              } />
+              </FieldControl>
             </Field>
 
             <Field name={fields.slugConfirm.name}>
@@ -72,9 +72,9 @@ export default function DeleteBranchDialog({ branchSlug, ...props }: DeleteBranc
                 To confirm, type{" "}
                 <strong>{branchSlug}</strong> in the box below:
               </FieldLabel>
-              <FieldControl render={
+              <FieldControl>
                 <Input autoComplete="off" />
-              } />
+              </FieldControl>
               <FieldError />
             </Field>
           </div>
