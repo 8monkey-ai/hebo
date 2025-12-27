@@ -34,7 +34,7 @@ function Field({
   ...props
 }: React.ComponentProps<typeof ShadCnField> & {
   name?: string;
-  context: FormMetadata<any, any>["context"];
+  context: FormMetadata<Record<string, unknown>, string[]>["context"];
 }) {
   return (
     <FormProvider context={context}>
@@ -123,7 +123,8 @@ function FieldControl({ render, ...props }: useRender.ComponentProps<"input">) {
   };
 
   if (field) {
-    controlProps.defaultValue = (field.initialValue as string) ?? "";
+    controlProps.defaultValue =
+      (field.initialValue as string | number | string[]) ?? "";
     controlProps["aria-describedby"] = field.valid
       ? field.descriptionId
       : field.errorId;
