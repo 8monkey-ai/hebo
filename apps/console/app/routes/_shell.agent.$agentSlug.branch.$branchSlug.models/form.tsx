@@ -91,6 +91,8 @@ export default function ModelsConfigForm({ agentSlug, branchSlug, models, provid
       ref={formRef}
       className="flex flex-col gap-4"
     >
+      <button type="submit" hidden aria-hidden="true" tabIndex={-1} disabled={!form.dirty}/>
+
       {fields.models.getFieldList().map((model, index) => (
         <ModelCard
           key={model.name}
