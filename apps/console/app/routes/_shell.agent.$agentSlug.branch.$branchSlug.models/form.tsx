@@ -193,7 +193,7 @@ function ModelCard(props: {
 
           <Badge variant="outline">
             <Brain />
-            {model.getFieldset().type.value ?? "undefined"}
+            {model.getFieldset().type.value ?? "not set"}
           </Badge>
 
           <CollapsibleTrigger render={

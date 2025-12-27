@@ -103,11 +103,8 @@ export function ProvidersList({ providers }: { providers: Provider[] }) {
             <ConfigureProviderDialog
                 {...configureDialog}
                 onOpenChange={(open: boolean) => {
-                  if (!open) setConfigureDialog(prev => 
-                    {
-                        return {...prev, open}
-                    }
-                )}}
+                  if (!open) setConfigureDialog(prev => ({...prev, open}))
+                }}
                 onOpenChangeComplete={(open: boolean) => {
                   if (!open) setConfigureDialog({ open: false, provider: undefined});
                 }}
