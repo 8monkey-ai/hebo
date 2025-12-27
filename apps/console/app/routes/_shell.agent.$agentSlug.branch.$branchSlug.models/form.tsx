@@ -213,7 +213,7 @@ function ModelCard(props: {
 
           <Separator />
 
-          <CardContent ref={cardRef} tabIndex={-1} className="flex flex-col gap-4 my-3">
+          <CardContent ref={cardRef} tabIndex={-1} className="flex flex-col gap-4 my-3 focus:outline-none">
             <FieldGroup className="grid gap-4 grid-cols-1 md:grid-cols-2">
               <Field name={model.getFieldset().alias.name}>
                 <FieldLabel>Alias</FieldLabel>
