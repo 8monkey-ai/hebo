@@ -41,7 +41,7 @@ export function DangerSettings({ agent }: { agent: { slug: string }}) {
 
   const lastResult = useActionData();
   const [form, fields] = useForm<AgentDeleteFormValues>({
-    lastResult: navigation.state === "idle" && lastResult,
+    lastResult: navigation.state === "idle" ? lastResult : undefined,
     constraint: getZodConstraint(createAgentDeleteSchema(agent.slug)),
   });
   useFormErrorToast(form.allErrors);

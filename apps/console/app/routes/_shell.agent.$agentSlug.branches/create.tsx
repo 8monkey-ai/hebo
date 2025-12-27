@@ -42,7 +42,7 @@ export default function CreateBranch({ branches }: CreateBranchProps) {
 
   const fetcher = useFetcher();
   const [form, fields] = useForm<BranchCreateFormValues>({
-    lastResult: fetcher.state === "idle" && fetcher.data,
+    lastResult: fetcher.state === "idle" ? fetcher.data : undefined,
     constraint: getZodConstraint(BranchCreateSchema),
     defaultValue: {
       sourceBranchSlug: branches[0].slug,

@@ -30,12 +30,12 @@ type RevokeApiKeyDialogProps = {
   apiKey?: { id: string; description: string; value: string };
 } & React.ComponentProps<typeof Dialog>;
 
-export function RevokeApiKeyDialog({apiKey, ...props}: RevokeApiKeyDialogProps) {
+export function RevokeApiKeyDialog({ apiKey, ...props }: RevokeApiKeyDialogProps) {
 
   const fetcher = useFetcher();
   const [form, fields] = useForm<ApiKeyRevokeFormValues>({
     id: apiKey?.id,
-    lastResult: fetcher.state === "idle" && fetcher.data,
+    lastResult: fetcher.state === "idle" ? fetcher.data?.submission : undefined,
     constraint: getZodConstraint(ApiKeyRevokeSchema),
     defaultValue: {
       apiKeyId: apiKey?.id,

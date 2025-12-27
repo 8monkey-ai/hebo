@@ -66,7 +66,7 @@ export default function ModelsConfigForm({ agentSlug, branchSlug, models, provid
   const fetcher = useFetcher();
 
   const [form, fields] = useForm<ModelsConfigFormValues>({
-    lastResult: fetcher.state === "idle" && fetcher.data,
+    lastResult: fetcher.state === "idle" ? fetcher.data : undefined,
     constraint: getZodConstraint(modelsConfigFormSchema),
     defaultValue: { models }
   });
@@ -125,10 +125,11 @@ export default function ModelsConfigForm({ agentSlug, branchSlug, models, provid
           type="button"
           variant="outline"
           onClick={() => {
+            const newIndex = fields.models.getFieldList().length;
             form.insert({
               name: fields.models.name,
             });
-            setExpandedCardId(fields.models.getFieldList().length);
+            setExpandedCardId(newIndex);
           }}
           disabled={expandedCardId !== null}
         >

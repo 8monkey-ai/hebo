@@ -30,12 +30,12 @@ type ClearCredentialsDialogProps = {
   provider?: { slug: string; name: string };
 } & React.ComponentProps<typeof Dialog>;
 
-export function ClearCredentialsDialog({provider, ...props}: ClearCredentialsDialogProps) {
+export function ClearCredentialsDialog({ provider, ...props }: ClearCredentialsDialogProps) {
 
   const fetcher = useFetcher();
   const [form, fields] = useForm<CredentialsClearFormValues>({
     id: provider?.slug,
-    lastResult: fetcher.state === "idle" && fetcher.data?.submission,
+    lastResult: fetcher.state === "idle" ? fetcher.data?.submission : undefined,
     constraint: getZodConstraint(CredentialsClearSchema),
     defaultValue: {
       providerSlug: provider?.slug,

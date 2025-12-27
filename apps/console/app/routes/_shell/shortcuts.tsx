@@ -30,7 +30,7 @@ const SHORTCUT_GROUPS = [
 ] as const;
 
 
-export function KeyboardShortcuts({ props }: React.ComponentProps<typeof Dialog>) {
+export function KeyboardShortcuts(props: React.ComponentProps<typeof Dialog>) {
 
   useHotkeys("mod+slash", () => {
       props.onOpenChange(true);
