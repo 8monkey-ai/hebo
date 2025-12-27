@@ -41,7 +41,7 @@ export function AgentCreateForm() {
 
   const lastResult = useActionData();
   const [form, fields] = useForm<AgentCreateFormValues>({
-    lastResult: navigation.state === "idle" && lastResult,
+    lastResult: navigation.state === "idle" ? lastResult : undefined,
     constraint: getZodConstraint(AgentCreateSchema),
     defaultValue: {
       defaultModel: Object.keys(models ?? {})[0],

@@ -59,7 +59,7 @@ export function ConfigureProviderDialog({ provider, ...props }: ConfigureProvide
 
   const [form, fields] = useForm<ProviderConfigureFormValues>({
     id: provider?.slug,
-    lastResult: fetcher.state === "idle" && fetcher.data?.submission,
+    lastResult: fetcher.state === "idle" ? fetcher.data?.submission : undefined,
     constraint: getZodConstraint(ProviderConfigureSchema),
     defaultValue: { 
       ...provider

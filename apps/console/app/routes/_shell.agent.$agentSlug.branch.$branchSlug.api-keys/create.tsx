@@ -51,7 +51,7 @@ export function CreateApiKeyDialog() {
   const fetcher = useFetcher();
 
   const [form, fields] = useForm<ApiKeyCreateFormValues>({
-    lastResult: fetcher.state === "idle" && fetcher.data?.submission,
+    lastResult: fetcher.state === "idle" ? fetcher.data?.submission : undefined,
     constraint: getZodConstraint(ApiKeyCreateSchema),
     defaultValue: {
       expiresIn: "30d",
@@ -174,7 +174,7 @@ function ApiKeyRevealDialog({ apiKey, ...props }: ApiKeyRevealDialogProps) {
                 id="acknowledge"
                 type="checkbox"
                 className="size-4 accent-foreground"
-                value={acknowledged}
+                checked={acknowledged}
                 onCheckedChange={setAcknowledged}
               />
               <span>I understand that I won't be able to view this key again</span>
