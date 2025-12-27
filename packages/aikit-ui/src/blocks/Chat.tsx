@@ -375,7 +375,9 @@ export function Chat({
               {modelsConfig.length > 1 && (
                 <PromptInputSelect
                   id="pg-model-select"
-                  onValueChange={(alias) => setSelectedModelAlias(alias)}
+                  onValueChange={(alias) =>
+                    setSelectedModelAlias(alias as string)
+                  }
                   value={currentModelAlias}
                   disabled={status === "submitted" || modelsConfig.length === 0}
                   aria-label="Select model"
