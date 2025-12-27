@@ -95,9 +95,9 @@ export function ConfigureProviderDialog({ provider, ...props }: ConfigureProvide
 
           <FieldGroup>
             <Field name={fields.slug.name} className="hidden">
-              <FieldControl render={
+              <FieldControl>
                 <input type="hidden" />
-              } />
+              </FieldControl>
             </Field>
 
             {(activeKeys as (keyof typeof configFieldset)[]).map((key) => {
@@ -105,9 +105,9 @@ export function ConfigureProviderDialog({ provider, ...props }: ConfigureProvide
               return (
                 <Field key={key} name={field.name}>
                   <FieldLabel>{labelize(key)}</FieldLabel>
-                  <FieldControl render={
+                  <FieldControl>
                     <Input placeholder={`Set ${labelize(key).toLowerCase()}`} autoComplete="off" />
-                  } />
+                  </FieldControl>
                   <FieldError />
                 </Field>
               )

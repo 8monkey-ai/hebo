@@ -1,5 +1,5 @@
+import { useRender } from "@base-ui/react";
 import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
 import {
   FormMetadata,
   FormProvider,
@@ -98,7 +98,11 @@ function FieldGroup({
   return <ShadCnFieldGroup className={cn("gap-4", className)} {...props} />;
 }
 
-function FieldControl({ render, ...props }: useRender.ComponentProps<"input">) {
+type FieldControlProps = React.ComponentProps<"input"> & {
+  children?: React.ReactElement;
+};
+
+function FieldControl({ children, ...props }: FieldControlProps) {
   const field = useF();
 
   const controlProps: React.ComponentProps<"input"> = {
@@ -118,7 +122,7 @@ function FieldControl({ render, ...props }: useRender.ComponentProps<"input">) {
   return useRender({
     defaultTagName: "input",
     props: mergeProps<"input">(controlProps, props),
-    render,
+    render: children,
   });
 }
 

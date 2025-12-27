@@ -80,15 +80,15 @@ export default function CreateBranch({ branches }: CreateBranchProps) {
           <FieldGroup>
             <Field name={fields.branchName.name}>
               <FieldLabel>Branch name</FieldLabel>
-              <FieldControl render={
+              <FieldControl>
                 <Input autoComplete="off" placeholder="Set a branch name" />
-              } />
+              </FieldControl>
               <FieldError />
             </Field>
 
             <Field name={fields.sourceBranchSlug.name}>
               <FieldLabel>Source</FieldLabel>
-              <FieldControl render={
+              <FieldControl>
                 <Select
                   items={
                     branches.map(branch => ({
@@ -102,7 +102,7 @@ export default function CreateBranch({ branches }: CreateBranchProps) {
                     }))
                   }
                 />
-              } />
+              </FieldControl>
               <FieldError />
             </Field>
           </FieldGroup>

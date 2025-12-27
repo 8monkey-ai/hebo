@@ -89,21 +89,21 @@ export function CreateApiKeyDialog() {
             <FieldGroup>
               <Field name={fields.description.name}>
                 <FieldLabel>Description</FieldLabel>
-                <FieldControl render={
+                <FieldControl>
                   <Input placeholder="API key description" autoComplete="off" />
-                } />
+                </FieldControl>
                 <FieldError />
               </Field>
               <Field name={fields.expiresIn.name}>
                 <FieldLabel>Expires in</FieldLabel>
-                <FieldControl render={
+                <FieldControl>
                   <Select
                     items={API_KEY_EXPIRATION_OPTIONS.map((option) => ({
                       value: option.value,
                       label: option.label,
                     }))}
                   />
-                } />
+                </FieldControl>
                 <FieldError />
               </Field>
             </FieldGroup>

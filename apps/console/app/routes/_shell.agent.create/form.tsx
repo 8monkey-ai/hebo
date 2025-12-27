@@ -65,9 +65,9 @@ export function AgentCreateForm() {
             <Field name={fields.agentName.name} orientation="responsive">
               <FieldLabel>Agent Name</FieldLabel>
               <FieldContent>
-                <FieldControl render={
+                <FieldControl>
                   <Input placeholder="Set an agent name" autoComplete="off" />
-                } />
+                </FieldControl>
                 <FieldError />
               </FieldContent>
             </Field>
@@ -75,9 +75,9 @@ export function AgentCreateForm() {
             <Field name={fields.defaultModel.name} orientation="responsive">
               <FieldLabel>Default Model</FieldLabel>
               <FieldContent>
-                <FieldControl render={
+                <FieldControl>
                   <ModelSelector models={models} />
-                } />
+                </FieldControl>
                 <FieldError />
               </FieldContent>
             </Field>
