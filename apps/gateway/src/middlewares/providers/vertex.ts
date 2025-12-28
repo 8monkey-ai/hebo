@@ -6,7 +6,6 @@ import { getSecret } from "@hebo/shared-api/utils/secrets";
 import { injectMetadataCredentials, buildWifOptions } from "./adapters/aws";
 import { ProviderAdapterBase, type ProviderAdapter } from "./provider";
 
-
 export class VertexProviderAdapter
   extends ProviderAdapterBase
   implements ProviderAdapter
