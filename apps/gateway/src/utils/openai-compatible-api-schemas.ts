@@ -101,6 +101,22 @@ export const OpenAICompatibleFinishReason = t.Union([
   t.Literal("tool_calls"),
 ]);
 
+export const OpenAICompatibleReasoningEffort = t.Union([
+  t.Literal("none"),
+  t.Literal("minimal"),
+  t.Literal("low"),
+  t.Literal("medium"),
+  t.Literal("high"),
+  t.Literal("xhigh"),
+]);
+
+export const OpenAICompatibleReasoning = t.Object({
+  enabled: t.Optional(t.Boolean()),
+  max_tokens: t.Optional(t.Number()),
+  effort: t.Optional(OpenAICompatibleReasoningEffort),
+  exclude: t.Optional(t.Boolean()),
+});
+
 export type OpenAICompatibleMessage = Static<typeof OpenAICompatibleMessage>;
 export type OpenAICompatibleContentPart =
   | Static<typeof OpenAICompatibleContentPartText>
@@ -108,6 +124,9 @@ export type OpenAICompatibleContentPart =
   | Static<typeof OpenAICompatibleContentPartFile>;
 export type OpenAICompatibleFinishReason = Static<
   typeof OpenAICompatibleFinishReason
+>;
+export type OpenAICompatibleReasoning = Static<
+  typeof OpenAICompatibleReasoning
 >;
 export type OpenAICompatibleAssistantMessage = Static<
   typeof OpenAICompatibleAssistantMessage
@@ -125,4 +144,5 @@ export type OpenAICompatibleToolCallDelta = {
   index: number;
   type: "function";
   function: { name: string; arguments: string };
+  [key: string]: any;
 };
