@@ -15,8 +15,8 @@ describe("End-to-End Reasoning Option Transformation", () => {
     name: string;
     modelAdapter: ModelAdapter;
     providerAdapter: ProviderAdapter;
-    initialInput: ProviderOptions | undefined;
-    expectedOutput: ProviderOptions | Record<string, any>;
+    input: ProviderOptions;
+    expected: ProviderOptions;
   };
 
   const gemini3ProAdapter = new Gemini3ProPreviewAdapter();
@@ -27,24 +27,15 @@ describe("End-to-End Reasoning Option Transformation", () => {
       name: "Gemini 3 Pro + Vertex: reasoning enabled (boolean) defaults to high thinkingLevel",
       modelAdapter: gemini3ProAdapter,
       providerAdapter: vertexProvider,
-      initialInput: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-          },
+      input: {
+        reasoning: {
+          enabled: true,
         },
       },
-      expectedOutput: {
-        openaiCompatible: {
-          reasoning: {
-            enabled: true,
-          },
-        },
-        google: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "high",
-          },
+      expected: {
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "high",
         },
       },
     },
@@ -52,24 +43,15 @@ describe("End-to-End Reasoning Option Transformation", () => {
       name: "Gemini 3 Pro + Vertex: reasoning with low effort",
       modelAdapter: gemini3ProAdapter,
       providerAdapter: vertexProvider,
-      initialInput: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "low",
-          },
+      input: {
+        reasoning: {
+          effort: "low",
         },
       },
-      expectedOutput: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "low",
-          },
-        },
-        google: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "low",
-          },
+      expected: {
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "low",
         },
       },
     },
@@ -77,24 +59,15 @@ describe("End-to-End Reasoning Option Transformation", () => {
       name: "Gemini 3 Flash + Vertex: reasoning with medium effort",
       modelAdapter: new Gemini3FlashPreviewAdapter(),
       providerAdapter: vertexProvider,
-      initialInput: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "medium",
-          },
+      input: {
+        reasoning: {
+          effort: "medium",
         },
       },
-      expectedOutput: {
-        openaiCompatible: {
-          reasoning: {
-            effort: "medium",
-          },
-        },
-        google: {
-          thinkingConfig: {
-            includeThoughts: true,
-            thinkingLevel: "medium",
-          },
+      expected: {
+        thinkingConfig: {
+          includeThoughts: true,
+          thinkingLevel: "medium",
         },
       },
     },
@@ -104,13 +77,13 @@ describe("End-to-End Reasoning Option Transformation", () => {
     name,
     modelAdapter,
     providerAdapter,
-    initialInput,
-    expectedOutput,
+    input,
+    expected,
   } of testCases) {
     test(name, () => {
-      const modelTransformed = modelAdapter.transformOptions(initialInput);
+      const modelTransformed = modelAdapter.transformOptions(input);
       const result = providerAdapter.transformOptions(modelTransformed);
-      expect(result).toEqual(expectedOutput);
+      expect(result).toEqual(expected);
     });
   }
 });

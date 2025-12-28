@@ -39,9 +39,9 @@ export class BedrockProviderAdapter
   }
 
   private static convertObjectKeysToSnakeCase(
-    obj: Record<string, any>,
-  ): Record<string, any> {
-    const newObj: Record<string, any> = {};
+    obj: ProviderOptions,
+  ): ProviderOptions {
+    const newObj: ProviderOptions = {};
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
         const originalValue = obj[key];
@@ -49,7 +49,9 @@ export class BedrockProviderAdapter
           typeof originalValue === "object" &&
           originalValue !== null &&
           !Array.isArray(originalValue)
-            ? BedrockProviderAdapter.convertObjectKeysToSnakeCase(originalValue)
+            ? BedrockProviderAdapter.convertObjectKeysToSnakeCase(
+                originalValue as ProviderOptions,
+              )
             : originalValue;
         newObj[BedrockProviderAdapter.toSnakeCase(key)] = convertedValue;
       }
@@ -57,25 +59,16 @@ export class BedrockProviderAdapter
     return newObj;
   }
 
-  transformOptions(options?: ProviderOptions): ProviderOptions {
-    const { modelConfig, ...rest } = options || {};
+  transformOptions(options: ProviderOptions): ProviderOptions {
+    const transformed: ProviderOptions = {};
 
-    let modifiedOptions: ProviderOptions = { ...rest };
-
-    if (modelConfig) {
-      const snakeCaseConfig =
-        BedrockProviderAdapter.convertObjectKeysToSnakeCase(
-          modelConfig as Record<string, any>,
-        );
-      modifiedOptions = {
-        ...modifiedOptions,
-        bedrock: {
-          additionalModelRequestFields: snakeCaseConfig,
-        },
-      };
+    const snakeCaseConfig =
+      BedrockProviderAdapter.convertObjectKeysToSnakeCase(options);
+    if (Object.keys(snakeCaseConfig).length > 0) {
+      transformed.additionalModelRequestFields = snakeCaseConfig;
     }
 
-    return modifiedOptions;
+    return Object.keys(transformed).length > 0 ? transformed : options;
   }
 
   private async getCredentials() {

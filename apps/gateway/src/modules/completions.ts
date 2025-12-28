@@ -14,7 +14,10 @@ import {
   OpenAICompatibleTool,
   OpenAICompatibleToolChoice,
   OpenAICompatibleReasoning,
+  OpenAICompatibleReasoningEffort,
 } from "~gateway/utils/openai-compatible-api-schemas";
+
+import type { ProviderOptions } from "@ai-sdk/provider-utils";
 
 export const completions = new Elysia({
   name: "completions",
@@ -30,6 +33,7 @@ export const completions = new Elysia({
         tools,
         tool_choice,
         reasoning,
+        reasoning_effort,
         temperature = 1,
         stream = false,
       } = body;
@@ -39,9 +43,14 @@ export const completions = new Elysia({
       const modelMessages = toModelMessages(messages);
       const coreToolChoice = toToolChoice(tool_choice);
 
-      const providerOptions: Record<string, any> = {};
+      const providerOptions: ProviderOptions = {};
       if (reasoning) {
-        providerOptions.openaiCompatible = { reasoning };
+        providerOptions.reasoning = reasoning;
+      } else if (reasoning_effort) {
+        providerOptions.reasoning = {
+          effort: reasoning_effort,
+          enabled: true,
+        };
       }
 
       if (stream) {
@@ -85,6 +94,7 @@ export const completions = new Elysia({
         tools: t.Optional(t.Array(OpenAICompatibleTool)),
         tool_choice: t.Optional(OpenAICompatibleToolChoice),
         reasoning: t.Optional(OpenAICompatibleReasoning),
+        reasoning_effort: t.Optional(OpenAICompatibleReasoningEffort),
       }),
     },
   );
