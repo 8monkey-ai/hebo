@@ -33,7 +33,7 @@ export async function sendVerificationOtpEmail({
   magicLinkUrl.searchParams.set("email", email);
   magicLinkUrl.searchParams.set("otp", otp);
 
-  // In local dev, we may not have SMTP credentials, so we just log the OTP.
+  // Locally we allow devs to work with the service without SMTP credentials, so we just log the OTP.
   if (!isRemote) {
     console.info(">>> OTP:", otp);
     if (!smtpHost || !smtpPort || !smtpUser || !smtpPass || !smtpFrom) {
