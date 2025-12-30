@@ -14,6 +14,10 @@ const cookieDomain = isRemote ? "hebo.ai" : undefined;
 export const auth = betterAuth({
   baseURL: process.env.AUTH_URL || `http://localhost:3000`,
   basePath: "/v1",
+  accountLinking: {
+    enabled: true,
+    trustedProviders: ["google", "github", "microsoft"],
+  },
   advanced: {
     useSecureCookies: isRemote,
     crossSubDomainCookies: {
