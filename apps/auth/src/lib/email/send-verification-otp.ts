@@ -3,7 +3,7 @@ import { SmtpTransport } from "@upyo/smtp";
 
 import { getSecret } from "@hebo/shared-api/utils/secrets";
 
-import { isRemote, trustedOrigins } from "../env";
+import { isRemote, consoleUrl } from "../env";
 
 const smtpHost = await getSecret("SmtpHost", false);
 const smtpPort = Number(await getSecret("SmtpPort", false));
@@ -29,7 +29,7 @@ export async function sendVerificationOtpEmail({
   email: string;
   otp: string;
 }) {
-  const magicLinkUrl = new URL("/signin/magic-link", trustedOrigins[0]);
+  const magicLinkUrl = new URL("/signin/magic-link", consoleUrl);
   magicLinkUrl.searchParams.set("email", email);
   magicLinkUrl.searchParams.set("otp", otp);
 

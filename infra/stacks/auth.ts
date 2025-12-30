@@ -20,7 +20,7 @@ const heboAuth = new sst.aws.Service("HeboAuth", {
   environment: {
     IS_REMOTE: $dev ? "false" : "true",
     AUTH_URL: authUrl,
-    AUTH_TRUSTED_ORIGINS: isProd
+    CONSOLE_URL: isProd
       ? "https://console.hebo.ai"
       : `https://console.${$app.stage}.hebo.ai`,
     LOG_LEVEL: isProd ? "info" : "debug",
