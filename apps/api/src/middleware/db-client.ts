@@ -13,4 +13,4 @@ export const dbClient = new Elysia({
   })
   .as("scoped");
 
-export { type createDbClient } from "../lib/db/client";
+export { type createDbClient } from "~api/lib/db/client";
