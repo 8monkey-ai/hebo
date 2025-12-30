@@ -1,4 +1,4 @@
-import { authUrl } from "./auth";
+import heboAuth from "./auth";
 import heboCluster from "./cluster";
 import heboDatabase from "./db";
 import { llmSecrets, otelExporterSecrets, isProd } from "./env";
@@ -27,7 +27,7 @@ const heboGateway = new sst.aws.Service("HeboGateway", {
   },
   environment: {
     IS_REMOTE: $dev ? "false" : "true",
-    AUTH_URL: authUrl,
+    AUTH_URL: heboAuth.url,
     LOG_LEVEL: isProd ? "info" : "debug",
     NODE_EXTRA_CA_CERTS: "/etc/ssl/certs/rds-bundle.pem",
     PORT: gatewayPort,
