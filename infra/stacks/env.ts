@@ -29,15 +29,9 @@ export const vertexProject = getSstSecret("VertexProject");
 export const vertexLocation = getSstSecret("VertexLocation");
 
 // OTEL Exporter
-export const grafanaCloudOtlpEndpoint = getSstSecret(
-  "GrafanaCloudOtlpEndpoint",
-);
-export const grafanaCloudOtlpInstanceId = getSstSecret(
-  "GrafanaCloudOtlpInstanceId",
-);
-export const grafanaCloudOtlpApiToken = getSstSecret(
-  "GrafanaCloudOtlpApiToken",
-);
+export const grafanaEndpoint = getSstSecret("GrafanaEndpoint");
+export const grafanaInstanceId = getSstSecret("GrafanaInstanceId");
+export const grafanaApiToken = getSstSecret("GrafanaApiToken");
 
 export const authSecrets = [
   authSecret,
@@ -66,9 +60,9 @@ export const llmSecrets = [
 ];
 
 export const otelExporterSecrets = [
-  grafanaCloudOtlpEndpoint,
-  grafanaCloudOtlpInstanceId,
-  grafanaCloudOtlpApiToken,
+  grafanaEndpoint,
+  grafanaInstanceId,
+  grafanaApiToken,
 ];
 
 export const isProd = $app.stage === "production";
