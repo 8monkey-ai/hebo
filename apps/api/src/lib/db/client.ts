@@ -10,7 +10,10 @@ import { redactProviderConfigValue } from "~api/utils/redact-provider";
 const dbNull = null;
 
 export const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: getConnectionString(), max: 25 }),
+  adapter: new PrismaPg({
+    connectionString: getConnectionString("api"),
+    max: 25,
+  }),
 });
 
 export const createDbClient = (userId: string) => {
