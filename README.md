@@ -114,7 +114,7 @@ Secret names:
   - Vertex: `VertexServiceAccountEmail`, `VertexAwsProviderAudience`, `VertexProject`, `VertexLocation`
   - Others: `CohereApiKey`, `GroqApiKey`
 
-Note for local development: if **auth is enabled** but SMTP secrets are not configured, the email OTP is logged to the console (look for `>>> OTP:`) so you can sign in without setting up an email provider.
+Note for local development: if SMTP secrets are not configured, the email OTP is logged to the console (look for `>>> OTP:`) so you can sign in without setting up an email provider.
 
 Local (Bun) examples:
 
@@ -132,11 +132,6 @@ Remote (SST) examples:
 bun run sst secret set GithubClientId <value> --stage <stage>
 bun run sst secret remove GithubClientId --stage <stage>
 ```
-
-Auth middleware toggle:
-
-- Backend (`apps/api`, `apps/gateway`): set `AUTH_URL` to enable Better Auth middleware; omit uses the localhost dummy.
-- Console frontend: set `VITE_AUTH_URL` to enable Better Auth in the UI; omit/false uses the dummy client.
 
 ## Run modes
 
