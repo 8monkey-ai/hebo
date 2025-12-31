@@ -24,15 +24,12 @@
     "@bogeychan/elysia-logger": "^0.1.10",
     "@elysiajs/opentelemetry": "^1.4.9",
     "bun-types": "^1.3.4",
-    "elysia": "^1.4.9",
-    "is-localhost-ip": "^2.0.0"
+    "elysia": "^1.4.9"
   },
   "dependencies": {
     "@opentelemetry/exporter-trace-otlp-http": "^0.208.0",
     "@opentelemetry/sdk-trace-node": "^2.2.0",
-    "@sinclair/typebox": "^0.34.41",
-    "@upyo/core": "^0.3.2",
-    "@upyo/smtp": "^0.3.2",
+    "better-auth": "^1.4.5",
     "sst": "^3.17.13"
   }
 }
