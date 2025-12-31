@@ -3,7 +3,7 @@ import { promisify } from "node:util";
 
 import { getConnectionString } from "../connection";
 
-export const handler = async (event: { schema: "api" | "auth" }) => {
+export const handler = async (event: { schema: string }) => {
   await promisify(exec)(
     "npx prisma migrate deploy --config ./prisma.config.ts",
     {

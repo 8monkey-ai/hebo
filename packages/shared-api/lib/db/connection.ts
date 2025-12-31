@@ -1,7 +1,7 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Resource } from "sst";
 
-export const getConnectionString = (schema: "api" | "auth") => {
+export const getConnectionString = (schema: string) => {
   try {
     // @ts-expect-error: HeboDatabase may not be defined
     const db = Resource.HeboDatabase;
@@ -13,7 +13,7 @@ export const getConnectionString = (schema: "api" | "auth") => {
 };
 
 export const createPrismaAdapter = (
-  schema: "api" | "auth",
+  schema: string,
   max: number = 25,
 ): PrismaPg => {
   return new PrismaPg({

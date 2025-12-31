@@ -24,7 +24,7 @@ const heboDatabase = new sst.aws.Aurora("HeboDatabase", {
   },
 });
 
-function createMigrator(schema: "api" | "auth") {
+function createMigrator(schema: string) {
   const migrator = new sst.aws.Function(`${schema}DatabaseMigrator`, {
     handler: "packages/shared-api/lib/db/lambda/migrator.handler",
     vpc: heboVpc,
