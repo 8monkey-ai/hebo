@@ -38,7 +38,7 @@ export const API_KEY_EXPIRATION_OPTIONS = [
 ] as const;
 
 export const ApiKeyCreateSchema = z.object({
-  description: ((msg) => z.string(msg).trim().min(1, msg))("Please enter a description"),
+  name: ((msg) => z.string(msg).trim().min(1, msg))("Please enter a name"),
   expiresIn: z.literal(
     API_KEY_EXPIRATION_OPTIONS.map((option) => option.value),
     "Select an expiration window",
@@ -83,14 +83,14 @@ export function CreateApiKeyDialog() {
             <DialogHeader>
               <DialogTitle>Create API key</DialogTitle>
               <DialogDescription>
-                Provide a brief description and expiration window.
+                Provide a name and expiration window.
               </DialogDescription>
             </DialogHeader>
             <FieldGroup>
-              <Field name={fields.description.name}>
-                <FieldLabel>Description</FieldLabel>
+              <Field name={fields.name.name}>
+                <FieldLabel>Name</FieldLabel>
                 <FieldControl>
-                  <Input placeholder="API key description" autoComplete="off" />
+                  <Input placeholder="API key name" autoComplete="off" />
                 </FieldControl>
                 <FieldError />
               </Field>
@@ -129,7 +129,7 @@ export function CreateApiKeyDialog() {
       <ApiKeyRevealDialog
         open={revealOpen}
         onOpenChange={setRevealOpen}
-        apiKey={fetcher.data?.apiKey?.value || ""}
+        apiKey={fetcher.data?.apiKey.key || ""}
       />
     </>
   );

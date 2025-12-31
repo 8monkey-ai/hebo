@@ -5,7 +5,7 @@ import { opentelemetry } from "@elysiajs/opentelemetry";
 import Elysia from "elysia";
 
 import { authService } from "@hebo/shared-api/middlewares/auth/auth-service";
-import { corsConfig } from "@hebo/shared-api/middlewares/cors-config";
+import { corsConfig } from "@hebo/shared-api/utils/cors";
 import { getOtelConfig } from "@hebo/shared-api/utils/otel";
 
 import { errorHandler } from "./middleware/error-handler";

@@ -1,8 +1,9 @@
+import { BadRequestError } from "@hebo/shared-api/errors";
+
 import type {
   ProviderConfig,
   ProviderSlug,
-} from "@hebo/database/src/types/providers";
-import { BadRequestError } from "@hebo/shared-api/errors";
+} from "~api/modules/providers/types";
 
 import type { ProviderOptions } from "@ai-sdk/provider-utils";
 import type { Provider } from "ai";

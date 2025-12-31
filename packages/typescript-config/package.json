@@ -1,0 +1,9 @@
+{
+  "name": "@hebo/typescript-config",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./base.json": "./base.json"
+  }
+}

@@ -1,6 +1,6 @@
-import type { createDbClient } from "@hebo/database/client";
-import type { ProviderSlug } from "@hebo/database/src/types/providers";
-import type { ModelConfig, Models } from "@hebo/shared-api/types/model-config";
+import type { createDbClient } from "~api/middleware/db-client";
+import type { Models, ProviderSlug } from "~api/modules/providers/types";
+type ModelConfig = (typeof Models)[number];
 
 export class ModelConfigService {
   private model?: ModelConfig;

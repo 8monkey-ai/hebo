@@ -75,6 +75,7 @@ export type ModelsConfig = Array<{
   endpoint: {
     baseUrl: string;
     fetch?: typeof fetch;
+    credentials?: RequestCredentials;
   };
 }>;
 
@@ -105,6 +106,7 @@ export function Chat({
       new OpenAIHttpChatTransport({
         api: currentModel?.endpoint.baseUrl + "/chat/completions",
         fetch: currentModel?.endpoint.fetch || fetch,
+        credentials: currentModel?.endpoint.credentials,
       }),
     [currentModel?.endpoint.baseUrl],
   );

@@ -8,8 +8,8 @@ import { DEFAULT_EXPIRATION_MS, type AuthService } from "./types";
 const apiKeys = new Collection({
   schema: z.object({
     id: z.string().default(crypto.randomUUID()),
-    description: z.string(),
-    value: z.string(),
+    name: z.string(),
+    key: z.string(),
     createdAt: z.date(),
     expiresAt: z.date(),
   }),
@@ -22,24 +22,18 @@ export const authService = {
       name: "Dummy User",
       email: "dummy@user.com",
       initials: "DU",
-      avatar: "",
+      image: "",
     };
   },
 
-  getAccessToken() {
-    return "dummy-access-token";
-  },
-
-  async generateApiKey(description, expiresIn = DEFAULT_EXPIRATION_MS) {
+  async generateApiKey(name, expiresInMs = DEFAULT_EXPIRATION_MS) {
     const now = new Date();
-    const newKey = await apiKeys.create({
-      description,
-      value: crypto.randomUUID(),
+    return await apiKeys.create({
+      name,
+      key: crypto.randomUUID(),
       createdAt: now,
-      expiresAt: new Date(now.getTime() + expiresIn),
+      expiresAt: new Date(now.getTime() + expiresInMs),
     });
-
-    return newKey;
   },
 
   async revokeApiKey(apiKeyId: string) {
@@ -60,5 +54,9 @@ export const authService = {
 
   async signInWithMagicLink() {
     throw new Error("Magic Link not implemented");
+  },
+
+  async signOut() {
+    shellStore.user = undefined;
   },
 } satisfies AuthService;

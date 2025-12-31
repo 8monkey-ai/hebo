@@ -1,7 +1,8 @@
 import { createGroq } from "@ai-sdk/groq";
 
-import type { ApiKeyProviderConfig } from "@hebo/database/src/types/providers";
 import { getSecret } from "@hebo/shared-api/utils/secrets";
+
+import type { ApiKeyProviderConfig } from "~api/modules/providers/types";
 
 import { ProviderAdapterBase, type ProviderAdapter } from "./provider";
 

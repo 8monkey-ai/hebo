@@ -27,7 +27,7 @@ export const ApiKeyRevokeSchema = z.object({
 type ApiKeyRevokeFormValues = z.infer<typeof ApiKeyRevokeSchema>;
 
 type RevokeApiKeyDialogProps = {
-  apiKey?: { id: string; description: string; value: string };
+  apiKey?: { id: string; name: string; key: string };
 } & React.ComponentProps<typeof Dialog>;
 
 export function RevokeApiKeyDialog({ apiKey, ...props }: RevokeApiKeyDialogProps) {
@@ -61,7 +61,7 @@ export function RevokeApiKeyDialog({ apiKey, ...props }: RevokeApiKeyDialogProps
           </DialogHeader>
           <Alert variant="destructive">
             <AlertDescription>
-              Key ({apiKey?.value ?? ""}) will stop working immediately.
+              Key ({apiKey?.key ?? ""}) will stop working immediately.
             </AlertDescription>
           </Alert>
 

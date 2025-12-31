@@ -5,11 +5,11 @@ import { getSecret } from "./secrets";
 
 import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
 
-const getGrafanaCloudOtlpConfig = async () => {
+const getGrafanaConfig = async () => {
   const [endpoint, instanceId, apiToken] = await Promise.all([
-    getSecret("GrafanaCloudOtlpEndpoint", false),
-    getSecret("GrafanaCloudOtlpInstanceId", false),
-    getSecret("GrafanaCloudOtlpApiToken", false),
+    getSecret("GrafanaEndpoint", false),
+    getSecret("GrafanaInstanceId", false),
+    getSecret("GrafanaApiToken", false),
   ]);
 
   if (!endpoint || !instanceId || !apiToken) {
@@ -28,7 +28,7 @@ const getGrafanaCloudOtlpConfig = async () => {
   };
 };
 
-const grafanaConfig = await getGrafanaCloudOtlpConfig();
+const grafanaConfig = await getGrafanaConfig();
 
 export const getOtelConfig = (
   serviceName: string,

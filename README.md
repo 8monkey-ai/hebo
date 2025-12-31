@@ -8,9 +8,10 @@ This is the monorepo for Hebo, containing all our applications and shared packag
 / (hebo)
 ├── apps/                           # Deployable applications
 │   ├── api/                        # REST API server (ElysiaJS)
+│   ├── auth/                       # Auth Service (ElysiaJS + Better Auth)
 │   ├── console/                    # Web console (React Router + Vite)
 │   ├── gateway/                    # AI Gateway (ElysiaJS + Vercel AI SDK)
-│   └── mcp/                        # MCP Server (ElysiaJS with SSR)
+│   └── mcp/                        # MCP Server (ElysiaJS)
 │
 ├── packages/                       # Shared libraries and utilities
 │   ├── aikit-ui/                   # Chat UI components (Shadcn + custom)
@@ -101,29 +102,37 @@ bun run clean
 
 We use Bun secrets for local development and SST secrets for remote deployments. Code reads values via `getSecret(name)` (see `packages/shared-api/utils/get-secret.ts`), which resolves from SST first and falls back to Bun secrets locally.
 
+Local development secrets are optional. Only configure the ones needed for the features you're working with (e.g., configure LLM provider secrets to test AI features).
+
 Secret names:
 
-- LLM:
+- Auth
+  - GitHub: `GithubClientId`, `GithubClientSecret`
+  - Google: `GoogleClientId`, `GoogleClientSecret`
+  - Microsoft: `MicrosoftClientId`, `MicrosoftClientSecret`
+  - Email OTP and Magic Link: `SmtpHost`, `SmtpPort`, `SmtpUser`, `SmtpPass`, `SmtpFrom`
+- LLMs
   - Bedrock: `BedrockRoleArn`, `BedrockRegion`
   - Vertex: `VertexServiceAccountEmail`, `VertexAwsProviderAudience`, `VertexProject`, `VertexLocation`
   - Others: `CohereApiKey`, `GroqApiKey`
-- Auth (Stack Auth): `StackSecretServerKey`, `StackPublishableClientKey`, `StackProjectId`
+
+Note for local development: if SMTP secrets are not configured, the email OTP is logged to the console (look for `>>> OTP:`) so you can sign in without setting up an email provider.
 
 Local (Bun) examples:
 
 ```bash
 # set / get / delete
-bun run secret set StackSecretServerKey <value>
-bun run secret get StackSecretServerKey
-bun run secret delete StackSecretServerKey
+bun run secret set GithubClientId <value>
+bun run secret get GithubClientId
+bun run secret delete GithubClientId
 ```
 
 Remote (SST) examples:
 
 ```bash
 # set / remove (choose your <stage>)
-bun run sst secret set StackSecretServerKey <value> --stage <stage>
-bun run sst secret remove StackSecretServerKey --stage <stage>
+bun run sst secret set GithubClientId <value> --stage <stage>
+bun run sst secret remove GithubClientId --stage <stage>
 ```
 
 ## Run modes
@@ -163,6 +172,7 @@ The repository uses GitHub Actions for CI/CD:
 ### Service URLs
 
 - API: `https://api.hebo.ai` (prod) or `https://api.<stage>.hebo.ai` (preview)
+- Auth: `https://auth.hebo.ai` (prod) or `https://auth.<stage>.hebo.ai` (preview)
 - Gateway: `https://gateway.hebo.ai` (prod) or `https://gateway.<stage>.hebo.ai` (preview)
 - Console: `https://console.hebo.ai` (prod) or `https://console.<stage>.hebo.ai` (preview)
 - MCP: `https://mcp.hebo.ai` (prod) or `https://mcp.<stage>.hebo.ai` (preview)

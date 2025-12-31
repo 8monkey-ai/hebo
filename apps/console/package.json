@@ -27,6 +27,7 @@
     "@react-router/fs-routes": "^7.9.6",
     "@react-router/node": "^7.9.6",
     "@react-router/serve": "^7.9.6",
+    "better-auth": "^1.4.5",
     "@stackframe/react": "^2.8.28",
     "ai": "^5.0.116",
     "cmdk": "^1.1.1",
@@ -46,6 +47,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@hebo/typescript-config": "workspace:*",
     "@babel/preset-typescript": "^7.28.5",
     "@mdx-js/react": "^3.1.0",
     "@mdx-js/rollup": "^3.1.0",

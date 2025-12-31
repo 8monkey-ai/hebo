@@ -1,8 +1,8 @@
 import { Elysia, status } from "elysia";
 
-import { identifyPrismaError } from "@hebo/database/src/errors";
 import { HttpError } from "@hebo/shared-api/errors";
 
+import { identifyPrismaError } from "~api/lib/db/errors";
 import { toOpenAiCompatibleError } from "~gateway/utils/converters";
 
 const upstreamRes = (e: unknown) =>

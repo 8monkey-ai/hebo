@@ -1,12 +1,13 @@
-import type { createDbClient } from "@hebo/database/client";
+import { BadRequestError } from "@hebo/shared-api/errors";
+
+import type { createDbClient } from "~api/lib/db/client";
 import type {
   ApiKeyProviderConfig,
   BedrockProviderConfig,
   VertexProviderConfig,
   ProviderConfig,
   ProviderSlug,
-} from "@hebo/database/src/types/providers";
-import { BadRequestError } from "@hebo/shared-api/errors";
+} from "~api/modules/providers/types";
 
 import { BedrockProviderAdapter } from "./bedrock";
 import { CohereProviderAdapter } from "./cohere";
