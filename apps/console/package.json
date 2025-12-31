@@ -47,6 +47,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@hebo/typescript-config": "workspace:*",
     "@babel/preset-typescript": "^7.28.5",
     "@mdx-js/react": "^3.1.0",
     "@mdx-js/rollup": "^3.1.0",
