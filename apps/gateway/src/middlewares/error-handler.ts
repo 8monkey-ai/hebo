@@ -5,7 +5,6 @@ import { HttpError } from "@hebo/shared-api/errors";
 import { identifyPrismaError } from "~api/lib/db/errors";
 import { toOpenAiCompatibleError } from "~gateway/utils/converters";
 
-
 const upstreamRes = (e: unknown) =>
   (e as { response?: unknown })?.response instanceof Response
     ? (e as { response: Response }).response
