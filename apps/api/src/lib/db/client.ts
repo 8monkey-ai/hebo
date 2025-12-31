@@ -2,7 +2,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 
 import { getConnectionString } from "@hebo/shared-api/lib/db/connection";
 
-import { PrismaClient } from "~api/generated/prisma/client";
+import { Prisma, PrismaClient } from "~api/generated/prisma/client";
 import type { ProviderConfig } from "~api/modules/providers/types";
 import { redactProviderConfigValue } from "~api/utils/redact-provider";
 
@@ -65,9 +65,10 @@ export const createDbClient = (userId: string) => {
     },
     model: {
       $allModels: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        async softDelete<T>(this: any, where: T) {
-          return this.update({
+        async softDelete<T, W>(this: T, where: W) {
+          const context = Prisma.getExtensionContext(this);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          return (context as any).update({
             where,
             data: { deleted_by: userId, deleted_at: new Date() },
           });
