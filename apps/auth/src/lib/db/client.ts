@@ -1,12 +1,7 @@
-import { PrismaPg } from "@prisma/adapter-pg";
-
-import { getConnectionString } from "@hebo/shared-api/lib/db/connection";
+import { createPrismaAdapter } from "@hebo/shared-api/lib/db/connection";
 
 import { PrismaClient } from "~auth/generated/prisma/client";
 
 export const prisma = new PrismaClient({
-  adapter: new PrismaPg({
-    connectionString: getConnectionString("auth"),
-    max: 25,
-  }),
+  adapter: createPrismaAdapter("auth"),
 });

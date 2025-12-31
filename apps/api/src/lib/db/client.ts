@@ -1,6 +1,4 @@
-import { PrismaPg } from "@prisma/adapter-pg";
-
-import { getConnectionString } from "@hebo/shared-api/lib/db/connection";
+import { createPrismaAdapter } from "@hebo/shared-api/lib/db/connection";
 
 import { Prisma, PrismaClient } from "~api/generated/prisma/client";
 import type { ProviderConfig } from "~api/modules/providers/types";
@@ -10,10 +8,7 @@ import { redactProviderConfigValue } from "~api/utils/redact-provider";
 const dbNull = null;
 
 export const prisma = new PrismaClient({
-  adapter: new PrismaPg({
-    connectionString: getConnectionString("api"),
-    max: 25,
-  }),
+  adapter: createPrismaAdapter("api"),
 });
 
 export const createDbClient = (userId: string) => {

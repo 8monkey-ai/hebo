@@ -1,3 +1,4 @@
+import { PrismaPg } from "@prisma/adapter-pg";
 import { Resource } from "sst";
 
 export const getConnectionString = (schema: "api" | "auth") => {
@@ -9,4 +10,14 @@ export const getConnectionString = (schema: "api" | "auth") => {
     // FUTURE: keep in sync with dev:infra:up script once updated
     return `postgresql://postgres:password@localhost:5432/local?schema=${schema.toLowerCase()}`;
   }
+};
+
+export const createPrismaAdapter = (
+  schema: "api" | "auth",
+  max: number = 25,
+): PrismaPg => {
+  return new PrismaPg({
+    connectionString: getConnectionString(schema),
+    max,
+  });
 };
