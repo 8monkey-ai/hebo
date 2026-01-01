@@ -15,22 +15,22 @@ const ALL_MODEL_ADAPTER_CLASSES = [
   Voyage35Adapter,
 ];
 
-const MODEL_ADAPTER_MAP: Record<string, () => ModelAdapter> = {};
+const MODEL_ADAPTER_MAP: Record<string, (logger?: any) => ModelAdapter> = {};
 
 for (const AdapterClass of ALL_MODEL_ADAPTER_CLASSES) {
   const instance = new AdapterClass();
-  MODEL_ADAPTER_MAP[instance.id] = () => new AdapterClass();
+  MODEL_ADAPTER_MAP[instance.id] = (logger?: any) => new AdapterClass(logger);
 }
 
 export const ModelAdapterFactory = {
-  getAdapter(modelType: string): ModelAdapter {
+  getAdapter(modelType: string, logger?: any): ModelAdapter {
     const factoryMethod = MODEL_ADAPTER_MAP[modelType];
     if (!factoryMethod) {
       throw new BadRequestError(
         `No model adapter found for model type: ${modelType}`,
       );
     }
-    return factoryMethod();
+    return factoryMethod(logger);
   },
 };
 

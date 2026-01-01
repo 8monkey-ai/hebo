@@ -1,3 +1,4 @@
+import { logger } from "@bogeychan/elysia-logger";
 import { wrapLanguageModel } from "ai";
 import { Elysia } from "elysia";
 
@@ -25,8 +26,9 @@ type AiModelFor<M extends Modality> = M extends "chat"
 export const aiModelFactory = new Elysia({
   name: "ai-model-factory",
 })
+  .use(logger())
   .use(dbClient)
-  .resolve(function resolveAiModelFactory({ dbClient }) {
+  .resolve(function resolveAiModelFactory({ dbClient, log }) {
     const modelConfigService = new ModelConfigService(dbClient);
     const providerAdapterFactory = new ProviderAdapterFactory(dbClient);
 
@@ -35,7 +37,7 @@ export const aiModelFactory = new Elysia({
       modality: M,
     ): Promise<AiModelFor<M>> => {
       const modelType = await modelConfigService.getModelType(modelAliasPath);
-      const modelAdapter = ModelAdapterFactory.getAdapter(modelType);
+      const modelAdapter = ModelAdapterFactory.getAdapter(modelType, log);
       if (modelAdapter.modality !== modality)
         throw new BadRequestError(
           `Model ${modelType} is not a ${modality} model. It is a ${modelAdapter.modality} model.`,
@@ -44,8 +46,12 @@ export const aiModelFactory = new Elysia({
       const customProviderSlug =
         await modelConfigService.getCustomProviderSlug(modelAliasPath);
       const providerAdapter = await (customProviderSlug
-        ? providerAdapterFactory.createCustom(modelType, customProviderSlug)
-        : providerAdapterFactory.createDefault(modelType));
+        ? providerAdapterFactory.createCustom(
+            modelType,
+            customProviderSlug,
+            log,
+          )
+        : providerAdapterFactory.createDefault(modelType, log));
 
       const provider = await providerAdapter.getProvider();
       const modelId = await providerAdapter.resolveModelId();

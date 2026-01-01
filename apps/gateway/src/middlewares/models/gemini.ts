@@ -98,6 +98,14 @@ export abstract class Gemini3ModelAdapter extends GeminiModelAdapter {
               if (hasInjected) {
                 return part;
               }
+              this.logger?.warn(
+                {
+                  modelId: this.id,
+                  role: message.role,
+                  thoughtSignature: part.providerOptions?.thought_signature,
+                },
+                "Injected dummy thought signature. Model performance may degrade. Provide a valid signature for optimal results.",
+              );
               const thoughtSignature =
                 part.providerOptions?.thought_signature ||
                 "context_engineering_is_the_way_to_go";

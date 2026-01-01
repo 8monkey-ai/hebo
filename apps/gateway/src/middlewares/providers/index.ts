@@ -27,12 +27,15 @@ export class ProviderAdapterFactory {
 
   constructor(private readonly dbClient: ReturnType<typeof createDbClient>) {}
 
-  async createDefault(modelType: string): Promise<ProviderAdapter> {
+  async createDefault(
+    modelType: string,
+  ): Promise<ProviderAdapter> {
     for (const ProviderAdapterClass of ProviderAdapterFactory.ALL_PROVIDER_ADAPTER_CLASSES) {
       if (ProviderAdapterClass.supportsModel(modelType)) {
         return await this.createAdapter(
           ProviderAdapterClass.providerSlug,
           modelType,
+          undefined,
         );
       }
     }
@@ -62,7 +65,7 @@ export class ProviderAdapterFactory {
   ) {
     switch (providerSlug) {
       case "bedrock": {
-        return new BedrockProviderAdapter(modelType).initialize(
+        return new BedrockProviderAdapter(modelType, logger).initialize(
           config as BedrockProviderConfig | undefined,
         );
       }
@@ -72,12 +75,12 @@ export class ProviderAdapterFactory {
         );
       }
       case "groq": {
-        return new GroqProviderAdapter(modelType).initialize(
+        return new GroqProviderAdapter(modelType, logger).initialize(
           config as ApiKeyProviderConfig | undefined,
         );
       }
       case "vertex": {
-        return new VertexProviderAdapter(modelType).initialize(
+        return new VertexProviderAdapter(modelType, logger).initialize(
           config as VertexProviderConfig | undefined,
         );
       }

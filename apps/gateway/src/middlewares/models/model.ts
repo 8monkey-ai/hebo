@@ -17,6 +17,7 @@ export const supportedModel = t.Object({
 export type SupportedModel = Static<typeof supportedModel>;
 
 export interface ModelAdapter extends SupportedModel {
+  logger?: any;
   transformOptions(options: ProviderOptions): ProviderOptions;
   transformPrompt(prompt: LanguageModelV3Prompt): LanguageModelV3Prompt;
 }
@@ -30,6 +31,8 @@ export abstract class ModelAdapterBase implements ModelAdapter {
   abstract readonly pricing: {
     monthly_free_tokens: number;
   };
+
+  constructor(public readonly logger?: any) {}
 
   transformOptions(options: ProviderOptions): ProviderOptions {
     delete options.reasoning;
