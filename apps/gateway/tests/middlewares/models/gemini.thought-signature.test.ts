@@ -147,6 +147,43 @@ describe("Gemini Adapter transformPrompt", () => {
         },
       ],
     },
+    {
+      name: "does NOT strip other fields from providerOptions when injecting thoughtSignature",
+      model: gemini3ProAdapter,
+      inputPrompt: [
+        {
+          role: "assistant",
+          content: [
+            {
+              type: "tool-call",
+              toolCallId: "call_789",
+              toolName: "get_weather",
+              args: { location: "London" },
+              providerOptions: {
+                someOtherField: "someValue",
+              },
+            },
+          ],
+        },
+      ],
+      expectedPrompt: [
+        {
+          role: "assistant",
+          content: [
+            {
+              type: "tool-call",
+              toolCallId: "call_789",
+              toolName: "get_weather",
+              args: { location: "London" },
+              providerOptions: {
+                thoughtSignature: "context_engineering_is_the_way_to_go",
+                someOtherField: "someValue",
+              },
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   for (const { name, model, inputPrompt, expectedPrompt } of promptTestCases) {
