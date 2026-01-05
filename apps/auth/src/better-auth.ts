@@ -34,7 +34,6 @@ const afterHook = createAuthMiddleware(async (ctx) => {
     where: { userId: newSession.user.id },
   });
 
-  // New user without org → create personal workspace
   if (!membership) {
     const org = await prisma.organizations.create({
       data: {

@@ -43,6 +43,8 @@ model agents {
   deleted_by String?
   /// @prismabox.hide
   deleted_at DateTime?
+  /// @prismabox.hide
+  organization_id String
 
   @@schema("api")
 }
@@ -72,6 +74,8 @@ model branches {
   deleted_by String?
   /// @prismabox.hide
   deleted_at DateTime?
+  /// @prismabox.hide
+  organization_id String
 
   @@unique([agent_slug, slug])
   @@schema("api")
@@ -96,6 +100,8 @@ model provider_configs {
   deleted_by String?
   /// @prismabox.hide
   deleted_at DateTime?
+  /// @prismabox.hide
+  organization_id String
 
   @@schema("api")
 }

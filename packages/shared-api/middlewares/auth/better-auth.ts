@@ -1,5 +1,6 @@
 import { type Logger } from "@bogeychan/elysia-logger/types";
 import { createAuthClient } from "better-auth/client";
+import { organizationClient } from "better-auth/client/plugins";
 import { Elysia } from "elysia";
 
 import { BadRequestError } from "../../errors";
@@ -8,6 +9,7 @@ const AUTH_URL = process.env.AUTH_URL || "http://localhost:3000";
 
 const authClient = createAuthClient({
   baseURL: new URL("/v1", AUTH_URL).toString(),
+  plugins: [organizationClient()],
 });
 
 export const authServiceBetterAuth = new Elysia({
@@ -37,9 +39,11 @@ export const authServiceBetterAuth = new Elysia({
 
     if (error || !session) {
       log.info({ error }, "Authentication failed or no credentials provided");
-      return { userId: undefined } as const;
+      return { organizationId: undefined, userId: undefined } as const;
     }
-
-    return { userId: session.user.id } as const;
+    return {
+      organizationId: session.session.activeOrganizationId,
+      userId: session.user.id,
+    } as const;
   })
   .as("scoped");
