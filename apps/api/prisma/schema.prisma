@@ -9,7 +9,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["api"]
 }
 
 generator prismabox {
@@ -45,8 +44,6 @@ model agents {
   deleted_at DateTime?
   /// @prismabox.hide
   organization_id String
-
-  @@schema("api")
 }
 
 model branches {
@@ -78,7 +75,6 @@ model branches {
   organization_id String
 
   @@unique([agent_slug, slug])
-  @@schema("api")
 }
 
 model provider_configs {
@@ -102,6 +98,4 @@ model provider_configs {
   deleted_at DateTime?
   /// @prismabox.hide
   organization_id String
-
-  @@schema("api")
 }

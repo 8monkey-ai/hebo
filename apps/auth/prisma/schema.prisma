@@ -9,7 +9,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["auth"]
 }
 
 model users {
@@ -25,8 +24,6 @@ model users {
   apikeys       apikeys[]
   members       members[]
   invitations   invitations[]
-
-  @@schema("auth")
 }
 
 model sessions {
@@ -43,7 +40,6 @@ model sessions {
   user                 users    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@schema("auth")
 }
 
 model accounts {
@@ -64,7 +60,6 @@ model accounts {
 
   @@unique([providerId, accountId])
   @@index([userId])
-  @@schema("auth")
 }
 
 model verifications {
@@ -74,8 +69,6 @@ model verifications {
   expiresAt  DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-
-  @@schema("auth")
 }
 
 model apikeys {
@@ -103,7 +96,6 @@ model apikeys {
   user                users     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@schema("auth")
 }
 
 model organizations {
@@ -117,7 +109,6 @@ model organizations {
   invitations invitations[]
 
   @@unique([slug])
-  @@schema("auth")
 }
 
 model members {
@@ -132,7 +123,6 @@ model members {
   @@unique([userId, organizationId])
   @@index([userId])
   @@index([organizationId])
-  @@schema("auth")
 }
 
 model invitations {
@@ -151,5 +141,4 @@ model invitations {
   @@index([email])
   @@index([organizationId])
   @@index([inviterId])
-  @@schema("auth")
 }
