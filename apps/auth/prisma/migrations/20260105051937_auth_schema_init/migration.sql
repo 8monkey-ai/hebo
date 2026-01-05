@@ -20,7 +20,6 @@ CREATE TABLE "sessions" (
     "ipAddress" TEXT,
     "userAgent" TEXT,
     "activeOrganizationId" TEXT,
-    "activeTeamId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

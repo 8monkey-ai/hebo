@@ -34,7 +34,6 @@ model sessions {
   ipAddress            String?
   userAgent            String?
   activeOrganizationId String?  @db.Text
-  activeTeamId         String?  @db.Text
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
   user                 users    @relation(fields: [userId], references: [id], onDelete: Cascade)
