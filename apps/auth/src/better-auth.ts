@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { apiKey, emailOTP } from "better-auth/plugins";
+import { createAuthMiddleware } from "better-auth/api";
+import { apiKey, emailOTP, organization } from "better-auth/plugins";
 
 import { createPrismaAdapter } from "@hebo/shared-api/lib/db/connection";
 import { getSecret } from "@hebo/shared-api/utils/secrets";
@@ -25,6 +26,39 @@ function getCookieDomain() {
 }
 const cookieDomain = getCookieDomain();
 
+const afterHook = createAuthMiddleware(async (ctx) => {
+  const newSession = ctx.context.newSession;
+  if (!newSession) return;
+
+  let membership = await prisma.members.findFirst({
+    where: { userId: newSession.user.id },
+  });
+
+  // New user without org → create personal workspace
+  if (!membership) {
+    const org = await prisma.organizations.create({
+      data: {
+        id: crypto.randomUUID(),
+        name: `${newSession.user.name || newSession.user.email.split("@")[0]}'s Workspace`,
+        slug: `${newSession.user.id.slice(0, 8)}-workspace`,
+      },
+    });
+    membership = await prisma.members.create({
+      data: {
+        id: crypto.randomUUID(),
+        userId: newSession.user.id,
+        organizationId: org.id,
+        role: "owner",
+      },
+    });
+  }
+
+  await prisma.sessions.update({
+    where: { id: newSession.session.id },
+    data: { activeOrganizationId: membership.organizationId },
+  });
+});
+
 export const auth = betterAuth({
   baseURL,
   basePath: "/v1",
@@ -45,6 +79,7 @@ export const auth = betterAuth({
     transaction: true,
     debugLogs: process.env.LOG_LEVEL === "debug",
   }),
+  hooks: { after: afterHook },
   socialProviders: {
     google: {
       prompt: "select_account",
@@ -83,6 +118,7 @@ export const auth = betterAuth({
         });
       },
     }),
+    organization(),
   ],
   trustedOrigins: cookieDomain ? [`https://*.${cookieDomain}`] : ["*"],
   secret: await getSecret("AuthSecret", false),
