@@ -18,8 +18,8 @@ export class CohereProviderAdapter
     "cohere/embed-v4.0": "embed-v4.0",
   };
 
-  constructor(modelType: string) {
-    super(modelType);
+  constructor(modelType: string, logger?: any) {
+    super(modelType, logger);
   }
 
   async initialize(config?: ApiKeyProviderConfig): Promise<this> {

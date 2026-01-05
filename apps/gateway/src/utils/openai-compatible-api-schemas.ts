@@ -24,14 +24,19 @@ export const OpenAICompatibleContentPartFile = t.Object({
   }),
 });
 
-export const OpenAICompatibleMessageToolCall = t.Object({
-  type: t.Literal("function"),
-  id: t.String(),
-  function: t.Object({
-    arguments: t.String(),
-    name: t.String(),
-  }),
-});
+export const OpenAICompatibleMessageToolCall = t.Object(
+  {
+    type: t.Literal("function"),
+    id: t.String(),
+    function: t.Object({
+      arguments: t.String(),
+      name: t.String(),
+    }),
+  },
+  {
+    additionalProperties: true,
+  },
+);
 
 export const OpenAICompatibleSystemMessage = t.Object({
   role: t.Literal("system"),
@@ -52,13 +57,18 @@ export const OpenAICompatibleUserMessage = t.Object({
   ]),
 });
 
-export const OpenAICompatibleAssistantMessage = t.Object({
-  role: t.Literal("assistant"),
-  content: t.Union([t.String(), t.Null()]),
-  tool_calls: t.Optional(t.Array(OpenAICompatibleMessageToolCall)),
-  reasoning: t.Optional(t.String()),
-  reasoning_content: t.Optional(t.String()),
-});
+export const OpenAICompatibleAssistantMessage = t.Object(
+  {
+    role: t.Literal("assistant"),
+    content: t.Union([t.String(), t.Null()]),
+    tool_calls: t.Optional(t.Array(OpenAICompatibleMessageToolCall)),
+    reasoning: t.Optional(t.String()),
+    reasoning_content: t.Optional(t.String()),
+  },
+  {
+    additionalProperties: true,
+  },
+);
 
 export const OpenAICompatibleToolMessage = t.Object({
   role: t.Literal("tool"),
@@ -118,6 +128,15 @@ export const OpenAICompatibleReasoning = t.Object({
 });
 
 export type OpenAICompatibleMessage = Static<typeof OpenAICompatibleMessage>;
+export type OpenAICompatibleSystemMessage = Static<
+  typeof OpenAICompatibleSystemMessage
+>;
+export type OpenAICompatibleUserMessage = Static<
+  typeof OpenAICompatibleUserMessage
+>;
+export type OpenAICompatibleMessageToolCall = Static<
+  typeof OpenAICompatibleMessageToolCall
+>;
 export type OpenAICompatibleContentPart =
   | Static<typeof OpenAICompatibleContentPartText>
   | Static<typeof OpenAICompatibleContentPartImage>

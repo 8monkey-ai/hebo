@@ -20,8 +20,8 @@ export class VertexProviderAdapter
     "google/gemini-3-flash-preview": "gemini-3-flash-preview",
   };
 
-  constructor(modelType: string) {
-    super(modelType);
+  constructor(modelType: string, logger?: any) {
+    super(modelType, logger);
   }
 
   async initialize(config?: VertexProviderConfig): Promise<this> {

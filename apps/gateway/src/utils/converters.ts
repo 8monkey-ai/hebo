@@ -2,6 +2,8 @@ import { jsonSchema, tool } from "ai";
 
 import type {
   OpenAICompatibleAssistantMessage,
+  OpenAICompatibleMessageToolCall,
+  OpenAICompatibleUserMessage,
   OpenAICompatibleContentPart,
   OpenAICompatibleFinishReason,
   OpenAICompatibleMessage,
@@ -105,7 +107,7 @@ function indexToolMessages(messages: OpenAICompatibleMessage[]) {
 }
 
 function toUserModelMessage(
-  message: Extract<OpenAICompatibleMessage, { role: "user" }>,
+  message: OpenAICompatibleUserMessage,
 ): ModelMessage {
   if (Array.isArray(message.content)) {
     return { role: "user", content: convertToModelContent(message.content) };
@@ -113,25 +115,57 @@ function toUserModelMessage(
   return message as ModelMessage;
 }
 
+function extractProviderOptions(
+  nonOpenAICompatibleOptions: Record<string, any>,
+) {
+  if (Object.keys(nonOpenAICompatibleOptions).length === 0) {
+    return;
+  }
+  const { extra_body, extra_content, extra_part, ...otherOptions } =
+    nonOpenAICompatibleOptions;
+  const providerOptions = {
+    ...otherOptions,
+    ...extra_body,
+    ...extra_content,
+    ...extra_part,
+  };
+
+  return providerOptions;
+}
+
 function toAssistantModelMessage(
-  message: Extract<OpenAICompatibleMessage, { role: "assistant" }>,
+  message: OpenAICompatibleAssistantMessage,
 ): ModelMessage {
-  const toolCalls = message.tool_calls ?? [];
-  if (toolCalls.length === 0) return message as ModelMessage;
+  const { tool_calls: toolCalls, role, content, ...rest } = message;
+  const providerOptions = extractProviderOptions(rest);
+
+  if (!toolCalls || toolCalls.length === 0) {
+    return {
+      role: role,
+      content: content,
+      providerOptions,
+    } as ModelMessage;
+  }
 
   return {
-    role: "assistant",
-    content: toolCalls.map((tc) => ({
-      type: "tool-call",
-      toolCallId: tc.id,
-      toolName: tc.function.name,
-      input: parseToolInput(tc.function.arguments),
-    })),
+    role: role,
+    content: toolCalls.map((tc: OpenAICompatibleMessageToolCall) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { type, id, function: fn, ...rest } = tc;
+      return {
+        type: "tool-call",
+        toolCallId: id,
+        toolName: fn.name,
+        input: parseToolInput(fn.arguments),
+        providerOptions: extractProviderOptions(rest),
+      };
+    }),
+    providerOptions,
   };
 }
 
 function toToolResultMessage(
-  message: Extract<OpenAICompatibleMessage, { role: "assistant" }>,
+  message: OpenAICompatibleAssistantMessage,
   toolById: Map<string, OpenAICompatibleToolMessage>,
 ): ModelMessage | undefined {
   const toolCalls = message.tool_calls ?? [];
@@ -193,6 +227,7 @@ export const toOpenAICompatibleMessage = (
         name: toolCall.toolName,
         arguments: JSON.stringify(toolCall.input),
       },
+      extra_content: toolCall.providerMetadata,
     }));
   } else {
     message.content = result.text;
@@ -332,13 +367,14 @@ export function toOpenAICompatibleStream(
           }
 
           case "tool-call": {
-            const { toolCallId, toolName, input } = part;
+            const { toolCallId, toolName, input, providerMetadata } = part;
 
             const toolCall: OpenAICompatibleToolCallDelta = {
               id: toolCallId,
               index: toolCallIndexCounter++,
               type: "function",
               function: { name: toolName, arguments: JSON.stringify(input) },
+              extra_content: providerMetadata,
             };
 
             enqueue({

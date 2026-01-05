@@ -5,26 +5,35 @@ import type {
   ProviderSlug,
 } from "~api/modules/providers/types";
 
+import type { LanguageModelV2Prompt } from "@ai-sdk/provider";
 import type { ProviderOptions } from "@ai-sdk/provider-utils";
 import type { Provider } from "ai";
 
 export interface ProviderAdapter {
   readonly providerSlug: ProviderSlug;
+  logger?: any;
   initialize(config?: ProviderConfig): Promise<this>;
   getProvider(): Promise<Provider>;
   getProviderOptionsName(): string;
   resolveModelId(): Promise<string>;
   transformOptions(options: ProviderOptions): ProviderOptions;
+  transformPrompt(prompt: LanguageModelV2Prompt): LanguageModelV2Prompt;
 }
 
 export abstract class ProviderAdapterBase implements ProviderAdapter {
   static readonly providerSlug: ProviderSlug;
 
-  protected constructor(protected readonly modelType: string) {}
+  protected constructor(
+    protected readonly modelType: string,
+    public readonly logger?: any,
+  ) {}
 
   get providerSlug(): ProviderSlug {
     return (this.constructor as typeof ProviderAdapterBase).providerSlug;
   }
+
+  abstract initialize(config?: ProviderConfig): Promise<this>;
+  abstract getProvider(): Promise<Provider>;
 
   static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {};
 
@@ -56,6 +65,27 @@ export abstract class ProviderAdapterBase implements ProviderAdapter {
     return options;
   }
 
-  abstract initialize(config?: ProviderConfig): Promise<this>;
-  abstract getProvider(): Promise<Provider>;
+  transformPrompt(prompt: LanguageModelV2Prompt): LanguageModelV2Prompt {
+    const providerOptionsName = this.getProviderOptionsName();
+
+    for (const message of prompt) {
+      if (message.providerOptions) {
+        message.providerOptions = {
+          [providerOptionsName]: message.providerOptions,
+        };
+      }
+
+      if (Array.isArray(message.content)) {
+        for (const contentPart of message.content) {
+          if (contentPart.providerOptions) {
+            contentPart.providerOptions = {
+              [providerOptionsName]: contentPart.providerOptions,
+            };
+          }
+        }
+      }
+    }
+
+    return prompt;
+  }
 }
