@@ -31,7 +31,6 @@ async function ensureUserHasOrganization(
   userName: string | null,
   email: string,
 ) {
-  // Use serializable transaction to prevent race conditions
   return prisma.$transaction(
     async (tx) => {
       const existing = await tx.members.findFirst({ where: { userId } });
@@ -41,6 +40,7 @@ async function ensureUserHasOrganization(
         data: {
           id: crypto.randomUUID(),
           name: `${userName || email.split("@")[0]}'s Workspace`,
+          // FUTURE: Handle unlikely slug collisions (8 hex chars = 4.3B combinations)
           slug: `${userId.slice(0, 8)}-workspace`,
         },
       });
