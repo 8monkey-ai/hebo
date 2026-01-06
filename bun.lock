@@ -239,6 +239,8 @@
         "@opentelemetry/exporter-trace-otlp-http": "^0.208.0",
         "@opentelemetry/sdk-trace-node": "^2.2.0",
         "better-auth": "^1.4.5",
+        "crypto-random-string": "^5.0.0",
+        "slugify": "^1.6.6",
         "sst": "^3.17.13",
       },
       "devDependencies": {

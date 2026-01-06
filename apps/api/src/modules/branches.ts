@@ -1,12 +1,13 @@
 import { Elysia, status, t } from "elysia";
 
+import { createSlug } from "@hebo/shared-api/utils/create-slug";
+
 import {
   branches,
   branchesInputCreate,
   branchesInputUpdate,
 } from "~api/generated/prismabox/branches";
 import { dbClient } from "~api/middleware/db-client";
-import { createSlug } from "~api/utils/create-slug";
 
 import { Models } from "./providers/types";
 

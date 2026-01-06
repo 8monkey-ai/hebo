@@ -1,5 +1,7 @@
 import { Elysia, status, t } from "elysia";
 
+import { createSlug } from "@hebo/shared-api/utils/create-slug";
+
 import {
   agentsInclude,
   agentsInputCreate,
@@ -8,7 +10,6 @@ import {
   agentsRelations,
 } from "~api/generated/prismabox/agents";
 import { dbClient } from "~api/middleware/db-client";
-import { createSlug } from "~api/utils/create-slug";
 
 export const agents = t.Composite([agentsPlain, t.Partial(agentsRelations)], {
   additionalProperties: false,
@@ -41,7 +42,7 @@ export const agentsModule = new Elysia({
         await dbClient.agents.create({
           data: {
             name: body.name,
-            slug: createSlug(body.name, true),
+            slug: createSlug(body.name, 3),
             branches: {
               create: {
                 name: "Main",
