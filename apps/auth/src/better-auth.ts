@@ -61,16 +61,23 @@ const afterHook = createAuthMiddleware(async (ctx) => {
   const newSession = ctx.context.newSession;
   if (!newSession) return;
 
-  const membership = await ensureUserHasOrganization(
-    newSession.user.id,
-    newSession.user.name,
-    newSession.user.email,
-  );
+  const isNewUserPath =
+    ctx.path.startsWith("/callback/") || ctx.path === "/sign-in/email-otp";
 
-  await prisma.sessions.update({
-    where: { id: newSession.session.id },
-    data: { activeOrganizationId: membership.organizationId },
-  });
+  const membership = isNewUserPath
+    ? await ensureUserHasOrganization(
+        newSession.user.id,
+        newSession.user.name,
+        newSession.user.email,
+      )
+    : await prisma.members.findFirst({ where: { userId: newSession.user.id } });
+
+  if (membership) {
+    await prisma.sessions.update({
+      where: { id: newSession.session.id },
+      data: { activeOrganizationId: membership.organizationId },
+    });
+  }
 });
 
 export const auth = betterAuth({
