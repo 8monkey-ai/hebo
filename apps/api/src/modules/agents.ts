@@ -1,6 +1,7 @@
 import { Elysia, status, t } from "elysia";
 
 import { authClient } from "@hebo/shared-api/middlewares/auth/better-auth";
+import { getAuthHeaders } from "@hebo/shared-api/utils/auth-headers";
 import { createSlug } from "@hebo/shared-api/utils/create-slug";
 
 import {
@@ -11,7 +12,6 @@ import {
   agentsRelations,
 } from "~api/generated/prismabox/agents";
 import { dbClient } from "~api/middleware/db-client";
-import { getAuthHeaders } from "~api/utils/auth-headers";
 
 export const agents = t.Composite([agentsPlain, t.Partial(agentsRelations)], {
   additionalProperties: false,
