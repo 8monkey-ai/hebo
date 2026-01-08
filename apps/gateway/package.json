@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "^3.0.54",
-    "@ai-sdk/cohere": "^2.0.19",
     "@ai-sdk/google-vertex": "^3.0.51",
     "@ai-sdk/groq": "^2.0.28",
     "@ai-sdk/provider-utils": "^3.0.19",
@@ -34,6 +33,7 @@
     "ai": "^5.0.19",
     "elysia": "catalog:",
     "sst": "^3.17.13",
+    "voyage-ai-provider": "^2.0.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
