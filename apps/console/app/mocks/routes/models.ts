@@ -22,7 +22,7 @@ const SUPPORTED_MODELS = [
     created: 1_767_837_920,
     providers: [
       {
-        voyage: "voyage/voyage-3.5",
+        voyage: "voyage-3.5",
       },
     ],
     modality: "embedding",
