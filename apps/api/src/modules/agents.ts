@@ -43,9 +43,12 @@ export const agentsModule = new Elysia({
       const organizationId = (ctx as unknown as { organizationId: string })
         .organizationId;
 
+      const agentSlug = createSlug(body.name, 3);
+
       const { data: team, error } = await authClient.organization.createTeam({
         name: `${body.name}'s Team`,
         organizationId,
+        agentSlug,
         fetchOptions: { headers: getAuthHeaders(request) },
       });
 
@@ -60,13 +63,12 @@ export const agentsModule = new Elysia({
         await dbClient.agents.create({
           data: {
             name: body.name,
-            slug: createSlug(body.name, 3),
+            slug: agentSlug,
             team_id: team.id,
             branches: {
               create: {
                 name: "Main",
                 slug: "main",
-                team_id: team.id,
                 models: [{ alias: "default", type: body.defaultModel }],
               },
             },

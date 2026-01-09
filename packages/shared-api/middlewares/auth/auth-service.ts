@@ -11,5 +11,6 @@ export const authService = new Elysia({ name: "auth-service" })
         if (!organizationId || !userId) throw new AuthError("Unauthorized");
       },
     },
+    // FUTURE: Add permission checks
   })
   .as("scoped");

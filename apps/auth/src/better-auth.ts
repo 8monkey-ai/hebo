@@ -76,16 +76,11 @@ const afterHook = createAuthMiddleware(async (ctx) => {
     : // FUTURE: Define ordering of organizations
       await prisma.members.findFirst({ where: { userId: newSession.user.id } });
 
-  const teams = ctx.headers
-    ? await auth.api.listUserTeams({ headers: ctx.headers })
-    : [];
-
-  if (membership || teams.length > 0) {
+  if (membership) {
     await prisma.sessions.update({
       where: { id: newSession.session.id },
       data: {
-        ...(membership && { activeOrganizationId: membership.organizationId }),
-        ...(teams.length > 0 && { teamIds: teams.map((team) => team.id) }),
+        activeOrganizationId: membership.organizationId,
       },
     });
   }
@@ -97,14 +92,6 @@ export const auth = betterAuth({
   accountLinking: {
     enabled: true,
     trustedProviders: ["google", "github", "microsoft"],
-  },
-  session: {
-    additionalFields: {
-      teamIds: {
-        type: "string[]",
-        required: false,
-      },
-    },
   },
   advanced: {
     useSecureCookies: isRemote,
@@ -163,6 +150,17 @@ export const auth = betterAuth({
     }),
     organization({
       teams: { enabled: true },
+      schema: {
+        team: {
+          additionalFields: {
+            agentSlug: {
+              type: "string",
+              input: true,
+              required: true,
+            },
+          },
+        },
+      },
       async sendInvitationEmail(data, ctx) {
         await sendOrganizationInvitationEmail({
           email: data.email,
@@ -172,24 +170,6 @@ export const auth = betterAuth({
           inviterEmail: data.inviter.user.email,
           consoleUrl: ctx?.headers.get("origin") ?? undefined,
         });
-      },
-      organizationHooks: {
-        afterCreateTeam: async ({ team, user }) => {
-          if (!user) return;
-
-          const sessions = await prisma.sessions.findMany({
-            where: { userId: user.id },
-          });
-
-          await Promise.all(
-            sessions.map((session) =>
-              prisma.sessions.update({
-                where: { id: session.id },
-                data: { teamIds: [...(session.teamIds ?? []), team.id] },
-              }),
-            ),
-          );
-        },
       },
     }),
   ],

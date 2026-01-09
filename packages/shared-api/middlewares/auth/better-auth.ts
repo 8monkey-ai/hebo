@@ -1,9 +1,6 @@
 import { type Logger } from "@bogeychan/elysia-logger/types";
 import { createAuthClient } from "better-auth/client";
-import {
-  inferAdditionalFields,
-  organizationClient,
-} from "better-auth/client/plugins";
+import { organizationClient } from "better-auth/client/plugins";
 import { Elysia } from "elysia";
 
 import { BadRequestError } from "../../errors";
@@ -15,10 +12,14 @@ export const authClient = createAuthClient({
   plugins: [
     organizationClient({
       teams: { enabled: true },
-    }),
-    inferAdditionalFields({
-      session: {
-        teamIds: { type: "string[]" },
+      schema: {
+        team: {
+          additionalFields: {
+            agentSlug: {
+              type: "string",
+            },
+          },
+        },
       },
     }),
   ],
@@ -53,13 +54,11 @@ export const authServiceBetterAuth = new Elysia({
       log.info({ error }, "Authentication failed or no credentials provided");
       return {
         organizationId: undefined,
-        teamIds: undefined,
         userId: undefined,
       } as const;
     }
     return {
       organizationId: session.session.activeOrganizationId,
-      teamIds: session.session.teamIds,
       userId: session.user.id,
     } as const;
   })
