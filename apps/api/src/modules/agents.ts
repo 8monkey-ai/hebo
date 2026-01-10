@@ -43,7 +43,7 @@ export const agentsModule = new Elysia({
 
       const { data: team, error } = await authClient.organization.createTeam({
         name: `${body.name}'s Team`,
-        organizationId: organizationId as string,
+        organizationId: organizationId!,
         agentSlug,
       });
 
