@@ -1,5 +1,5 @@
 import { type Logger } from "@bogeychan/elysia-logger/types";
-import { createAuthClient } from "better-auth/client";
+import { createAuthClient as createBetterAuthClient } from "better-auth/client";
 import { organizationClient } from "better-auth/client/plugins";
 import { Elysia } from "elysia";
 
@@ -7,23 +7,39 @@ import { BadRequestError } from "../../errors";
 
 const AUTH_URL = process.env.AUTH_URL || "http://localhost:3000";
 
-export const authClient = createAuthClient({
-  baseURL: new URL("/v1", AUTH_URL).toString(),
-  plugins: [
-    organizationClient({
-      teams: { enabled: true },
-      schema: {
-        team: {
-          additionalFields: {
-            agentSlug: {
-              type: "string",
-            },
-          },
+const getAuthHeaders = (request: Request): Headers => {
+  const headers = new Headers();
+  for (const name of ["cookie", "authorization", "origin"]) {
+    const value = request.headers.get(name);
+    if (value) headers.set(name, value);
+  }
+  return headers;
+};
+
+const organizationClientPlugin = organizationClient({
+  teams: { enabled: true },
+  schema: {
+    team: {
+      additionalFields: {
+        agentSlug: {
+          type: "string",
         },
       },
-    }),
-  ],
+    },
+  },
 });
+
+export const createAuthClient = (request: Request) => {
+  const headers = getAuthHeaders(request);
+
+  return createBetterAuthClient({
+    baseURL: new URL("/v1", AUTH_URL).toString(),
+    plugins: [organizationClientPlugin],
+    fetchOptions: {
+      headers,
+    },
+  });
+};
 
 export const authServiceBetterAuth = new Elysia({
   name: "authenticate-user-better-auth",
@@ -40,26 +56,22 @@ export const authServiceBetterAuth = new Elysia({
       );
     }
 
-    const headers = new Headers();
-    if (authorization) headers.set("authorization", authorization);
-    if (cookie) headers.set("cookie", cookie);
+    const authClient = createAuthClient(ctx.request);
 
-    const { data: session, error } = await authClient.getSession({
-      fetchOptions: {
-        headers,
-      },
-    });
+    const { data: session, error } = await authClient.getSession();
 
     if (error || !session) {
       log.info({ error }, "Authentication failed or no credentials provided");
       return {
         organizationId: undefined,
         userId: undefined,
+        authClient,
       } as const;
     }
     return {
       organizationId: session.session.activeOrganizationId,
       userId: session.user.id,
+      authClient,
     } as const;
   })
   .as("scoped");

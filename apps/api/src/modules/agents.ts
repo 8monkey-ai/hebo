@@ -1,8 +1,6 @@
 import { Elysia, status, t } from "elysia";
 
 import { authService } from "@hebo/shared-api/middlewares/auth/auth-service";
-import { authClient } from "@hebo/shared-api/middlewares/auth/better-auth";
-import { getAuthHeaders } from "@hebo/shared-api/utils/auth-headers";
 import { slugFromString } from "@hebo/shared-api/utils/create-slug";
 
 import {
@@ -40,14 +38,13 @@ export const agentsModule = new Elysia({
   )
   .post(
     "/",
-    async ({ body, dbClient, request, organizationId }) => {
+    async ({ body, dbClient, organizationId, authClient }) => {
       const agentSlug = slugFromString(body.name, 3);
 
       const { data: team, error } = await authClient.organization.createTeam({
         name: `${body.name}'s Team`,
         organizationId: organizationId as string,
         agentSlug,
-        fetchOptions: { headers: getAuthHeaders(request) },
       });
 
       if (error || !team) {
