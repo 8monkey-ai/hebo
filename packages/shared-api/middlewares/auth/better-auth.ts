@@ -7,34 +7,29 @@ import { BadRequestError } from "../../errors";
 
 const AUTH_URL = process.env.AUTH_URL || "http://localhost:3000";
 
-const getAuthHeaders = (request: Request): Headers => {
+const createAuthClient = (request: Request) => {
   const headers = new Headers();
   for (const name of ["cookie", "authorization", "origin"]) {
     const value = request.headers.get(name);
     if (value) headers.set(name, value);
   }
-  return headers;
-};
-
-export const organizationClientPlugin = organizationClient({
-  teams: { enabled: true },
-  schema: {
-    team: {
-      additionalFields: {
-        agentSlug: {
-          type: "string",
-        },
-      },
-    },
-  },
-});
-
-const createAuthClient = (request: Request) => {
-  const headers = getAuthHeaders(request);
 
   return createBetterAuthClient({
     baseURL: new URL("/v1", AUTH_URL).toString(),
-    plugins: [organizationClientPlugin],
+    plugins: [
+      organizationClient({
+        teams: { enabled: true },
+        schema: {
+          team: {
+            additionalFields: {
+              agentSlug: {
+                type: "string",
+              },
+            },
+          },
+        },
+      }),
+    ],
     fetchOptions: {
       headers,
     },

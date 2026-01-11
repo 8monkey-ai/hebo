@@ -22,7 +22,6 @@
     "@elysiajs/eden": "^1.4.3",
     "@fontsource/recursive": "^5.2.8",
     "@hebo/aikit-ui": "workspace:*",
-    "@hebo/shared-api": "workspace:*",
     "@hebo/shared-ui": "workspace:*",
     "@hookform/resolvers": "^5.2.1",
     "@react-router/fs-routes": "^7.9.6",
