@@ -65,7 +65,7 @@ export const authServiceBetterAuth = new Elysia({
       return {
         organizationId: undefined,
         userId: undefined,
-        authClient,
+        authClient: undefined,
       } as const;
     }
     return {
