@@ -40,10 +40,10 @@ export function createOrganizationHook(prisma: PrismaClient) {
     const newSession = ctx.context.newSession;
     if (!newSession) return;
 
-    const isNewUserPath =
+    const isNewUser =
       ctx.path.startsWith("/callback/") || ctx.path === "/sign-in/email-otp";
 
-    const membership = isNewUserPath
+    const membership = isNewUser
       ? await ensureUserHasOrganization(
           prisma,
           newSession.user.id,
