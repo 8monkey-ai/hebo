@@ -16,7 +16,7 @@ const getAuthHeaders = (request: Request): Headers => {
   return headers;
 };
 
-const organizationClientPlugin = organizationClient({
+export const organizationClientPlugin = organizationClient({
   teams: { enabled: true },
   schema: {
     team: {
@@ -29,7 +29,7 @@ const organizationClientPlugin = organizationClient({
   },
 });
 
-export const createAuthClient = (request: Request) => {
+const createAuthClient = (request: Request) => {
   const headers = getAuthHeaders(request);
 
   return createBetterAuthClient({
