@@ -1,5 +1,8 @@
 import { Elysia, status, t } from "elysia";
 
+import { authService } from "@hebo/shared-api/middlewares/auth/auth-service";
+import { slugFromString } from "@hebo/shared-api/utils/create-slug";
+
 import {
   agentsInclude,
   agentsInputCreate,
@@ -8,7 +11,6 @@ import {
   agentsRelations,
 } from "~api/generated/prismabox/agents";
 import { dbClient } from "~api/middleware/db-client";
-import { createSlug } from "~api/utils/create-slug";
 
 export const agents = t.Composite([agentsPlain, t.Partial(agentsRelations)], {
   additionalProperties: false,
@@ -17,6 +19,7 @@ export const agents = t.Composite([agentsPlain, t.Partial(agentsRelations)], {
 export const agentsModule = new Elysia({
   prefix: "/agents",
 })
+  .use(authService)
   .use(dbClient)
   .get(
     "/",
@@ -35,13 +38,28 @@ export const agentsModule = new Elysia({
   )
   .post(
     "/",
-    async ({ body, dbClient }) => {
+    async ({ body, dbClient, organizationId, authClient }) => {
+      const agentSlug = slugFromString(body.name, 3);
+
+      const { data: team, error } = await authClient.organization.createTeam({
+        name: `${body.name}'s Team`,
+        organizationId: organizationId!,
+        agentSlug,
+      });
+
+      if (error || !team) {
+        throw new Error(
+          `Failed to create team: ${error?.message ?? "Unknown error"}`,
+        );
+      }
+
       return status(
         201,
         await dbClient.agents.create({
           data: {
             name: body.name,
-            slug: createSlug(body.name, true),
+            slug: agentSlug,
+            team_id: team.id,
             branches: {
               create: {
                 name: "Main",

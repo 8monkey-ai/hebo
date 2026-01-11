@@ -1,6 +1,8 @@
 import { createAuthClient } from "better-auth/client";
 import { apiKeyClient, emailOTPClient } from "better-auth/client/plugins";
 
+import { organizationClientPlugin } from "@hebo/shared-api/middlewares/auth/better-auth";
+
 import { authUrl } from "~console/lib/service";
 import { shellStore } from "~console/lib/shell";
 
@@ -16,7 +18,7 @@ const appRedirectURL = `${globalThis.location.origin}${appRedirectPath}`;
 
 const authClient = createAuthClient({
   baseURL: new URL("/v1", authUrl).toString(),
-  plugins: [emailOTPClient(), apiKeyClient()],
+  plugins: [emailOTPClient(), apiKeyClient(), organizationClientPlugin],
 });
 
 export const authService: AuthService = {
