@@ -22,7 +22,7 @@ export const createOrganizationHook = (prisma: PrismaClient) => {
       const org = await tx.organizations.create({
         data: {
           id: Bun.randomUUIDv7(),
-          name: `${newSession.user.name || newSession.user.email.split("@")[0]}'s Org`,
+          name: `${newSession.user.name || newSession.user.email}'s Org`,
           slug: slugFromName(newSession.user.name, newSession.user.email),
         },
       });
