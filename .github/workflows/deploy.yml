@@ -40,8 +40,8 @@ jobs:
       - name: Deploy to Production
         run: |
           printf '%s' "${{ secrets.AUTH_SECRET }}" | bun run sst secret set AuthSecret --stage production
-          printf '%s' "${{ secrets.GITHUB_CLIENT_ID }}" | bun run sst secret set GithubClientId --stage production
-          printf '%s' "${{ secrets.GITHUB_CLIENT_SECRET }}" | bun run sst secret set GithubClientSecret --stage production
+          printf '%s' "${{ secrets.AUTH_GITHUB_CLIENT_ID }}" | bun run sst secret set GithubClientId --stage production
+          printf '%s' "${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}" | bun run sst secret set GithubClientSecret --stage production
           printf '%s' "${{ secrets.GOOGLE_CLIENT_ID }}" | bun run sst secret set GoogleClientId --stage production
           printf '%s' "${{ secrets.GOOGLE_CLIENT_SECRET }}" | bun run sst secret set GoogleClientSecret --stage production
           printf '%s' "${{ secrets.MICROSOFT_CLIENT_ID }}" | bun run sst secret set MicrosoftClientId --stage production
