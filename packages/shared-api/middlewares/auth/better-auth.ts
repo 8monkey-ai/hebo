@@ -63,8 +63,19 @@ export const authServiceBetterAuth = new Elysia({
         authClient: undefined,
       } as const;
     }
+
+    // For API key sessions, activeOrganizationId is missing (mock session bypasses hooks).
+    // Fall back to fetching from organization list.
+    let organizationId = session.session.activeOrganizationId;
+    if (!organizationId) {
+      const { data: orgs } = await authClient.organization.list();
+      if (orgs && orgs.length > 0) {
+        organizationId = orgs[0].id;
+      }
+    }
+
     return {
-      organizationId: session.session.activeOrganizationId,
+      organizationId,
       userId: session.user.id,
       authClient,
     } as const;
