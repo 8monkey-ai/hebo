@@ -11,7 +11,6 @@ import type { Provider } from "ai";
 
 export interface ProviderAdapter {
   readonly providerSlug: ProviderSlug;
-  logger?: any;
   initialize(config?: ProviderConfig): Promise<this>;
   getProvider(): Promise<Provider>;
   getProviderOptionsName(): string;
@@ -23,10 +22,7 @@ export interface ProviderAdapter {
 export abstract class ProviderAdapterBase implements ProviderAdapter {
   static readonly providerSlug: ProviderSlug;
 
-  protected constructor(
-    protected readonly modelType: string,
-    public readonly logger?: any,
-  ) {}
+  protected constructor(protected readonly modelType: string) {}
 
   get providerSlug(): ProviderSlug {
     return (this.constructor as typeof ProviderAdapterBase).providerSlug;

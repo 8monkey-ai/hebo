@@ -25,8 +25,8 @@ export class BedrockProviderAdapter
 
   static readonly providerSlug = "bedrock";
 
-  constructor(modelType: string, logger?: any) {
-    super(modelType, logger);
+  constructor(modelType: string) {
+    super(modelType);
   }
 
   static readonly SUPPORTED_MODELS_MAP: Record<string, string> = {

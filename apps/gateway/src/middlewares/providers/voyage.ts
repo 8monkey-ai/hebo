@@ -18,8 +18,8 @@ export class VoyageProviderAdapter
     "voyage/voyage-3.5": "voyage-3.5",
   };
 
-  constructor(modelType: string, logger?: any) {
-    super(modelType, logger);
+  constructor(modelType: string) {
+    super(modelType);
   }
 
   async initialize(config?: ApiKeyProviderConfig): Promise<this> {

@@ -19,8 +19,8 @@ export class GroqProviderAdapter
     "openai/gpt-oss-20b": "openai/gpt-oss-20b",
   };
 
-  constructor(modelType: string, logger?: any) {
-    super(modelType, logger);
+  constructor(modelType: string) {
+    super(modelType);
   }
 
   async initialize(config?: ApiKeyProviderConfig): Promise<this> {
