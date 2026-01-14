@@ -203,6 +203,17 @@ export const toOpenAICompatibleFinishReason = (
   return finishReason.replaceAll("-", "_") as OpenAICompatibleFinishReason;
 };
 
+function formatExtraContent(providerMetadata: any) {
+  if (!providerMetadata) return;
+  if (providerMetadata?.google?.thoughtSignature) {
+    return {
+      google: {
+        thought_signature: providerMetadata.google.thoughtSignature,
+      },
+    };
+  }
+}
+
 export const toOpenAICompatibleMessage = (
   result: GenerateTextResult<any, any>,
 ): OpenAICompatibleAssistantMessage => {
@@ -212,6 +223,11 @@ export const toOpenAICompatibleMessage = (
     content: null,
   };
 
+  const extra_content = formatExtraContent(result.providerMetadata);
+  if (extra_content) {
+    message.extra_content = extra_content;
+  }
+
   if (result.toolCalls && result.toolCalls.length > 0) {
     message.tool_calls = result.toolCalls.map((toolCall) => ({
       id: toolCall.toolCallId,
@@ -220,7 +236,7 @@ export const toOpenAICompatibleMessage = (
         name: toolCall.toolName,
         arguments: JSON.stringify(toolCall.input),
       },
-      extra_content: toolCall.providerMetadata,
+      extra_content: formatExtraContent(toolCall.providerMetadata),
     }));
   } else {
     message.content = result.text;
@@ -367,14 +383,7 @@ export function toOpenAICompatibleStream(
               index: toolCallIndexCounter++,
               type: "function",
               function: { name: toolName, arguments: JSON.stringify(input) },
-              extra_content: model.startsWith("google")
-                ? {
-                    google: {
-                      thought_signature:
-                        providerMetadata?.google?.thoughtSignature,
-                    },
-                  }
-                : providerMetadata,
+              extra_content: formatExtraContent(providerMetadata),
             };
 
             enqueue({
@@ -395,7 +404,8 @@ export function toOpenAICompatibleStream(
           }
 
           case "finish": {
-            const { finishReason, totalUsage } = part;
+            const { finishReason, totalUsage, providerMetadata } = part;
+            const extra_content = formatExtraContent(providerMetadata);
             enqueue({
               id: streamId,
               object: "chat.completion.chunk",
@@ -404,7 +414,7 @@ export function toOpenAICompatibleStream(
               choices: [
                 {
                   index: 0,
-                  delta: {},
+                  delta: extra_content ? { extra_content } : {},
                   finish_reason: toOpenAICompatibleFinishReason(finishReason),
                 },
               ],
