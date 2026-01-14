@@ -36,6 +36,7 @@
     "@opentelemetry/exporter-trace-otlp-http": "^0.209.0",
     "@opentelemetry/sdk-trace-node": "^2.3.0",
     "@sindresorhus/slugify": "^3.0.0",
-    "crypto-random-string": "^5.0.0"
+    "crypto-random-string": "^5.0.0",
+    "sst": "catalog:"
   }
 }
