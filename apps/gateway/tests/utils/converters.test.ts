@@ -231,28 +231,27 @@ describe("toModelMessages", () => {
     ]);
   });
 
-  describe("merges extra_ properties into providerOptions", () => {
+  describe("convert extra_content properties into providerOptions", () => {
     const testCases = [
       {
-        name: "should merge extra_ properties for assistant message without tool calls",
+        name: "should convert extra_content properties for assistant message without tool calls",
         input: [
           {
             role: "assistant",
             content: "Hello",
-            extra_body: { reasoning_effort: "high" },
-            extra_content: { verbosity: "medium" },
+            extra_content: { google: { thought_signature: "SIG_XYZ" } },
           },
         ],
         expected: [
           {
             role: "assistant",
             content: "Hello",
-            providerOptions: { reasoning_effort: "high", verbosity: "medium" },
+            providerOptions: { google: { thoughtSignature: "SIG_XYZ" } },
           },
         ],
       },
       {
-        name: "should merge multiple extra_ properties for assistant message with tool calls",
+        name: "should convert extra_content properties for assistant message with tool calls",
         input: [
           {
             role: "assistant",
@@ -265,12 +264,9 @@ describe("toModelMessages", () => {
                   name: "test_tool",
                   arguments: "{}",
                 },
-                extra_body: { reasoning_effort: "high" },
-                extra_content: { thought_signature: "TOOL_SIG_XYZ" },
-                other_field: "foo",
+                extra_content: { google: { thought_signature: "SIG_XYZ" } },
               },
             ],
-            extra_body: { resoning_effort: "high" },
           },
         ],
         expected: [
@@ -283,13 +279,10 @@ describe("toModelMessages", () => {
                 toolName: "test_tool",
                 input: {},
                 providerOptions: {
-                  reasoning_effort: "high",
-                  thought_signature: "TOOL_SIG_XYZ",
-                  other_field: "foo",
+                  google: { thoughtSignature: "SIG_XYZ" },
                 },
               },
             ],
-            providerOptions: { resoning_effort: "high" },
           },
         ],
       },
