@@ -26,7 +26,7 @@
     "@prisma/client": "^7.1.0",
     "@upyo/core": "^0.3.2",
     "@upyo/smtp": "^0.3.2",
-    "better-auth": "^1.4.5",
+    "better-auth": "^1.4.12",
     "elysia": "catalog:",
     "pg": "^8.16.3"
   },
