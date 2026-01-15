@@ -1,5 +1,5 @@
-import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { betterAuth } from "better-auth/minimal";
 import { apiKey, emailOTP, organization } from "better-auth/plugins";
 
 import { createPrismaAdapter } from "@hebo/shared-api/lib/db/connection";
