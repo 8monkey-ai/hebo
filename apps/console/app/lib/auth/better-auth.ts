@@ -4,7 +4,6 @@ import {
   emailOTPClient,
   organizationClient,
 } from "better-auth/client/plugins";
-import { getCookieCache } from "better-auth/cookies";
 
 import { authUrl } from "~console/lib/service";
 import { shellStore } from "~console/lib/shell";
@@ -40,16 +39,16 @@ const authClient = createAuthClient({
 });
 
 export const authService: AuthService = {
-  async ensureSignedIn(request: Request) {
-    const session = await getCookieCache(request);
-    const user = session?.user as User | undefined;
-
-    if (!user) {
+  async ensureSignedIn() {
+    if (shellStore.user) {
+      return;
+    }
+    const { data: session } = await authClient.getSession();
+    if (!session?.user) {
       globalThis.location.replace("/signin");
       return;
     }
-
-    shellStore.user = user;
+    shellStore.user = session.user as User;
   },
 
   async generateApiKey(name, expiresInMs = DEFAULT_EXPIRATION_MS) {

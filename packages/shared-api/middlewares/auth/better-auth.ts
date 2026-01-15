@@ -1,11 +1,14 @@
 import { type Logger } from "@bogeychan/elysia-logger/types";
 import { createAuthClient as createBetterAuthClient } from "better-auth/client";
 import { organizationClient } from "better-auth/client/plugins";
+import { getCookieCache } from "better-auth/cookies";
 import { Elysia } from "elysia";
 
 import { BadRequestError } from "../../errors";
+import { getSecret } from "../../utils/secrets";
 
 const AUTH_URL = process.env.AUTH_URL || "http://localhost:3000";
+const authSecret = await getSecret("AuthSecret", false);
 
 const createAuthClient = (request: Request) => {
   const headers = new Headers();
@@ -51,16 +54,18 @@ export const authServiceBetterAuth = new Elysia({
       );
     }
 
+    console.log("ctx.request.headers", ctx.request.headers);
+
     const authClient = createAuthClient(ctx.request);
+    const session = await getCookieCache(ctx.request, {
+      secret: authSecret,
+    });
 
-    const { data: session, error } = await authClient.getSession();
-
-    if (error || !session) {
-      log.info({ error }, "Authentication failed or no credentials provided");
+    if (!session) {
+      log.info("Authentication failed or no credentials provided");
       return {
         organizationId: undefined,
         userId: undefined,
-        authClient: undefined,
       } as const;
     }
 

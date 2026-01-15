@@ -124,4 +124,7 @@ export const auth = betterAuth({
   ],
   trustedOrigins: cookieDomain ? [`https://*.${cookieDomain}`] : ["*"],
   secret: await getSecret("AuthSecret", false),
+  session: {
+    cookieCache: { enabled: true },
+  },
 });
