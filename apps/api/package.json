@@ -20,7 +20,7 @@
     "start": "./dist/server"
   },
   "dependencies": {
-    "@hebo/auth": "workspace:",
+    "@hebo/auth": "workspace:*",
     "@bogeychan/elysia-logger": "catalog:",
     "@elysiajs/cors": "catalog:",
     "@elysiajs/openapi": "catalog:",
