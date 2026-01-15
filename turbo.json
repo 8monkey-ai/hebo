@@ -7,6 +7,7 @@
       "env": ["NODE_ENV", "VITE_"],
       "outputs": [
         "**/generated/**",
+        ".react-router/types/**",
         "build/**",
         "dist/**",
         "out/**"
@@ -14,7 +15,8 @@
     },
     "predev": {
       "outputs": [
-        "**/generated/**"
+        "**/generated/**",
+        ".react-router/types/**"
       ]
     },
     "dev": {
@@ -27,7 +29,7 @@
       "outputs": ["coverage/**"]
     },
     "lint": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^predev", "predev"],
       "outputs": []
     }
   }
