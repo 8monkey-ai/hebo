@@ -6,8 +6,9 @@
       "dependsOn": ["^build"],
       "env": ["NODE_ENV", "VITE_"],
       "outputs": [
-        "dist/**",
         "build/**",
+        "dist/**",
+        "out/**",
         "**/generated/**"
       ]
     },
