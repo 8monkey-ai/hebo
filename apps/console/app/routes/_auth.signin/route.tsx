@@ -19,11 +19,7 @@ export default function SignIn() {
           className="absolute top-5 left-6"
           nativeButton={false}
           render={
-            <a
-              href="https://docs.hebo.ai"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://hebo.ai/docs" target="_blank" rel="noopener">
               <BookOpen />
               <span>Docs</span>
             </a>
