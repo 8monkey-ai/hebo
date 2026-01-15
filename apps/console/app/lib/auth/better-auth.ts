@@ -48,6 +48,13 @@ export const authService: AuthService = {
       return;
     }
 
+    const initialsSource = user?.name || user.email;
+    const initialsSeparator = user?.name ? " " : "@";
+    user.initials = initialsSource
+      .split(initialsSeparator)
+      .map((part) => part[0])
+      .join("");
+
     shellStore.user = user;
   },
 
@@ -71,7 +78,9 @@ export const authService: AuthService = {
       ...key,
       key: `${key.start}******`,
     })) as ApiKey[];
-    return keys.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    return keys.toSorted(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+    );
   },
 
   async signInWithOAuth(provider: string) {
@@ -111,5 +120,3 @@ export const authService: AuthService = {
     shellStore.user = undefined;
   },
 };
-
-export { authClient };
