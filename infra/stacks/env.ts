@@ -70,3 +70,9 @@ export const otelSecrets = [
 ];
 
 export const isProd = $app.stage === "production";
+export const formattedStage = $app.stage
+  .trim()
+  .toLowerCase()
+  .replaceAll(/[^a-z0-9]+/g, "-")
+  .replaceAll(/^-+/g, "")
+  .replaceAll(/-+$/g, "");

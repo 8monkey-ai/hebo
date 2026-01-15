@@ -129,6 +129,12 @@ const eslintConfig = [
       'unicorn/no-abusive-eslint-disable': 'warn'
     },
   },
+  {
+    files: ["infra/stacks/env.ts"],
+    rules: {
+      "sonarjs/slow-regex": "off",
+    },
+  },
 ];
 
 export default eslintConfig;
