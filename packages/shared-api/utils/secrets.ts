@@ -4,7 +4,8 @@ import { Resource } from "sst";
 export const getSecret = async (name: string, required = true) => {
   try {
     // @ts-expect-error: Resource may not be defined
-    return Resource[name].value;
+    const value = Resource[name].value;
+    return value === "undefined" ? undefined : value;
   } catch {
     const value = await secrets.get({ service: "hebo", name });
     if (required && !value) {
