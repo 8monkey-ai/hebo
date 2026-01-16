@@ -41,14 +41,12 @@ node_modules
 coverage
 .nyc_output
 
-# next.js
-.next/
-out/
-build
+# services
 dist
 
 # react router
 .react-router
+build/
 
 # misc
 .DS_Store
@@ -72,15 +70,14 @@ logs
 
 # turbo
 .turbo
+out/
 
 # sst
 .sst
-.open-next
 sst-env.d.ts
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
 # IDE
 .idea
