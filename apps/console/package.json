@@ -9,6 +9,7 @@
   "scripts": {
     "build": "react-router build",
     "clean": "git clean -fdx -e '.env*' .",
+    "predev": "react-router typegen",
     "dev": "react-router dev",
     "lint": "eslint .",
     "start": "vite preview",
