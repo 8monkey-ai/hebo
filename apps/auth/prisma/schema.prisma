@@ -24,7 +24,7 @@ model users {
   apikeys       apikeys[]
   members       members[]
   invitations   invitations[]
-  teamMembers   teamMembers[]
+  teammembers   teammembers[]
 }
 
 model sessions {
@@ -37,7 +37,7 @@ model sessions {
   activeOrganizationId String?  @db.Text
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
-  user                 users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  users                users    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -56,7 +56,7 @@ model accounts {
   password              String?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
-  user                  users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  users                 users     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([providerId, accountId])
   @@index([userId])
@@ -93,7 +93,7 @@ model apikeys {
   updatedAt           DateTime  @updatedAt
   permissions         String?
   metadata            Json?
-  user                users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  users               users     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -118,8 +118,8 @@ model members {
   organizationId String        @db.Text
   role           String
   createdAt      DateTime      @default(now())
-  user           users         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  organization   organizations @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  users          users         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizations  organizations @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@unique([userId, organizationId])
   @@index([userId])
@@ -136,9 +136,9 @@ model invitations {
   teamId         String?       @db.Text
   createdAt      DateTime      @default(now())
   expiresAt      DateTime
-  inviter        users         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
-  organization   organizations @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  team           teams?        @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  users          users         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+  organizations  organizations @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  teams          teams?        @relation(fields: [teamId], references: [id], onDelete: SetNull)
 
   @@index([email])
   @@index([organizationId])
@@ -153,20 +153,20 @@ model teams {
   agentSlug      String        @unique
   createdAt      DateTime      @default(now())
   updatedAt      DateTime?     @updatedAt
-  organization   organizations @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  teamMembers    teamMembers[]
+  organizations  organizations @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  teammembers    teammembers[]
   invitations    invitations[]
 
   @@index([organizationId])
 }
 
-model teamMembers {
+model teammembers {
   id        String   @id @db.Text
   teamId    String   @db.Text
   userId    String   @db.Text
   createdAt DateTime @default(now())
-  team      teams    @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  user      users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  teams     teams    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  users     users    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([teamId, userId])
   @@index([teamId])

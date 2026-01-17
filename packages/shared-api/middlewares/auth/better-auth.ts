@@ -54,8 +54,6 @@ export const authServiceBetterAuth = new Elysia({
       );
     }
 
-    console.log("ctx.request.headers", ctx.request.headers);
-
     const authClient = createAuthClient(ctx.request);
     const session = await getCookieCache(ctx.request, {
       secret: authSecret,
