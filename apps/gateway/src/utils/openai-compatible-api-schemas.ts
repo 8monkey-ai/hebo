@@ -31,6 +31,7 @@ export const OpenAICompatibleMessageToolCall = t.Object({
     arguments: t.String(),
     name: t.String(),
   }),
+  extra_content: t.Optional(t.Any()),
 });
 
 export const OpenAICompatibleSystemMessage = t.Object({
@@ -58,6 +59,7 @@ export const OpenAICompatibleAssistantMessage = t.Object({
   tool_calls: t.Optional(t.Array(OpenAICompatibleMessageToolCall)),
   reasoning: t.Optional(t.String()),
   reasoning_content: t.Optional(t.String()),
+  extra_content: t.Optional(t.Any()),
 });
 
 export const OpenAICompatibleToolMessage = t.Object({
@@ -118,6 +120,15 @@ export const OpenAICompatibleReasoning = t.Object({
 });
 
 export type OpenAICompatibleMessage = Static<typeof OpenAICompatibleMessage>;
+export type OpenAICompatibleSystemMessage = Static<
+  typeof OpenAICompatibleSystemMessage
+>;
+export type OpenAICompatibleUserMessage = Static<
+  typeof OpenAICompatibleUserMessage
+>;
+export type OpenAICompatibleMessageToolCall = Static<
+  typeof OpenAICompatibleMessageToolCall
+>;
 export type OpenAICompatibleContentPart =
   | Static<typeof OpenAICompatibleContentPartText>
   | Static<typeof OpenAICompatibleContentPartImage>
@@ -144,5 +155,5 @@ export type OpenAICompatibleToolCallDelta = {
   index: number;
   type: "function";
   function: { name: string; arguments: string };
-  [key: string]: any;
+  extra_content?: any;
 };

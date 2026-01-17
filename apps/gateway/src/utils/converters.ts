@@ -2,6 +2,8 @@ import { jsonSchema, tool } from "ai";
 
 import type {
   OpenAICompatibleAssistantMessage,
+  OpenAICompatibleMessageToolCall,
+  OpenAICompatibleUserMessage,
   OpenAICompatibleContentPart,
   OpenAICompatibleFinishReason,
   OpenAICompatibleMessage,
@@ -10,6 +12,7 @@ import type {
   OpenAICompatibleToolCallDelta,
   OpenAICompatibleToolMessage,
 } from "./openai-compatible-api-schemas";
+import type { ProviderOptions } from "@ai-sdk/provider-utils";
 import type {
   FinishReason,
   GenerateTextResult,
@@ -105,7 +108,7 @@ function indexToolMessages(messages: OpenAICompatibleMessage[]) {
 }
 
 function toUserModelMessage(
-  message: Extract<OpenAICompatibleMessage, { role: "user" }>,
+  message: OpenAICompatibleUserMessage,
 ): ModelMessage {
   if (Array.isArray(message.content)) {
     return { role: "user", content: convertToModelContent(message.content) };
@@ -114,24 +117,41 @@ function toUserModelMessage(
 }
 
 function toAssistantModelMessage(
-  message: Extract<OpenAICompatibleMessage, { role: "assistant" }>,
+  message: OpenAICompatibleAssistantMessage,
 ): ModelMessage {
-  const toolCalls = message.tool_calls ?? [];
-  if (toolCalls.length === 0) return message as ModelMessage;
+  const { tool_calls, role, content, extra_content } = message;
+  const providerOptions = extra_content
+    ? (extra_content as ProviderOptions)
+    : undefined;
+
+  if (!tool_calls || tool_calls.length === 0) {
+    return {
+      role: role,
+      content: content,
+      providerOptions,
+    } as ModelMessage;
+  }
 
   return {
-    role: "assistant",
-    content: toolCalls.map((tc) => ({
-      type: "tool-call",
-      toolCallId: tc.id,
-      toolName: tc.function.name,
-      input: parseToolInput(tc.function.arguments),
-    })),
+    role: role,
+    content: tool_calls.map((tc: OpenAICompatibleMessageToolCall) => {
+      const { id, function: fn, extra_content } = tc;
+      return {
+        type: "tool-call",
+        toolCallId: id,
+        toolName: fn.name,
+        input: parseToolInput(fn.arguments),
+        providerOptions: extra_content
+          ? (extra_content as ProviderOptions)
+          : undefined,
+      };
+    }),
+    providerOptions,
   };
 }
 
 function toToolResultMessage(
-  message: Extract<OpenAICompatibleMessage, { role: "assistant" }>,
+  message: OpenAICompatibleAssistantMessage,
   toolById: Map<string, OpenAICompatibleToolMessage>,
 ): ModelMessage | undefined {
   const toolCalls = message.tool_calls ?? [];
@@ -193,9 +213,18 @@ export const toOpenAICompatibleMessage = (
         name: toolCall.toolName,
         arguments: JSON.stringify(toolCall.input),
       },
+      extra_content: toolCall.providerMetadata,
     }));
-  } else {
-    message.content = result.text;
+  }
+
+  for (const part of result.content) {
+    if (part.type === "text") {
+      message.content = part.text;
+      if (part.providerMetadata) {
+        message.extra_content = part.providerMetadata;
+      }
+      break;
+    }
   }
 
   if (result.reasoningText) {
@@ -301,9 +330,11 @@ export function toOpenAICompatibleStream(
 
         switch (part.type) {
           case "text-delta": {
+            const providerMetadata = (part as any).providerMetadata;
             const delta = {
               role: "assistant",
               content: part.text,
+              ...(providerMetadata ? { extra_content: providerMetadata } : {}),
             };
             enqueue({
               id: streamId,
@@ -332,13 +363,14 @@ export function toOpenAICompatibleStream(
           }
 
           case "tool-call": {
-            const { toolCallId, toolName, input } = part;
+            const { toolCallId, toolName, input, providerMetadata } = part;
 
             const toolCall: OpenAICompatibleToolCallDelta = {
               id: toolCallId,
               index: toolCallIndexCounter++,
               type: "function",
               function: { name: toolName, arguments: JSON.stringify(input) },
+              extra_content: providerMetadata,
             };
 
             enqueue({
@@ -360,6 +392,7 @@ export function toOpenAICompatibleStream(
 
           case "finish": {
             const { finishReason, totalUsage } = part;
+            const providerMetadata = (part as any).providerMetadata;
             enqueue({
               id: streamId,
               object: "chat.completion.chunk",
@@ -368,7 +401,9 @@ export function toOpenAICompatibleStream(
               choices: [
                 {
                   index: 0,
-                  delta: {},
+                  delta: providerMetadata
+                    ? { extra_content: providerMetadata }
+                    : {},
                   finish_reason: toOpenAICompatibleFinishReason(finishReason),
                 },
               ],
