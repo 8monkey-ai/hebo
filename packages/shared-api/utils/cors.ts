@@ -1,18 +1,13 @@
 import { authUrl } from "../env";
-import { getRootDomain } from "./root-domain";
+import { getRootDomain } from "./domains";
 
-const rootDomain = getRootDomain(authUrl);
+const rootDomain = getRootDomain(authUrl)?.replaceAll(".", String.raw`\.`);
 
 export const corsConfig = rootDomain
   ? {
       // Matches HTTPS origins for exact domain or subdomains
-      // eslint-disable-next-line security/detect-non-literal-regexp
       origin: new RegExp(
-        String.raw`^https:\/\/(?:` +
-          rootDomain.replaceAll(".", String.raw`\.`) +
-          String.raw`|(?:[a-z0-9-]+\.)+` +
-          rootDomain.replaceAll(".", String.raw`\.`) +
-          ")$",
+        `^https://(?:${rootDomain}|(?:[a-z0-9-]+\\.)+${rootDomain})$`,
         "i",
       ),
       credentials: true,
