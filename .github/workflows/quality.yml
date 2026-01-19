@@ -8,6 +8,10 @@ on:
   # Required to allow reuse. Do not remove.
   workflow_call:
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   quality:
     name: Run Quality Checks
@@ -21,6 +25,16 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: package.json
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            node_modules
+          key: bun-${{ runner.os }}-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
