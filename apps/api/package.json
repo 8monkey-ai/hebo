@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@hebo/typescript-config": "workspace:*",
-    "bun-types": "catalog:",
+    "@types/bun": "catalog:",
     "pino-pretty": "catalog:",
     "prisma": "catalog:",
     "prismabox": "^1.1.26"

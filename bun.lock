@@ -9,7 +9,7 @@
       },
       "devDependencies": {
         "@eslint/js": "^9.39.2",
-        "bun-types": "catalog:",
+        "@types/bun": "catalog:",
         "check-dependency-version-consistency": "^6.0.0",
         "eslint": "^9.39.2",
         "eslint-config-flat-gitignore": "^2.1.0",
@@ -50,7 +50,7 @@
       },
       "devDependencies": {
         "@hebo/typescript-config": "workspace:*",
-        "bun-types": "catalog:",
+        "@types/bun": "catalog:",
         "pino-pretty": "catalog:",
         "prisma": "catalog:",
         "prismabox": "^1.1.26",
@@ -72,7 +72,7 @@
       },
       "devDependencies": {
         "@hebo/typescript-config": "workspace:*",
-        "bun-types": "catalog:",
+        "@types/bun": "catalog:",
         "pino-pretty": "catalog:",
         "prisma": "catalog:",
       },
@@ -154,7 +154,7 @@
       },
       "devDependencies": {
         "@hebo/typescript-config": "workspace:*",
-        "bun-types": "catalog:",
+        "@types/bun": "catalog:",
         "pino-pretty": "catalog:",
       },
     },
@@ -171,7 +171,7 @@
       },
       "devDependencies": {
         "@hebo/typescript-config": "workspace:*",
-        "bun-types": "catalog:",
+        "@types/bun": "catalog:",
         "pino-pretty": "catalog:",
       },
     },
@@ -214,7 +214,7 @@
       },
       "devDependencies": {
         "@hebo/typescript-config": "workspace:*",
-        "bun-types": "catalog:",
+        "@types/bun": "catalog:",
       },
       "peerDependencies": {
         "@bogeychan/elysia-logger": "catalog:",
@@ -269,11 +269,11 @@
     "@elysiajs/opentelemetry": "^1.4.10",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
+    "@types/bun": "^1.3.6",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "ai": "^5.0.121",
     "better-auth": "^1.4.12",
-    "bun-types": "^1.3.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "elysia": "^1.4.22",
@@ -1011,6 +1011,8 @@
     "@tsconfig/bun": ["@tsconfig/bun@1.0.7", "", {}, "sha512-udGrGJBNQdXGVulehc1aWT73wkR9wdaGBtB6yL70RJsqwW/yJhIg6ZbRlPOfIUiFNrnBuYLBi9CSmMKfDC7dvA=="],
 
     "@tybys/wasm-util": ["@tybys/wasm-util@0.10.1", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg=="],
+
+    "@types/bun": ["@types/bun@1.3.6", "", { "dependencies": { "bun-types": "1.3.6" } }, "sha512-uWCv6FO/8LcpREhenN1d1b6fcspAB+cefwD7uti8C8VffIv0Um08TKMn98FynpTiU38+y2dUO55T11NgDt8VAA=="],
 
     "@types/debug": ["@types/debug@4.1.12", "", { "dependencies": { "@types/ms": "*" } }, "sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ=="],
 

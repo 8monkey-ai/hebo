@@ -32,6 +32,6 @@
   },
   "devDependencies": {
     "@hebo/typescript-config": "workspace:*",
-    "bun-types": "catalog:"
+    "@types/bun": "catalog:"
   }
 }
