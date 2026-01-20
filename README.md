@@ -62,8 +62,8 @@ bun run db:migrate
 # 3) Run all apps (API, Gateway, Console)
 bun run dev
 
-# Optional - console only (from repo root)
-bun run -F @hebo/console dev
+# Optional - console only with service mocks
+cd apps/console; bun run dev
 ```
 
 ### Environment variables

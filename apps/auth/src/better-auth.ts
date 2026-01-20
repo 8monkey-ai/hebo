@@ -44,6 +44,11 @@ export const auth = betterAuth({
     transaction: true,
     debugLogs: process.env.LOG_LEVEL === "debug",
   }),
+  // session: {
+  //   cookieCache: {
+  //     enabled: true,
+  //   },
+  // },
   databaseHooks: { session: { create: { before: createSessionHook(prisma) } } },
   experimental: { joins: true },
   hooks: { after: createOrganizationHook(prisma) },
