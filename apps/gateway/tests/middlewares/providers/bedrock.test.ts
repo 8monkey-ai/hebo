@@ -13,7 +13,7 @@ describe("BedrockProviderAdapter transformOptions", () => {
     expected: ProviderOptions;
   };
 
-  const bedrockProvider = new BedrockProviderAdapter("openai.gpt-oss-20b-1:0");
+  const bedrockProvider = new BedrockProviderAdapter("openai/gpt-oss-120b");
 
   const testCases: TestCase[] = [
     {
