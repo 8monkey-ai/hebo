@@ -5,6 +5,10 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   quality:
     uses: ./.github/workflows/quality.yml
@@ -20,13 +24,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: package.json
 
+      # Temporary: Pin Pulumi to v3.210.0 until SST releases version compatible with latest Pulumi
+      # See: https://github.com/anomalyco/sst/issues/6314
       - name: Setup Pulumi (pin for SST)
         uses: pulumi/actions@v6
         with:
