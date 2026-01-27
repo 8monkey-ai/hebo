@@ -101,6 +101,9 @@ export const auth = betterAuth({
     }),
   ],
   secret: await getSecret("AuthSecret", false),
+  session: {
+    cookieCache: { enabled: true },
+  },
   socialProviders: {
     google: {
       prompt: "select_account",
