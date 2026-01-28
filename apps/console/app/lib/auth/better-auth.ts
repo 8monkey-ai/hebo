@@ -38,10 +38,10 @@ const authClient = createAuthClient({
   ],
 });
 
-function redirectToSignIn() {
+const redirectToSignIn = () => {
   shellStore.user = undefined;
   globalThis.location.replace("/signin");
-}
+};
 
 export const authService: AuthService = {
   async ensureSignedIn() {
