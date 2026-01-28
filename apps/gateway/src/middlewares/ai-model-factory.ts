@@ -1,3 +1,4 @@
+import { record } from "@elysiajs/opentelemetry";
 import { wrapLanguageModel } from "ai";
 import { Elysia } from "elysia";
 
@@ -35,21 +36,27 @@ export const aiModelFactory = new Elysia({
       modelAliasPath: string,
       modality: M,
     ): Promise<AiModelFor<M>> => {
-      const modelType = await modelConfigService.getModelType(modelAliasPath);
+      const modelType = await record("getModelType", () =>
+        modelConfigService.getModelType(modelAliasPath),
+      );
       const modelAdapter = ModelAdapterFactory.getAdapter(modelType);
       if (modelAdapter.modality !== modality)
         throw new BadRequestError(
           `Model ${modelType} is not a ${modality} model. It is a ${modelAdapter.modality} model.`,
         );
 
-      const customProviderSlug =
-        await modelConfigService.getCustomProviderSlug(modelAliasPath);
-      const providerAdapter = await (customProviderSlug
-        ? providerAdapterFactory.createCustom(modelType, customProviderSlug)
-        : providerAdapterFactory.createDefault(modelType));
-
-      const provider = await providerAdapter.getProvider();
-      const modelId = await providerAdapter.resolveModelId();
+      const customProviderSlug = await record("getCustomProviderSlug", () =>
+        modelConfigService.getCustomProviderSlug(modelAliasPath),
+      );
+      const providerAdapter = await record("createProviderAdapter", () =>
+        customProviderSlug
+          ? providerAdapterFactory.createCustom(modelType, customProviderSlug)
+          : providerAdapterFactory.createDefault(modelType),
+      );
+      const [provider, modelId] = await Promise.all([
+        record("getProvider", () => providerAdapter.getProvider()),
+        record("resolveModelId", () => providerAdapter.resolveModelId()),
+      ]);
 
       let model =
         modality === "chat"
