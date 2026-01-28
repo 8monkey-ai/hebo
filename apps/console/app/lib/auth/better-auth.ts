@@ -4,7 +4,6 @@ import {
   emailOTPClient,
   organizationClient,
 } from "better-auth/client/plugins";
-import { getCookieCache , getSessionCookie } from "better-auth/cookies";
 
 import { authUrl } from "~console/lib/service";
 import { shellStore } from "~console/lib/shell";
@@ -40,23 +39,21 @@ const authClient = createAuthClient({
 });
 
 export const authService: AuthService = {
-  async ensureSignedIn(request: Request) {
-    const cookieCache = await getCookieCache(request);
-    const sessionCookie = getSessionCookie(request);
-
-    console.log("cookieCache", cookieCache);
-    console.log("sessionCookie", sessionCookie);
-
-    await new Promise((resolve) => setTimeout(resolve, 10_000));
-
-    const session = await authClient.getSession();
-    const user = session.data?.user as User | undefined;
-
-    if (!user) {
+  async ensureSignedIn() {
+    if (!document.cookie.includes("better-auth.session_token=")) {
+      shellStore.user = undefined;
       globalThis.location.replace("/signin");
       return;
     }
 
+    if (shellStore.user) {
+      return;
+    }
+
+    const session = await authClient.getSession({
+      query: { disableCookieCache: true },
+    });
+    const user = session.data?.user as User;
     const initialsSource = user?.name || user.email;
     const initialsSeparator = user?.name ? " " : "@";
     user.initials = initialsSource

@@ -32,6 +32,10 @@ export const auth = betterAuth({
       enabled: Boolean(cookieDomain),
       domain: cookieDomain,
     },
+    // FUTURE: restore default once we have a better way to check for session cookie (SSR?)
+    defaultCookieAttributes: {
+      httpOnly: false,
+    },
     database: {
       generateId: () => Bun.randomUUIDv7(),
     },
