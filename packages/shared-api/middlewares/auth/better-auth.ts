@@ -9,7 +9,6 @@ import { authUrl } from "../../env";
 import { BadRequestError } from "../../errors";
 import { getSecret } from "../../utils/secrets";
 
-
 const authSecret = await getSecret("AuthSecret", false);
 const cookieConfig = getCookies(betterAuthCookieOptions);
 
