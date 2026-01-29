@@ -3,11 +3,11 @@ import { betterAuth } from "better-auth/minimal";
 import { apiKey, emailOTP, organization } from "better-auth/plugins";
 
 import { authUrl } from "@hebo/shared-api/env";
-import { createPrismaAdapter } from "@hebo/shared-api/lib/db/connection";
 import {
   betterAuthCookieOptions,
   cookieDomain,
-} from "@hebo/shared-api/middlewares/auth/cookie-options";
+} from "@hebo/shared-api/lib/cookie-options";
+import { createPrismaAdapter } from "@hebo/shared-api/lib/db/connection";
 import { getSecret } from "@hebo/shared-api/utils/secrets";
 
 import { PrismaClient } from "~auth/generated/prisma/client";

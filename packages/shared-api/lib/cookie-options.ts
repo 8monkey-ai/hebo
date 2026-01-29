@@ -1,5 +1,5 @@
-import { authUrl } from "../../env";
-import { getRootDomain } from "../../utils/domains";
+import { authUrl } from "../env";
+import { getRootDomain } from "../utils/domains";
 
 // eTLD+1 domain for cross-subdomain cookies (e.g., "hebo.ai")
 const cookieDomain = getRootDomain(authUrl);

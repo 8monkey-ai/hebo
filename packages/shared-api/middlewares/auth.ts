@@ -4,10 +4,10 @@ import { organizationClient } from "better-auth/client/plugins";
 import { getCookieCache, getCookies } from "better-auth/cookies";
 import { Elysia } from "elysia";
 
-import { betterAuthCookieOptions } from "./cookie-options";
-import { authUrl } from "../../env";
-import { BadRequestError } from "../../errors";
-import { getSecret } from "../../utils/secrets";
+import { authUrl } from "../env";
+import { AuthError, BadRequestError } from "../errors";
+import { betterAuthCookieOptions } from "../lib/cookie-options";
+import { getSecret } from "../utils/secrets";
 
 const authSecret = await getSecret("AuthSecret", false);
 const cookieConfig = getCookies(betterAuthCookieOptions);
@@ -41,7 +41,7 @@ const createAuthClient = (request: Request) => {
   });
 };
 
-export const authServiceBetterAuth = new Elysia({
+const authServiceBetterAuth = new Elysia({
   name: "authenticate-user-better-auth",
 })
   .resolve(async (ctx) => {
@@ -104,5 +104,16 @@ export const authServiceBetterAuth = new Elysia({
       userId: session.user.id,
       authClient,
     } as const;
+  })
+  .as("scoped");
+
+export const authService = new Elysia({ name: "auth-service" })
+  .use(authServiceBetterAuth)
+  .macro({
+    isSignedIn: {
+      beforeHandle: function checkIsSignedIn({ organizationId, userId }) {
+        if (!organizationId || !userId) throw new AuthError("Unauthorized");
+      },
+    },
   })
   .as("scoped");
