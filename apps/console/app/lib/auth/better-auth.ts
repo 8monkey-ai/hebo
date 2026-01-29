@@ -4,19 +4,24 @@ import {
   emailOTPClient,
   organizationClient,
 } from "better-auth/client/plugins";
+import { getSessionCookie } from "better-auth/cookies";
 
 import { authUrl } from "~console/lib/service";
 import { shellStore } from "~console/lib/shell";
 
-import {
-  DEFAULT_EXPIRATION_MS,
-  type ApiKey,
-  type AuthService,
-  type User,
-} from "./types";
+import { DEFAULT_EXPIRATION_MS, type ApiKey, type AuthService } from "./types";
 
-const appRedirectPath = "/";
+const appRedirectPath = "/?after-signin";
 const appRedirectURL = `${globalThis.location.origin}${appRedirectPath}`;
+
+function getInitials(name: string | undefined, email: string) {
+  const source = name || email;
+  const separator = name ? " " : "@";
+  return source
+    .split(separator)
+    .map((part) => part[0])
+    .join("");
+}
 
 const authClient = createAuthClient({
   baseURL: new URL("/v1", authUrl).toString(),
@@ -40,22 +45,32 @@ const authClient = createAuthClient({
 
 export const authService: AuthService = {
   async ensureSignedIn() {
-    const session = await authClient.getSession();
-    const user = session.data?.user as User | undefined;
-
-    if (!user) {
+    const headers = new Headers({ cookie: document.cookie });
+    if (!getSessionCookie(headers)) {
+      shellStore.user = undefined;
       globalThis.location.replace("/signin");
       return;
     }
 
-    const initialsSource = user?.name || user.email;
-    const initialsSeparator = user?.name ? " " : "@";
-    user.initials = initialsSource
-      .split(initialsSeparator)
-      .map((part) => part[0])
-      .join("");
+    if (shellStore.user) {
+      return;
+    }
 
-    shellStore.user = user;
+    // Disable cookie cache only after fresh sign-in to ensure we get the latest session
+    const isComingFromSignIn = new URL(
+      globalThis.location.href,
+    ).searchParams.has("after-signin");
+    const session = await authClient.getSession({
+      query: { disableCookieCache: isComingFromSignIn },
+    });
+
+    const sessionUser = session.data?.user;
+    shellStore.user = sessionUser && {
+      email: sessionUser.email,
+      name: sessionUser.name,
+      image: sessionUser.image ?? undefined,
+      initials: getInitials(sessionUser.name, sessionUser.email),
+    };
   },
 
   async generateApiKey(name, expiresInMs = DEFAULT_EXPIRATION_MS) {
