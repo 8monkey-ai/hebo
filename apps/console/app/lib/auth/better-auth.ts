@@ -41,8 +41,7 @@ const authClient = createAuthClient({
 
 export const authService: AuthService = {
   async ensureSignedIn() {
-    const headers = new Headers();
-    headers.set("cookie", document.cookie);
+    const headers = new Headers({ cookie: document.cookie });
     if (!getSessionCookie(headers)) {
       shellStore.user = undefined;
       globalThis.location.replace("/signin");
