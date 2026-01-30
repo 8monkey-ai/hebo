@@ -41,9 +41,11 @@ export const auth = betterAuth({
     transaction: true,
     debugLogs: process.env.LOG_LEVEL === "debug",
   }),
-  databaseHooks: { session: { create: { before: createSessionHook(prisma) } } },
+  databaseHooks: {
+    user: { create: { after: createOrganizationHook(prisma) } },
+    session: { create: { before: createSessionHook(prisma) } },
+  },
   experimental: { joins: true },
-  hooks: { after: createOrganizationHook(prisma) },
   plugins: [
     apiKey({
       startingCharactersConfig: {
