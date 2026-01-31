@@ -1,6 +1,6 @@
 {
   "name": "hebo",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "packageManager": "bun@1.3.6",
   "engines": {
