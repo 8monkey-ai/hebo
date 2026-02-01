@@ -22,6 +22,7 @@ COPY --from=pruner /repo/out/json/ ./
 RUN bun install --frozen-lockfile
 
 COPY --from=pruner /repo/out/full/ ./
+# TODO: simplify the following logic
 RUN if [ "$NODE_ENV" = "production" ]; then \
       bun build apps/mcp/src/index.ts --compile --minify-whitespace --minify-syntax --target=bun --outfile apps/mcp/dist/server --production; \
     else \
