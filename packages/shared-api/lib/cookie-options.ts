@@ -3,6 +3,7 @@ import { getRootDomain } from "../utils/domains";
 
 // eTLD+1 domain for cross-subdomain cookies (e.g., "hebo.ai")
 const cookieDomain = getRootDomain(authUrl);
+const useSecureCookies = process.env.NODE_ENV === "production" ? true : false;
 
 export const betterAuthCookieOptions = {
   advanced: {
@@ -14,6 +15,7 @@ export const betterAuthCookieOptions = {
     defaultCookieAttributes: {
       httpOnly: false,
     },
+    useSecureCookies,
   },
 } as const;
 
