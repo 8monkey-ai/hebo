@@ -2,9 +2,12 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { betterAuth } from "better-auth/minimal";
 import { apiKey, emailOTP, organization } from "better-auth/plugins";
 
-import { authUrl } from "@hebo/shared-api/env";
+import { authUrl, logLevel } from "@hebo/shared-api/env";
+import {
+  betterAuthCookieOptions,
+  cookieDomain,
+} from "@hebo/shared-api/lib/cookie-options";
 import { createPrismaAdapter } from "@hebo/shared-api/lib/db/connection";
-import { getRootDomain } from "@hebo/shared-api/utils/domains";
 import { getSecret } from "@hebo/shared-api/utils/secrets";
 
 import { PrismaClient } from "~auth/generated/prisma/client";
@@ -19,19 +22,13 @@ export const prisma = new PrismaClient({
   adapter: createPrismaAdapter("auth"),
 });
 
-// Set to the eTLD+1 (e.g., "example.com") so auth cookies flow to api/gateway.
-const cookieDomain = getRootDomain(authUrl);
-
 export const auth = betterAuth({
   accountLinking: {
     enabled: true,
     trustedProviders: ["google", "github", "microsoft"],
   },
   advanced: {
-    crossSubDomainCookies: {
-      enabled: Boolean(cookieDomain),
-      domain: cookieDomain,
-    },
+    ...betterAuthCookieOptions.advanced,
     database: {
       generateId: () => Bun.randomUUIDv7(),
     },
@@ -42,11 +39,13 @@ export const auth = betterAuth({
     provider: "postgresql",
     usePlural: true,
     transaction: true,
-    debugLogs: process.env.LOG_LEVEL === "debug",
+    debugLogs: logLevel === "debug",
   }),
-  databaseHooks: { session: { create: { before: createSessionHook(prisma) } } },
+  databaseHooks: {
+    user: { create: { after: createOrganizationHook(prisma) } },
+    session: { create: { before: createSessionHook(prisma) } },
+  },
   experimental: { joins: true },
-  hooks: { after: createOrganizationHook(prisma) },
   plugins: [
     apiKey({
       startingCharactersConfig: {
@@ -101,6 +100,9 @@ export const auth = betterAuth({
     }),
   ],
   secret: await getSecret("AuthSecret", false),
+  session: {
+    cookieCache: { enabled: true },
+  },
   socialProviders: {
     google: {
       prompt: "select_account",

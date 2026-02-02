@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../.sst/platform/config.d.ts" />
+
 import heboCluster from "./cluster";
 import { otelSecrets, isProduction, normalizedStage } from "./env";
 
@@ -16,10 +19,11 @@ const heboMcp = new sst.aws.Service("HeboMcp", {
     context: ".",
     dockerfile: "infra/docker/Dockerfile.mcp",
     tags: [mcpDomain],
+    args: {
+      NODE_ENV: isProduction ? "production" : "development",
+    },
   },
   environment: {
-    NODE_ENV: isProduction ? "production" : "development",
-    LOG_LEVEL: isProduction ? "info" : "debug",
     PORT: mcpPort,
   },
   loadBalancer: {
@@ -28,6 +32,13 @@ const heboMcp = new sst.aws.Service("HeboMcp", {
       { listen: "80/http", redirect: "443/https" },
       { listen: "443/https", forward: `${mcpPort}/http` },
     ],
+  },
+  transform: {
+    listener: (args) => {
+      if (args.protocol === "HTTPS") {
+        args.sslPolicy = "ELBSecurityPolicy-TLS13-1-2-2021-06";
+      }
+    },
   },
   scaling: {
     min: 1,

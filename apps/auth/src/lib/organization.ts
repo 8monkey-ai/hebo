@@ -1,47 +1,34 @@
-import { createAuthMiddleware } from "better-auth/api";
-
 import { slugFromName } from "@hebo/shared-api/utils/create-slug";
 
 import type { PrismaClient } from "~auth/generated/prisma/client";
 
 export const createOrganizationHook = (prisma: PrismaClient) => {
-  return createAuthMiddleware(async (ctx) => {
-    const newSession = ctx.context.newSession;
-    if (!newSession) return;
-
-    const isNewUser =
-      ctx.path.startsWith("/callback/") || ctx.path === "/sign-in/email-otp";
-    if (!isNewUser) return;
-
+  return async (user: { id: string; name: string | null; email: string }) => {
     await prisma.$transaction(async (tx) => {
-      const existing = await tx.members.findFirst({
-        where: { userId: newSession.user.id },
-      });
-      if (existing) return;
-
       const org = await tx.organizations.create({
         data: {
           id: Bun.randomUUIDv7(),
-          name: `${newSession.user.name || newSession.user.email}'s Org`,
-          slug: slugFromName(newSession.user.name, newSession.user.email),
+          name: `${user.name || user.email}'s Org`,
+          slug: slugFromName(user.name, user.email),
           createdAt: new Date(),
         },
       });
       await tx.members.create({
         data: {
           id: Bun.randomUUIDv7(),
-          userId: newSession.user.id,
+          userId: user.id,
           organizationId: org.id,
           role: "owner",
           createdAt: new Date(),
         },
       });
-      await tx.sessions.update({
-        where: { id: newSession.session.id },
+      await tx.sessions.updateMany({
+        // eslint-disable-next-line unicorn/no-null
+        where: { userId: user.id, activeOrganizationId: null },
         data: { activeOrganizationId: org.id },
       });
     });
-  });
+  };
 };
 
 export const createSessionHook = (prisma: PrismaClient) => {

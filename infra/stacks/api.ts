@@ -1,7 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../.sst/platform/config.d.ts" />
+
 import heboAuth from "./auth";
 import heboCluster from "./cluster";
 import heboDatabase, { createMigrator } from "./db";
-import { otelSecrets, isProduction, normalizedStage } from "./env";
+import { authSecret, isProduction, normalizedStage, otelSecrets } from "./env";
 
 const apiDomain = isProduction
   ? "api.hebo.ai"
@@ -13,16 +16,17 @@ const heboApi = new sst.aws.Service("HeboApi", {
   architecture: "arm64",
   cpu: isProduction ? "1 vCPU" : "0.25 vCPU",
   memory: isProduction ? "2 GB" : "0.5 GB",
-  link: [heboDatabase, ...otelSecrets],
+  link: [heboDatabase, authSecret, ...otelSecrets],
   image: {
     context: ".",
     dockerfile: "infra/docker/Dockerfile.api",
     tags: [apiDomain],
+    args: {
+      NODE_ENV: isProduction ? "production" : "development",
+    },
   },
   environment: {
     AUTH_URL: heboAuth.url,
-    LOG_LEVEL: isProduction ? "info" : "debug",
-    NODE_ENV: isProduction ? "production" : "development",
     NODE_EXTRA_CA_CERTS: "/etc/ssl/certs/rds-bundle.pem",
     PORT: apiPort,
   },
@@ -32,6 +36,13 @@ const heboApi = new sst.aws.Service("HeboApi", {
       { listen: "80/http", redirect: "443/https" },
       { listen: "443/https", forward: `${apiPort}/http` },
     ],
+  },
+  transform: {
+    listener: (args) => {
+      if (args.protocol === "HTTPS") {
+        args.sslPolicy = "ELBSecurityPolicy-TLS13-1-2-2021-06";
+      }
+    },
   },
   scaling: {
     min: isProduction ? 2 : 1,

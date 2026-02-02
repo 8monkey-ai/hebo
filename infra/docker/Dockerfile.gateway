@@ -14,6 +14,7 @@ RUN turbo prune @hebo/gateway --docker
 ########################  installer + builder stage  ########################
 FROM oven/bun:1 AS builder
 ENV CI=1
+ARG NODE_ENV
 WORKDIR /repo
 
 COPY --from=pruner /repo/out/json/ ./
@@ -21,7 +22,7 @@ RUN bun install --frozen-lockfile
 
 COPY --from=pruner /repo/out/full/ ./
 ADD https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem /rds-bundle.pem
-RUN bun run build
+RUN [ "$NODE_ENV" = "production" ] && bun run build -- -- --production || bun run build
 
 ########################  runner stage  ########################
 FROM gcr.io/distroless/base
