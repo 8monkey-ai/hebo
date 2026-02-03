@@ -99,23 +99,23 @@ export const auth = betterAuth({
       },
     }),
   ],
-  secret: await getSecret("AuthSecret", false),
+  secret: await getSecret("AuthSecret"),
   session: {
     cookieCache: { enabled: true },
   },
   socialProviders: {
     google: {
       prompt: "select_account",
-      clientId: await getSecret("GoogleClientId", false),
-      clientSecret: await getSecret("GoogleClientSecret", false),
+      clientId: await getSecret("GoogleClientId"),
+      clientSecret: await getSecret("GoogleClientSecret"),
     },
     github: {
-      clientId: await getSecret("GithubClientId", false),
-      clientSecret: await getSecret("GithubClientSecret", false),
+      clientId: await getSecret("GithubClientId"),
+      clientSecret: await getSecret("GithubClientSecret"),
     },
     microsoft: {
-      clientId: await getSecret("MicrosoftClientId", false),
-      clientSecret: await getSecret("MicrosoftClientSecret", false),
+      clientId: await getSecret("MicrosoftClientId"),
+      clientSecret: await getSecret("MicrosoftClientSecret"),
     },
   },
   trustedOrigins: cookieDomain ? [`https://*.${cookieDomain}`] : ["*"],
