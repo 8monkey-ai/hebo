@@ -18,10 +18,10 @@ const PORT = Number(process.env.PORT ?? 3002);
 export const createGateway = () =>
   new Elysia()
     .use(opentelemetry(getOtelConfig("hebo-gateway")))
+    .use(logger({ level: logLevel }))
     // Root route ("/") is unauthenticated and unprotected for health checks.
     .get("/", () => "🐵 Hebo AI Gateway says hello!")
     .use(cors(corsConfig))
-    .use(logger({ level: logLevel }))
     .use(errorHandler)
     .use(authService)
     .group(basePath, { isSignedIn: true }, (app) =>
