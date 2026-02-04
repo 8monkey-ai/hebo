@@ -4,11 +4,11 @@ import { gptOss20b, gptOss120b } from "@hebo-ai/gateway/models/openai";
 import { voyage35 } from "@hebo-ai/gateway/models/voyage";
 
 import {
-  createProvider,
   loadProviderSecrets,
   resolveModelId,
   resolveProvider,
 } from "./services/model-resolver";
+import { createProvider } from "./services/provider-factory";
 
 import type { DbClient } from "./services/model-resolver";
 
