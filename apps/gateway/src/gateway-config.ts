@@ -38,7 +38,7 @@ export const gw = gateway({
     voyage: createProvider("voyage", { apiKey: secrets.voyageApiKey }),
   },
 
-  models: defineModelCatalog([
+  models: defineModelCatalog(
     gptOss20b({
       providers: ["bedrock", "groq"],
       ...withPricing(12_000_000_000),
@@ -47,11 +47,11 @@ export const gw = gateway({
       providers: ["bedrock", "groq"],
       ...withPricing(6_000_000_000),
     }),
-    ...gemini["v3.x"].map((preset) =>
+    gemini["v3.x"].map((preset) =>
       preset({ providers: ["vertex"], ...withPricing(0) }),
     ),
     voyage35({ providers: ["voyage"], ...withPricing(0) }),
-  ]),
+  ),
 
   hooks: {
     resolveModelId: async (ctx) =>
