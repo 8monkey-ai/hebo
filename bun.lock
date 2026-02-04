@@ -139,6 +139,7 @@
         "@aws-sdk/credential-providers": "^3.980.0",
         "@bogeychan/elysia-logger": "catalog:",
         "@elysiajs/cors": "catalog:",
+        "@elysiajs/openapi": "catalog:",
         "@elysiajs/opentelemetry": "catalog:",
         "@hebo-ai/gateway": "^0.2.1",
         "@hebo/api": "workspace:*",
