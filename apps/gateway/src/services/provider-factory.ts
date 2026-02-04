@@ -58,11 +58,11 @@ export function createProvider(
   slug: ProviderSlug,
   config: unknown,
 ): ProviderV3 | undefined {
-  if (!config) return;
-
+  console.log("config", config);
   switch (slug) {
     case "bedrock": {
       const { bedrockRoleArn, region } = config as BedrockProviderConfig;
+      if (!bedrockRoleArn || !region) return;
       return withCanonicalIdsForBedrock(
         createAmazonBedrock({
           region,
@@ -75,11 +75,13 @@ export function createProvider(
     }
     case "groq": {
       const { apiKey } = config as ApiKeyProviderConfig;
+      if (!apiKey) return;
       return withCanonicalIdsForGroq(createGroq({ apiKey }));
     }
     case "vertex": {
       const { serviceAccountEmail, audience, location, project } =
         config as VertexProviderConfig;
+      if (!serviceAccountEmail || !audience || !location || !project) return;
       return withCanonicalIdsForVertex(
         createVertex({
           googleAuthOptions: {
@@ -93,6 +95,7 @@ export function createProvider(
     }
     case "voyage": {
       const { apiKey } = config as ApiKeyProviderConfig;
+      if (!apiKey) return;
       return withCanonicalIdsForVoyage(createVoyage({ apiKey }));
     }
     default: {
