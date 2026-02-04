@@ -64,7 +64,7 @@ export const createGateway = () =>
       },
     )
     .get(
-      "/v1/models/:modelId",
+      "/v1/models*",
       (({ request }: { request: Request }) =>
         gw.routes["/models"].handler(request)) as any,
       {
