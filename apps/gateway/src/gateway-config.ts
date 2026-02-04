@@ -3,12 +3,11 @@ import { gemini } from "@hebo-ai/gateway/models/google";
 import { gptOss20b, gptOss120b } from "@hebo-ai/gateway/models/openai";
 import { voyage35 } from "@hebo-ai/gateway/models/voyage";
 
+import { resolveModelId, resolveProvider } from "./services/model-resolver";
 import {
+  createProvider,
   loadProviderSecrets,
-  resolveModelId,
-  resolveProvider,
-} from "./services/model-resolver";
-import { createProvider } from "./services/provider-factory";
+} from "./services/provider-factory";
 
 const basePath = "/v1";
 const secrets = await loadProviderSecrets();

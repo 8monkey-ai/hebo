@@ -1,7 +1,5 @@
 import QuickLRU from "quick-lru";
 
-import { getSecret } from "@hebo/shared-api/utils/secrets";
-
 import type { createDbClient } from "~api/lib/db/client";
 
 export type DbClient = ReturnType<typeof createDbClient>;
@@ -14,39 +12,6 @@ import type { ProviderV3 } from "@ai-sdk/provider";
 import type { HookContext } from "@hebo-ai/gateway";
 
 const providerCache = new QuickLRU<string, ProviderV3>({ maxSize: 100 });
-
-export async function loadProviderSecrets() {
-  const [
-    groqApiKey,
-    bedrockRoleArn,
-    bedrockRegion,
-    voyageApiKey,
-    vertexServiceAccountEmail,
-    vertexAudience,
-    vertexLocation,
-    vertexProject,
-  ] = await Promise.all([
-    getSecret("GroqApiKey"),
-    getSecret("BedrockRoleArn"),
-    getSecret("BedrockRegion"),
-    getSecret("VoyageApiKey"),
-    getSecret("VertexServiceAccountEmail"),
-    getSecret("VertexAwsProviderAudience"),
-    getSecret("VertexLocation"),
-    getSecret("VertexProject"),
-  ]);
-
-  return {
-    groqApiKey,
-    bedrockRoleArn,
-    bedrockRegion,
-    voyageApiKey,
-    vertexServiceAccountEmail,
-    vertexAudience,
-    vertexLocation,
-    vertexProject,
-  };
-}
 
 export async function resolveModelId(ctx: HookContext) {
   const { modelId: aliasPath, state } = ctx;
