@@ -39,12 +39,23 @@ export const createGateway = () =>
     .use(cors(corsConfig))
     .use(
       openapi({
-        // FUTURE: document security schemes
         documentation: {
           info: {
             title: "Hebo AI Gateway",
+            description: "OpenAI-compatible AI Gateway API",
             version: "0.1.0",
           },
+          servers: [{ url: "https://gateway.hebo.ai" }],
+          components: {
+            securitySchemes: {
+              bearerAuth: {
+                type: "http",
+                scheme: "bearer",
+                description: "API key or access token",
+              },
+            },
+          },
+          security: [{ bearerAuth: [] }],
         },
       }),
     )

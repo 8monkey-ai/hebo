@@ -25,12 +25,23 @@ const createApi = () =>
     .use(cors(corsConfig))
     .use(
       openapi({
-        // FUTURE: document security schemes
         documentation: {
           info: {
             title: "Hebo API",
+            description: "Hebo Platform API",
             version: "0.1.0",
           },
+          servers: [{ url: "https://api.hebo.ai" }],
+          components: {
+            securitySchemes: {
+              bearerAuth: {
+                type: "http",
+                scheme: "bearer",
+                description: "API key or access token",
+              },
+            },
+          },
+          security: [{ bearerAuth: [] }],
         },
       }),
     )
