@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import QuickLRU from "quick-lru";
 
 import type { createDbClient } from "~api/lib/db/client";
@@ -58,7 +60,10 @@ export async function resolveProvider(ctx: ResolveProviderHookContext) {
     const { value: config } =
       await dbClient.provider_configs.getUnredacted(customProviderSlug);
 
-    const cacheKey = `${customProviderSlug}:${modelId}:${JSON.stringify(config)}`;
+    const configHash = createHash("sha256")
+      .update(JSON.stringify(config))
+      .digest("hex");
+    const cacheKey = `${customProviderSlug}:${modelId}:${configHash}`;
     let provider = providerCache.get(cacheKey);
 
     if (!provider) {
