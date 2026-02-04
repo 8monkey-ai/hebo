@@ -27,7 +27,7 @@ export const createGateway = () =>
     .group(basePath, { isSignedIn: true }, (app) =>
       app
         .use(dbClient)
-        .post(
+        .all(
           `/*`,
           ({ request, dbClient }) => gw.handler(request, { dbClient }),
           { parse: "none" },
