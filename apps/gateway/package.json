@@ -24,7 +24,7 @@
     "@bogeychan/elysia-logger": "catalog:",
     "@elysiajs/cors": "catalog:",
     "@elysiajs/opentelemetry": "catalog:",
-    "@hebo-ai/gateway": "^0.2.0",
+    "@hebo-ai/gateway": "^0.2.1",
     "@hebo/api": "workspace:*",
     "@hebo/shared-api": "workspace:*",
     "elysia": "catalog:",

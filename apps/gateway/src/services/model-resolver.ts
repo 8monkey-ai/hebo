@@ -9,19 +9,16 @@ import { injectMetadataCredentials } from "./aws-wif";
 import { createProvider } from "./provider-factory";
 
 import type { ProviderV3 } from "@ai-sdk/provider";
-import type { HookContext } from "@hebo-ai/gateway";
+import type {
+  ResolveModelHookContext,
+  ResolveProviderHookContext,
+} from "@hebo-ai/gateway";
 
 const providerCache = new QuickLRU<string, ProviderV3>({ maxSize: 100 });
 
-// TODO: Use narrower type once the new Hebo AI Gateway version is released
-export async function resolveModelId(ctx: HookContext) {
+export async function resolveModelId(ctx: ResolveModelHookContext) {
   const { modelId: aliasPath, state } = ctx;
   const { dbClient } = state as { dbClient: DbClient };
-
-  // TODO: Remove this as soon the new Hebo AI Gateway version is released
-  if (!aliasPath) {
-    throw new Error("Missing modelId in context");
-  }
 
   const [agentSlug, branchSlug, modelAlias] = aliasPath.split("/");
   const branch = await dbClient.branches.findFirstOrThrow({
@@ -45,15 +42,9 @@ export async function resolveModelId(ctx: HookContext) {
   return model.type;
 }
 
-// TODO: Use narrower type once the new Hebo AI Gateway version is released
-export async function resolveProvider(ctx: HookContext) {
+export async function resolveProvider(ctx: ResolveProviderHookContext) {
   const { resolvedModelId: modelId, state } = ctx;
   const { dbClient } = state as { dbClient: DbClient };
-
-  // TODO: Remove this as soon the new Hebo AI Gateway version is released
-  if (!modelId) {
-    return;
-  }
 
   if (modelId.startsWith("google/")) {
     await injectMetadataCredentials();
