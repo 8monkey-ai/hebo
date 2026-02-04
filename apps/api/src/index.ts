@@ -15,6 +15,7 @@ import { branchesModule } from "./modules/branches";
 import { providersModule } from "./modules/providers";
 
 const PORT = Number(process.env.PORT ?? 3001);
+const API_URL = process.env.API_URL ?? `http://localhost:${PORT}`;
 
 const createApi = () =>
   new Elysia()
@@ -31,7 +32,7 @@ const createApi = () =>
             description: "Hebo Platform API",
             version: "0.1.0",
           },
-          servers: [{ url: "https://api.hebo.ai" }],
+          servers: [{ url: API_URL }],
           components: {
             securitySchemes: {
               bearerAuth: {

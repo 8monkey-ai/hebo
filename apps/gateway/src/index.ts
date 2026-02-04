@@ -29,6 +29,7 @@ import { basePath, gw } from "./gateway-config";
 import { errorHandler } from "./middlewares/error-handler";
 
 const PORT = Number(process.env.PORT ?? 3002);
+const GATEWAY_URL = process.env.GATEWAY_URL ?? `http://localhost:${PORT}`;
 
 export const createGateway = () =>
   new Elysia()
@@ -45,7 +46,7 @@ export const createGateway = () =>
             description: "OpenAI-compatible AI Gateway API",
             version: "0.1.0",
           },
-          servers: [{ url: "https://gateway.hebo.ai" }],
+          servers: [{ url: GATEWAY_URL }],
           components: {
             securitySchemes: {
               bearerAuth: {
