@@ -49,7 +49,7 @@ export const createGateway = () =>
     )
     .use(errorHandler)
     // Public routes (no authentication required)
-     
+
     .get(
       "/v1/models",
       (({ request }: { request: Request }) =>
@@ -64,7 +64,6 @@ export const createGateway = () =>
     )
     .get(
       "/v1/models/:modelId",
-       
       (({ request }: { request: Request }) =>
         gw.routes["/models"].handler(request)) as any,
       {
