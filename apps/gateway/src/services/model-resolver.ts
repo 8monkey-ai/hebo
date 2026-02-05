@@ -100,11 +100,14 @@ export async function resolveProvider(ctx: ResolveProviderHookContext) {
 
     configCache.set(configCacheKey, configHash);
 
+    // If no config is found, return undefined to use the default providers.
+    if (!config) return;
+
     const providerCacheKey = `${configCacheKey}:${configHash}`;
     let provider = providerCache.get(providerCacheKey);
 
     if (!provider) {
-      provider = createProvider(customProviderSlug, config?.value);
+      provider = createProvider(customProviderSlug, config.value);
       providerCache.set(providerCacheKey, provider!);
     }
 
