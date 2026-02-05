@@ -30,10 +30,14 @@ const providerCache = new LRUCache<string, ProviderV3>({
 });
 
 export async function resolveModelId(ctx: ResolveModelHookContext) {
-  const { modelId: aliasPath, state } = ctx;
+  const { modelId: aliasPath, models, state } = ctx;
 
   if (canonicalModelIds.has(aliasPath)) {
-    state.modelConfig = { type: aliasPath, customProviderSlug: undefined };
+    state.modelConfig = {
+      type: aliasPath,
+      // Currently, we only support routing to the first provider.
+      customProviderSlug: models[aliasPath]?.providers[0] as ProviderSlug,
+    };
     return aliasPath;
   }
 
@@ -55,6 +59,7 @@ export async function resolveModelId(ctx: ResolveModelHookContext) {
 
   state.modelConfig = {
     type: model.type,
+    // Currently, we only support routing to the first provider.
     customProviderSlug: model.routing?.only?.[0] as ProviderSlug | undefined,
   };
 
@@ -86,12 +91,12 @@ export async function resolveProvider(ctx: ResolveProviderHookContext) {
       }
     }
 
-    const { value: config } =
+    const config =
       await dbClient.provider_configs.getUnredacted(customProviderSlug);
 
-    const configHash = createHash("sha256")
-      .update(JSON.stringify(config))
-      .digest("hex");
+    const configHash = config
+      ? createHash("sha256").update(JSON.stringify(config.value)).digest("hex")
+      : "default";
 
     configCache.set(configCacheKey, configHash);
 
@@ -99,7 +104,7 @@ export async function resolveProvider(ctx: ResolveProviderHookContext) {
     let provider = providerCache.get(providerCacheKey);
 
     if (!provider) {
-      provider = createProvider(customProviderSlug, config);
+      provider = createProvider(customProviderSlug, config?.value);
       providerCache.set(providerCacheKey, provider!);
     }
 
