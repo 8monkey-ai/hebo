@@ -62,7 +62,6 @@ export const createGateway = () =>
     )
     .use(errorHandler)
     // Public routes (no authentication required)
-
     .get(
       "/v1/models",
       (({ request }: { request: Request }) =>

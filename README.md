@@ -10,7 +10,7 @@ This is the monorepo for Hebo, containing all our applications and shared packag
 │   ├── api/                        # REST API server (ElysiaJS)
 │   ├── auth/                       # Auth Service (ElysiaJS + Better Auth)
 │   ├── console/                    # Web console (React Router + Vite)
-│   ├── gateway/                    # AI Gateway (ElysiaJS + Vercel AI SDK)
+│   ├── gateway/                    # AI Gateway (ElysiaJS + Hebo AI Gateway)
 │   └── mcp/                        # MCP Server (ElysiaJS)
 │
 ├── packages/                       # Shared libraries and utilities
