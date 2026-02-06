@@ -15,7 +15,10 @@ export const slugFromString = (input: string, suffixLength = 0): string => {
   return base ? `${base}-${suffix}` : suffix;
 };
 
-export const slugFromName = (name: string | null, email: string): string => {
+export const slugFromName = (
+  name: string | null | undefined,
+  email: string,
+): string => {
   if (!name) return slugFromString(email.split("@")[0].slice(0, 6), 6);
 
   const normalized = slugify(name, { separator: " " });
