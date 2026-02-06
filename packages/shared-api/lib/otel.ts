@@ -6,7 +6,7 @@ import {
   registerInstrumentations,
 } from "@prisma/instrumentation";
 
-import { betterStackConfig } from "./betterstack";
+import { betterStackConfig } from "./better-stack";
 
 import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
 

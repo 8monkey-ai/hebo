@@ -1,7 +1,7 @@
 import { trace } from "@opentelemetry/api";
 
 import { logLevel } from "../env";
-import { betterStackConfig } from "./betterstack";
+import { betterStackConfig } from "./better-stack";
 
 // Manually inject trace context because @opentelemetry/instrumentation-pino
 // requires --experimental-loader for ESM which Bun doesn't support.
