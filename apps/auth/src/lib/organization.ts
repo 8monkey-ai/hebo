@@ -3,7 +3,7 @@ import { slugFromName } from "@hebo/shared-api/utils/create-slug";
 import type { PrismaClient } from "~auth/generated/prisma/client";
 
 export const createOrganizationHook = (prisma: PrismaClient) => {
-  return async (user: { id: string; name: string | null; email: string }) => {
+  return async (user: { id: string; name?: string | null; email: string }) => {
     await prisma.$transaction(async (tx) => {
       const org = await tx.organizations.create({
         data: {

@@ -101,7 +101,7 @@ export async function sendOrganizationInvitationEmail({
   email: string;
   invitationId: string;
   organizationName: string;
-  inviterName: string | null;
+  inviterName?: string | null;
   inviterEmail: string;
   consoleUrl?: string;
 }) {
