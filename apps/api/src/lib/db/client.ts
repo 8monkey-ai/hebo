@@ -81,7 +81,7 @@ export const createDbClient = (organizationId: string, userId: string) => {
       },
       provider_configs: {
         async getUnredacted(slug: string) {
-          return prisma.provider_configs.findFirstOrThrow({
+          return prisma.provider_configs.findFirst({
             where: {
               provider_slug: slug,
               created_by: userId,

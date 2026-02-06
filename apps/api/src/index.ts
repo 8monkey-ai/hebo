@@ -15,6 +15,7 @@ import { branchesModule } from "./modules/branches";
 import { providersModule } from "./modules/providers";
 
 const PORT = Number(process.env.PORT ?? 3001);
+const API_URL = process.env.API_URL ?? `http://localhost:${PORT}`;
 
 const createApi = () =>
   new Elysia()
@@ -25,12 +26,23 @@ const createApi = () =>
     .use(cors(corsConfig))
     .use(
       openapi({
-        // FUTURE: document security schemes
         documentation: {
           info: {
             title: "Hebo API",
+            description: "Hebo Platform API",
             version: "0.1.0",
           },
+          servers: [{ url: API_URL }],
+          components: {
+            securitySchemes: {
+              bearerAuth: {
+                type: "http",
+                scheme: "bearer",
+                description: "API key or access token",
+              },
+            },
+          },
+          security: [{ bearerAuth: [] }],
         },
       }),
     )

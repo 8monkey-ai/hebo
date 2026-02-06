@@ -7,9 +7,9 @@ import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
 
 const getGrafanaConfig = async () => {
   const [endpoint, instanceId, apiToken] = await Promise.all([
-    getSecret("GrafanaEndpoint", false),
-    getSecret("GrafanaInstanceId", false),
-    getSecret("GrafanaApiToken", false),
+    getSecret("GrafanaEndpoint"),
+    getSecret("GrafanaInstanceId"),
+    getSecret("GrafanaApiToken"),
   ]);
 
   if (!endpoint || !instanceId || !apiToken) {

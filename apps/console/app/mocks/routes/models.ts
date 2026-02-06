@@ -25,7 +25,7 @@ const SUPPORTED_MODELS = [
         voyage: "voyage-3.5",
       },
     ],
-    modality: "embedding",
+    modality: "embeddings",
     monthlyFreeTokens: 0,
   },
 ] as const;
