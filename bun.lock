@@ -212,6 +212,7 @@
         "@opentelemetry/otlp-exporter-base": "^0.211.0",
         "@opentelemetry/sdk-trace-node": "^2.5.0",
         "@prisma/adapter-pg": "catalog:",
+        "@prisma/instrumentation": "^6.7.0",
         "@sindresorhus/slugify": "^3.0.0",
         "better-auth": "catalog:",
         "crypto-random-string": "^5.0.0",
@@ -762,6 +763,8 @@
     "@prisma/generator-helper": ["@prisma/generator-helper@6.19.2", "", { "dependencies": { "@prisma/debug": "6.19.2", "@prisma/dmmf": "6.19.2", "@prisma/generator": "6.19.2" } }, "sha512-vSjDbHhtKjRDgywTDYyAJLEe+kMxq4DNLNiurk/tGca8W/H7duX4Z4UdvYXcv3kWmmgJJmdndh41dgIsrewa3w=="],
 
     "@prisma/get-platform": ["@prisma/get-platform@7.2.0", "", { "dependencies": { "@prisma/debug": "7.2.0" } }, "sha512-k1V0l0Td1732EHpAfi2eySTezyllok9dXb6UQanajkJQzPUGi3vO2z7jdkz67SypFTdmbnyGYxvEvYZdZsMAVA=="],
+
+    "@prisma/instrumentation": ["@prisma/instrumentation@6.19.2", "", { "dependencies": { "@opentelemetry/instrumentation": ">=0.52.0 <1" }, "peerDependencies": { "@opentelemetry/api": "^1.8" } }, "sha512-5VXvzh/qOh7uBnVIx26IQJDBIXgpBhyh1+TPHDmw3pv/rue9x7NVAvip+bznUIYUREPPPTGWjabANUacRFttrA=="],
 
     "@prisma/query-plan-executor": ["@prisma/query-plan-executor@7.2.0", "", {}, "sha512-EOZmNzcV8uJ0mae3DhTsiHgoNCuu1J9mULQpGCh62zN3PxPTd+qI9tJvk5jOst8WHKQNwJWR3b39t0XvfBB0WQ=="],
 
