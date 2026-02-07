@@ -7,7 +7,8 @@ import Elysia from "elysia";
 import { logLevel } from "@hebo/shared-api/env";
 import { getOtelConfig } from "@hebo/shared-api/lib/otel";
 
-import { countLetterTool } from "./aikit/count-letter.js";
+import { countLetterTool } from "./aikit/count-letter";
+import { currentTimestampTool } from "./aikit/current-timestamp";
 import hello from "./hello.txt";
 
 const PORT = Number(process.env.PORT ?? 3003);
@@ -18,6 +19,11 @@ function createMcpServer() {
     countLetterTool.name,
     countLetterTool.config,
     countLetterTool.handler,
+  );
+  mcp.registerTool(
+    currentTimestampTool.name,
+    currentTimestampTool.config,
+    currentTimestampTool.handler,
   );
   return mcp;
 }
