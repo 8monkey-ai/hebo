@@ -14,7 +14,7 @@ import hello from "./hello.txt";
 const PORT = Number(process.env.PORT ?? 3003);
 
 function createMcpServer() {
-  const mcp = new McpServer({ name: "hebo-mcp", version: "0.0.3" });
+  const mcp = new McpServer({ name: "hebo-mcp", version: "0.2.0" });
   mcp.registerTool(
     countLetterTool.name,
     countLetterTool.config,
