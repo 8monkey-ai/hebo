@@ -83,8 +83,8 @@ export const createGateway = () =>
         .post(
           "/chat/completions",
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- https://github.com/elysiajs/elysia/issues/1721
-          (({ request, dbClient }: any) =>
-            gw.handler(request, { dbClient })) as any,
+          (({ request, dbClient, organizationId }: any) =>
+            gw.handler(request, { dbClient, organizationId })) as any,
           {
             parse: "none",
             body: ChatCompletionsBodySchema,
@@ -98,8 +98,8 @@ export const createGateway = () =>
         .post(
           "/embeddings",
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- https://github.com/elysiajs/elysia/issues/1721
-          (({ request, dbClient }: any) =>
-            gw.handler(request, { dbClient })) as any,
+          (({ request, dbClient, organizationId }: any) =>
+            gw.handler(request, { dbClient, organizationId })) as any,
           {
             parse: "none",
             body: EmbeddingsBodySchema,

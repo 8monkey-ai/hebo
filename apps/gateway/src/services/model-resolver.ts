@@ -80,7 +80,10 @@ export async function resolveModelId(ctx: ResolveModelHookContext) {
 
 export async function resolveProvider(ctx: ResolveProviderHookContext) {
   const { resolvedModelId: modelId, state } = ctx;
-  const { dbClient } = state as { dbClient: DbClient };
+  const { dbClient, organizationId } = state as {
+    dbClient: DbClient;
+    organizationId: string;
+  };
 
   if (modelId.startsWith("google/")) {
     await injectMetadataCredentials();
@@ -91,7 +94,7 @@ export async function resolveProvider(ctx: ResolveProviderHookContext) {
   };
 
   if (customProviderSlug) {
-    const configCacheKey = `${customProviderSlug}:${modelId}`;
+    const configCacheKey = `${organizationId}:${customProviderSlug}:${modelId}`;
     const cachedConfigHash = configCache.get(configCacheKey);
 
     if (cachedConfigHash) {
