@@ -25,7 +25,7 @@
     "@elysiajs/cors": "catalog:",
     "@elysiajs/openapi": "catalog:",
     "@elysiajs/opentelemetry": "catalog:",
-    "@hebo-ai/gateway": "^0.3.0-rc.0",
+    "@hebo-ai/gateway": "^0.3.0-rc.3",
     "@hebo/api": "workspace:*",
     "@hebo/shared-api": "workspace:*",
     "elysia": "catalog:",
