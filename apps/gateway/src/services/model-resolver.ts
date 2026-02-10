@@ -1,10 +1,14 @@
 import { createHash } from "node:crypto";
 
+import {
+  CANONICAL_MODEL_IDS,
+  GatewayError,
+  type ResolveModelHookContext,
+  type ResolveProviderHookContext,
+} from "@hebo-ai/gateway";
 import { LRUCache } from "lru-cache";
 
 import type { createDbClient } from "~api/lib/db/client";
-
-export type DbClient = ReturnType<typeof createDbClient>;
 import type { Models, ProviderSlug } from "~api/modules/providers/types";
 
 import { injectMetadataCredentials } from "./aws-wif";
@@ -12,12 +16,7 @@ import { createProvider } from "./provider-factory";
 
 import type { ProviderV3 } from "@ai-sdk/provider";
 
-import {
-  CANONICAL_MODEL_IDS,
-  GatewayError,
-  type ResolveModelHookContext,
-  type ResolveProviderHookContext,
-} from "@hebo-ai/gateway";
+export type DbClient = ReturnType<typeof createDbClient>;
 
 const canonicalModelIds = new Set<string>(CANONICAL_MODEL_IDS);
 
