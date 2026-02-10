@@ -33,10 +33,11 @@ export async function resolveModelId(ctx: ResolveModelHookContext) {
   const { modelId: aliasPath, models, state } = ctx;
 
   if (canonicalModelIds.has(aliasPath)) {
+    const modelConfig = models[aliasPath as keyof typeof models];
     state.modelConfig = {
       type: aliasPath,
       // Currently, we only support routing to the first provider.
-      customProviderSlug: models[aliasPath]?.providers[0] as ProviderSlug,
+      customProviderSlug: modelConfig?.providers[0] as ProviderSlug,
     };
     return aliasPath;
   }
@@ -78,6 +79,48 @@ export async function resolveModelId(ctx: ResolveModelHookContext) {
   return model.type;
 }
 
+async function resolveCustomProvider(
+  dbClient: DbClient,
+  organizationId: string,
+  modelId: string,
+  customProviderSlug: ProviderSlug,
+): Promise<ProviderV3 | undefined> {
+  const configCacheKey = `${organizationId}:${customProviderSlug}:${modelId}`;
+  const cachedConfigHash = configCache.get(configCacheKey);
+
+  if (cachedConfigHash) {
+    // No custom config exists, use default providers
+    if (cachedConfigHash === "default") return;
+
+    const cachedProvider = providerCache.get(
+      `${configCacheKey}:${cachedConfigHash}`,
+    );
+    if (cachedProvider) return cachedProvider;
+  }
+
+  const config =
+    await dbClient.provider_configs.getUnredacted(customProviderSlug);
+
+  const configHash = config
+    ? createHash("sha256").update(JSON.stringify(config.value)).digest("hex")
+    : "default";
+
+  configCache.set(configCacheKey, configHash);
+
+  // If no config is found, return undefined to use the default providers.
+  if (!config) return;
+
+  const providerCacheKey = `${configCacheKey}:${configHash}`;
+  let provider = providerCache.get(providerCacheKey);
+
+  if (!provider) {
+    provider = createProvider(customProviderSlug, config.value);
+    providerCache.set(providerCacheKey, provider!);
+  }
+
+  return provider;
+}
+
 export async function resolveProvider(ctx: ResolveProviderHookContext) {
   const { resolvedModelId: modelId, state } = ctx;
   const { dbClient, organizationId } = state as {
@@ -94,38 +137,11 @@ export async function resolveProvider(ctx: ResolveProviderHookContext) {
   };
 
   if (customProviderSlug) {
-    const configCacheKey = `${organizationId}:${customProviderSlug}:${modelId}`;
-    const cachedConfigHash = configCache.get(configCacheKey);
-
-    if (cachedConfigHash) {
-      const providerCacheKey = `${configCacheKey}:${cachedConfigHash}`;
-      const cachedProvider = providerCache.get(providerCacheKey);
-
-      if (cachedProvider) {
-        return cachedProvider;
-      }
-    }
-
-    const config =
-      await dbClient.provider_configs.getUnredacted(customProviderSlug);
-
-    const configHash = config
-      ? createHash("sha256").update(JSON.stringify(config.value)).digest("hex")
-      : "default";
-
-    configCache.set(configCacheKey, configHash);
-
-    // If no config is found, return undefined to use the default providers.
-    if (!config) return;
-
-    const providerCacheKey = `${configCacheKey}:${configHash}`;
-    let provider = providerCache.get(providerCacheKey);
-
-    if (!provider) {
-      provider = createProvider(customProviderSlug, config.value);
-      providerCache.set(providerCacheKey, provider!);
-    }
-
-    return provider;
+    return resolveCustomProvider(
+      dbClient,
+      organizationId,
+      modelId,
+      customProviderSlug,
+    );
   }
 }
