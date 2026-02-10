@@ -23,7 +23,6 @@ export async function injectMetadataCredentials() {
       process.env.AWS_ACCESS_KEY_ID = credentials.AccessKeyId;
       process.env.AWS_SECRET_ACCESS_KEY = credentials.SecretAccessKey;
       process.env.AWS_SESSION_TOKEN = credentials.Token;
-      return;
     }
   }
 }
