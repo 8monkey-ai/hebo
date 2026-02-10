@@ -14,6 +14,7 @@ import type { ProviderV3 } from "@ai-sdk/provider";
 
 import {
   CANONICAL_MODEL_IDS,
+  GatewayError,
   type ResolveModelHookContext,
   type ResolveProviderHookContext,
 } from "@hebo-ai/gateway";
@@ -44,17 +45,29 @@ export async function resolveModelId(ctx: ResolveModelHookContext) {
   const { dbClient } = state as { dbClient: DbClient };
 
   const [agentSlug, branchSlug, modelAlias] = aliasPath.split("/");
-  const branch = await dbClient.branches.findFirstOrThrow({
+  const branch = await dbClient.branches.findFirst({
     where: { agent_slug: agentSlug, slug: branchSlug },
     select: { models: true },
   });
+
+  if (!branch) {
+    throw new GatewayError(
+      `Model alias not found: ${aliasPath}`,
+      404,
+      "MODEL_NOT_FOUND",
+    );
+  }
 
   const model = (branch.models as Models)?.find(
     ({ alias }) => alias === modelAlias,
   );
 
   if (!model) {
-    throw new Error(`Missing model config for alias path ${aliasPath}`);
+    throw new GatewayError(
+      `Model alias not found: ${aliasPath}`,
+      404,
+      "MODEL_NOT_FOUND",
+    );
   }
 
   state.modelConfig = {
