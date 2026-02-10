@@ -20,6 +20,7 @@ import Elysia from "elysia";
 
 import { logLevel } from "@hebo/shared-api/env";
 import { corsConfig } from "@hebo/shared-api/lib/cors";
+import { getOpenapiConfig } from "@hebo/shared-api/lib/openapi";
 import { getOtelConfig } from "@hebo/shared-api/lib/otel";
 import { authService } from "@hebo/shared-api/middlewares/auth";
 
@@ -39,26 +40,14 @@ export const createGateway = () =>
     .get("/", () => "🐵 Hebo AI Gateway says hello!")
     .use(cors(corsConfig))
     .use(
-      openapi({
-        documentation: {
-          info: {
-            title: "Hebo AI Gateway",
-            description: "OpenAI-compatible AI Gateway API",
-            version: "0.1.0",
-          },
-          servers: [{ url: GATEWAY_URL }],
-          components: {
-            securitySchemes: {
-              bearerAuth: {
-                type: "http",
-                scheme: "bearer",
-                description: "API key or access token",
-              },
-            },
-          },
-          security: [{ bearerAuth: [] }],
-        },
-      }),
+      openapi(
+        getOpenapiConfig(
+          "Hebo Gateway",
+          "OpenAI-compatible AI Gateway",
+          GATEWAY_URL,
+          "0.1.0",
+        ),
+      ),
     )
     .use(errorHandler)
     // Public routes (no authentication required)
