@@ -4,11 +4,11 @@ import { SmtpTransport } from "@upyo/smtp";
 import { isProduction } from "@hebo/shared-api/env";
 import { getSecret } from "@hebo/shared-api/utils/secrets";
 
-const smtpHost = await getSecret("SmtpHost", false);
-const smtpPort = Number(await getSecret("SmtpPort", false));
-const smtpUser = await getSecret("SmtpUser", false);
-const smtpPass = await getSecret("SmtpPass", false);
-const smtpFrom = await getSecret("SmtpFrom", false);
+const smtpHost = await getSecret("SmtpHost");
+const smtpPort = Number(await getSecret("SmtpPort"));
+const smtpUser = await getSecret("SmtpUser");
+const smtpPass = await getSecret("SmtpPass");
+const smtpFrom = await getSecret("SmtpFrom");
 const logoUrl = "https://hebo.ai/icon.png";
 
 const transport = new SmtpTransport({
@@ -101,7 +101,7 @@ export async function sendOrganizationInvitationEmail({
   email: string;
   invitationId: string;
   organizationName: string;
-  inviterName: string | null;
+  inviterName?: string | null;
   inviterEmail: string;
   consoleUrl?: string;
 }) {

@@ -10,7 +10,7 @@ import { AuthError, BadRequestError } from "../errors";
 import { betterAuthCookieOptions } from "../lib/cookie-options";
 import { getSecret } from "../utils/secrets";
 
-const authSecret = await getSecret("AuthSecret", false);
+const authSecret = await getSecret("AuthSecret");
 const cookieConfig = getCookies(betterAuthCookieOptions);
 
 const createAuthClient = (request: Request) => {

@@ -20,7 +20,7 @@ function ModelSelector({ models, ...props }: ModelSelectorProps) {
             {m.monthlyFreeTokens > 0 && (
               <Badge className="bg-green-600 text-white!">Free Tier</Badge>
             )}
-            {m.modality === "embedding" && (
+            {m.modality === "embeddings" && (
               <Badge className="bg-blue-500 text-white!">Embeddings</Badge>
             )}
           </>

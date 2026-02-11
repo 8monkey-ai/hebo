@@ -6,6 +6,7 @@ import Elysia from "elysia";
 
 import { corsConfig } from "@hebo/shared-api/lib/cors";
 import { getLoggerOptions } from "@hebo/shared-api/lib/logger";
+import { getOpenapiConfig } from "@hebo/shared-api/lib/openapi";
 import { getOtelConfig } from "@hebo/shared-api/lib/otel";
 import { authService } from "@hebo/shared-api/middlewares/auth";
 
@@ -15,6 +16,7 @@ import { branchesModule } from "./modules/branches";
 import { providersModule } from "./modules/providers";
 
 const PORT = Number(process.env.PORT ?? 3001);
+const API_URL = process.env.API_URL ?? `http://localhost:${PORT}`;
 
 const createApi = () =>
   new Elysia()
@@ -24,15 +26,7 @@ const createApi = () =>
     .get("/", () => "🐵 Hebo API says hello!")
     .use(cors(corsConfig))
     .use(
-      openapi({
-        // FUTURE: document security schemes
-        documentation: {
-          info: {
-            title: "Hebo API",
-            version: "0.1.0",
-          },
-        },
-      }),
+      openapi(getOpenapiConfig("Hebo API", "Platform API", API_URL, "0.1.0")),
     )
     .use(authService)
     .use(errorHandler)
