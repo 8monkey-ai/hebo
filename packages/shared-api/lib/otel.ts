@@ -1,7 +1,7 @@
 import { Metadata } from "@grpc/grpc-js";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 import { CompressionAlgorithm } from "@opentelemetry/otlp-exporter-base";
-import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import {
   PrismaInstrumentation,
   registerInstrumentations,

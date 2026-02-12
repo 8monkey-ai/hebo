@@ -56,6 +56,7 @@
     "typescript-eslint": "^8.53.0"
   },
   "catalog": {
+    "@opentelemetry/api": "^1.9.0",
     "ai": "^6.0.68",
     "@ai-sdk/provider-utils": "^4.0.13",
     "@base-ui/utils": "^0.2.3",

@@ -28,7 +28,7 @@
     "@hebo-ai/gateway": "^0.4.0-alpha.2",
     "@hebo/api": "workspace:*",
     "@hebo/shared-api": "workspace:*",
-    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/api": "catalog:",
     "elysia": "catalog:",
     "lru-cache": "^11.2.5",
     "pino": "^10.3.1",
