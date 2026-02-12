@@ -23,6 +23,12 @@ const heboDatabase = new sst.aws.Aurora("HeboDatabase", {
   transform: {
     cluster: (a) => {
       a.globalClusterIdentifier = globalCluster.id;
+      if (isProduction) {
+        a.performanceInsightsEnabled = true;
+        a.performanceInsightsRetentionPeriod = 465;
+        // Enable after first deploy — requires PI to be active on the cluster first.
+        a.databaseInsightsMode = "advanced";
+      }
     },
   },
 });
