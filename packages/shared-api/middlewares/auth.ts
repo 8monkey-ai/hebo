@@ -48,7 +48,7 @@ const createAuthClient = (request: Request) => {
 };
 
 export const authService = new Elysia({ name: "auth-service" })
-  .resolve(async (ctx) => {
+  .resolve(async function resolveAuthContext(ctx) {
     const log = (ctx as unknown as { log: Logger }).log;
 
     const authorization = ctx.request.headers.get("authorization");
