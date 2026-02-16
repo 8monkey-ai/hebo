@@ -1,17 +1,12 @@
 import { Metadata } from "@grpc/grpc-js";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 import { CompressionAlgorithm } from "@opentelemetry/otlp-exporter-base";
-import {
-  BatchSpanProcessor,
-  ParentBasedSampler,
-  TraceIdRatioBasedSampler,
-} from "@opentelemetry/sdk-trace-base";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import {
   PrismaInstrumentation,
   registerInstrumentations,
 } from "@prisma/instrumentation";
 
-import { isProduction } from "../env";
 import { betterStackConfig } from "./better-stack";
 
 import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
@@ -34,13 +29,6 @@ const getTraceExporterConfig = () => {
 
 const traceExporterConfig = getTraceExporterConfig();
 
-const sampler =
-  traceExporterConfig && isProduction
-    ? new ParentBasedSampler({
-        root: new TraceIdRatioBasedSampler(0.1),
-      })
-    : undefined;
-
 registerInstrumentations({
   instrumentations: [
     new PrismaInstrumentation({
@@ -53,7 +41,6 @@ export const getOtelConfig = (
   serviceName: string,
 ): ElysiaOpenTelemetryOptions => ({
   serviceName,
-  sampler,
   checkIfShouldTrace: (request) => {
     if (request.method !== "GET") return true;
 
