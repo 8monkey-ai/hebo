@@ -8,6 +8,7 @@ import {
 } from "@prisma/instrumentation";
 
 import { betterStackConfig } from "./better-stack";
+import { isRootPathUrl } from "../utils/url";
 
 import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
 
@@ -43,9 +44,7 @@ export const getOtelConfig = (
   serviceName,
   checkIfShouldTrace: (request) => {
     if (request.method !== "GET") return true;
-
-    const pathname = new URL(request.url).pathname;
-    return pathname !== "/";
+    return !isRootPathUrl(request.url);
   },
   spanProcessors: traceExporterConfig
     ? [new BatchSpanProcessor(new OTLPTraceExporter(traceExporterConfig))]
