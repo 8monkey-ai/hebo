@@ -69,11 +69,7 @@ const getOrCreateOtelLogger = (serviceName: string) => {
 
   const logExporterConfig = getLogExporterConfig();
   const logRecordProcessor = logExporterConfig
-    ? new BatchLogRecordProcessor(new OTLPLogExporter(logExporterConfig), {
-        maxQueueSize: 2048,
-        maxExportBatchSize: 512,
-        scheduledDelayMillis: 1000,
-      })
+    ? new BatchLogRecordProcessor(new OTLPLogExporter(logExporterConfig))
     : new SimpleLogRecordProcessor(new ConsoleLogRecordExporter());
 
   const loggerProvider = new LoggerProvider({
