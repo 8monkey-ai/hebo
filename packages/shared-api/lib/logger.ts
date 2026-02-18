@@ -61,17 +61,16 @@ const serializeError = (error: Error) => ({
 const asBody = (value: unknown) =>
   value as NonNullable<Parameters<Logger["emit"]>[0]["body"]>;
 
-const emitObjectLog = (
-  otelLogger: Logger,
+const buildObjectLog = (
   severityNumber: SeverityNumber,
   obj: Record<string, unknown>,
   msg?: string,
-) => {
+): Parameters<Logger["emit"]>[0] => {
   const err = obj.err;
   if (err instanceof Error) {
     const rest = { ...obj };
     delete rest.err;
-    otelLogger.emit({
+    return {
       severityNumber,
       body: asBody({
         ...(msg ? { msg } : {}),
@@ -79,14 +78,13 @@ const emitObjectLog = (
         err: serializeError(err),
       }),
       attributes: { "error.type": err.name },
-    });
-    return;
+    };
   }
 
-  otelLogger.emit({
+  return {
     severityNumber,
     body: asBody(msg ? { msg, ...obj } : obj),
-  });
+  };
 };
 
 const getLogExporterConfig = () => {
@@ -140,41 +138,35 @@ const createLogHandler = (
     const second = args[1];
     const msg =
       typeof second === "string" && second.length > 0 ? second : undefined;
+    let logRecord: Parameters<Logger["emit"]>[0];
 
     if (typeof first === "string") {
-      otelLogger.emit({
+      logRecord = {
         severityNumber,
         body: first,
-      });
-      return;
-    }
-
-    if (first instanceof Error) {
-      otelLogger.emit({
+      };
+    } else if (first instanceof Error) {
+      logRecord = {
         severityNumber,
         body: asBody({
           ...(msg ? { msg } : {}),
           ...serializeError(first),
         }),
         attributes: { "error.type": first.name },
-      });
-      return;
-    }
-
-    if (typeof first === "object" && first !== null) {
-      emitObjectLog(
-        otelLogger,
+      };
+    } else if (typeof first === "object" && first !== null) {
+      logRecord = buildObjectLog(
         severityNumber,
         first as Record<string, unknown>,
         msg,
       );
-      return;
+    } else {
+      logRecord = {
+        severityNumber,
+        body: first === undefined ? "service log" : String(first),
+      };
     }
-
-    otelLogger.emit({
-      severityNumber,
-      body: first === undefined ? "service log" : String(first),
-    });
+    otelLogger.emit(logRecord);
   };
 };
 
