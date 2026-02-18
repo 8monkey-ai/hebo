@@ -50,8 +50,7 @@ const getSeverityNumber = (level: LogLevel): SeverityNumber => {
 
 const configuredLogLevelWeight = getLogLevelWeight(logLevel);
 
-const loggerProviderByServiceName = new Map<string, LoggerProvider>();
-const loggerByServiceName = new Map<string, Logger>();
+const loggerProviders = new Set<LoggerProvider>();
 
 const serializeError = (error: Error) => ({
   message: error.message,
@@ -105,10 +104,7 @@ const getLogExporterConfig = () => {
   };
 };
 
-const getOrCreateOtelLogger = (serviceName: string) => {
-  const cachedLogger = loggerByServiceName.get(serviceName);
-  if (cachedLogger) return cachedLogger;
-
+const createOtelLogger = (serviceName: string) => {
   const logExporterConfig = getLogExporterConfig();
   const logRecordProcessor = logExporterConfig
     ? new BatchLogRecordProcessor(new OTLPLogExporter(logExporterConfig))
@@ -121,10 +117,8 @@ const getOrCreateOtelLogger = (serviceName: string) => {
     processors: [logRecordProcessor],
   });
 
-  const otelLogger = loggerProvider.getLogger(serviceName);
-  loggerProviderByServiceName.set(serviceName, loggerProvider);
-  loggerByServiceName.set(serviceName, otelLogger);
-  return otelLogger;
+  loggerProviders.add(loggerProvider);
+  return loggerProvider.getLogger(serviceName);
 };
 
 const createLogHandler = (
@@ -171,9 +165,7 @@ const createLogHandler = (
 };
 
 export const createLogger = (serviceName: string) => {
-  const otelLogger = getOrCreateOtelLogger(
-    serviceName || "unknown_service:bun",
-  );
+  const otelLogger = createOtelLogger(serviceName || "unknown_service:bun");
   const log = createLogHandler(otelLogger);
 
   return {
@@ -187,8 +179,6 @@ export const createLogger = (serviceName: string) => {
 
 export const shutdownLoggers = async () => {
   await Promise.all(
-    Array.from(loggerProviderByServiceName.values(), (loggerProvider) =>
-      loggerProvider.shutdown(),
-    ),
+    Array.from(loggerProviders, (loggerProvider) => loggerProvider.shutdown()),
   );
 };
