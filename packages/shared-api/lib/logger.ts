@@ -52,7 +52,6 @@ const getSeverityNumber = (level: LogLevel): SeverityNumber => {
 
 const configuredLogLevelWeight = getLogLevelWeight(logLevel);
 
-const loggerProviders = new Set<LoggerProvider>();
 const noop = () => {};
 
 const serializeError = (error: Error) => ({
@@ -120,7 +119,6 @@ const createOtelLogger = (serviceName: string) => {
     processors: [logRecordProcessor],
   });
 
-  loggerProviders.add(loggerProvider);
   return loggerProvider.getLogger(serviceName);
 };
 
@@ -188,10 +186,4 @@ export const createLogger = (serviceName: string) => {
     warn: (...args: unknown[]) => log("warn", ...args),
     error: (...args: unknown[]) => log("error", ...args),
   };
-};
-
-export const shutdownLoggers = async () => {
-  await Promise.all(
-    Array.from(loggerProviders, (loggerProvider) => loggerProvider.shutdown()),
-  );
 };
