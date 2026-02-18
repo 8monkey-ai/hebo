@@ -129,15 +129,12 @@ const getOrCreateOtelLogger = (serviceName: string) => {
   return otelLogger;
 };
 
-const createLogMethod = (
+const createLogHandler = (
   otelLogger: Logger,
-  level: LogLevel,
-): ((...args: unknown[]) => void) => {
-  const severityNumber = getSeverityNumber(level);
-  const levelWeight = getLogLevelWeight(level);
-
-  return (...args: unknown[]) => {
-    if (levelWeight < configuredLogLevelWeight) return;
+): ((level: LogLevel, ...args: unknown[]) => void) => {
+  return (level: LogLevel, ...args: unknown[]) => {
+    if (getLogLevelWeight(level) < configuredLogLevelWeight) return;
+    const severityNumber = getSeverityNumber(level);
 
     const first = args[0];
     const second = args[1];
@@ -185,13 +182,14 @@ export const createLogger = (serviceName: string) => {
   const otelLogger = getOrCreateOtelLogger(
     serviceName || "unknown_service:bun",
   );
+  const log = createLogHandler(otelLogger);
 
   return {
-    trace: createLogMethod(otelLogger, "trace"),
-    debug: createLogMethod(otelLogger, "debug"),
-    info: createLogMethod(otelLogger, "info"),
-    warn: createLogMethod(otelLogger, "warn"),
-    error: createLogMethod(otelLogger, "error"),
+    trace: (...args: unknown[]) => log("trace", ...args),
+    debug: (...args: unknown[]) => log("debug", ...args),
+    info: (...args: unknown[]) => log("info", ...args),
+    warn: (...args: unknown[]) => log("warn", ...args),
+    error: (...args: unknown[]) => log("error", ...args),
   };
 };
 
