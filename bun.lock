@@ -212,6 +212,7 @@
         "@sindresorhus/slugify": "^3.0.0",
         "better-auth": "catalog:",
         "crypto-random-string": "^5.0.0",
+        "serialize-error": "^13.0.1",
       },
       "devDependencies": {
         "@hebo/typescript-config": "workspace:*",

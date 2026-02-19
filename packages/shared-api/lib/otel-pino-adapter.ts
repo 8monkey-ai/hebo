@@ -1,4 +1,5 @@
 import { SeverityNumber } from "@opentelemetry/api-logs";
+import { serializeError } from "serialize-error";
 
 import type { Logger } from "@opentelemetry/api-logs";
 
@@ -38,11 +39,6 @@ const getOtelSeverityNumber = (level: LogLevel): SeverityNumber => {
 };
 
 const noop = () => {};
-
-const serializeError = (error: Error) => ({
-  message: error.message,
-  stack: error.stack,
-});
 
 const asBody = (value: unknown) =>
   value as NonNullable<Parameters<Logger["emit"]>[0]["body"]>;
