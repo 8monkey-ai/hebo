@@ -1,5 +1,6 @@
 import { Metadata } from "@grpc/grpc-js";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-grpc";
+import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-grpc";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 import { CompressionAlgorithm } from "@opentelemetry/otlp-exporter-base";
 import { resourceFromAttributes } from "@opentelemetry/resources";
@@ -10,6 +11,7 @@ import {
   SimpleLogRecordProcessor,
   createLoggerConfigurator,
 } from "@opentelemetry/sdk-logs";
+import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import {
   PrismaInstrumentation,
   registerInstrumentations,
@@ -86,7 +88,7 @@ registerInstrumentations({
   ],
 });
 
-export const getOtelTraceConfig = (
+export const getOtelConfig = (
   serviceName: string,
 ): ElysiaOpenTelemetryOptions => {
   return {
@@ -96,7 +98,12 @@ export const getOtelTraceConfig = (
       return !isRootPathUrl(request.url);
     },
     ...(isProduction
-      ? { traceExporter: new OTLPTraceExporter(otlpExporterConfig) }
+      ? {
+          traceExporter: new OTLPTraceExporter(otlpExporterConfig),
+          metricReader: new PeriodicExportingMetricReader({
+            exporter: new OTLPMetricExporter(otlpExporterConfig),
+          }),
+        }
       : {}),
   };
 };
