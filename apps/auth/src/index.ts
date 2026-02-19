@@ -3,7 +3,7 @@ import { opentelemetry } from "@elysiajs/opentelemetry";
 import Elysia from "elysia";
 
 import { corsConfig } from "@hebo/shared-api/lib/cors";
-import { getOtelConfig } from "@hebo/shared-api/lib/otel";
+import { getOtelTraceConfig } from "@hebo/shared-api/lib/otel";
 
 import { auth } from "./better-auth";
 
@@ -11,7 +11,7 @@ const PORT = Number(process.env.PORT ?? 3000);
 
 const createAuth = () =>
   new Elysia()
-    .use(opentelemetry(getOtelConfig("hebo-auth")))
+    .use(opentelemetry(getOtelTraceConfig("hebo-auth")))
     .get("/", () => "🐵 Hebo Auth says hello!")
     .use(cors(corsConfig))
     .mount(auth.handler);

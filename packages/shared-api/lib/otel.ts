@@ -1,6 +1,14 @@
 import { Metadata } from "@grpc/grpc-js";
+import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-grpc";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 import { CompressionAlgorithm } from "@opentelemetry/otlp-exporter-base";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import {
+  BatchLogRecordProcessor,
+  ConsoleLogRecordExporter,
+  LoggerProvider,
+  SimpleLogRecordProcessor,
+} from "@opentelemetry/sdk-logs";
 import {
   BatchSpanProcessor,
   ConsoleSpanExporter,
@@ -16,10 +24,10 @@ import { isRootPathUrl } from "../utils/url";
 
 import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
 
-const getTraceExporterConfig = () => {
+const getOtlpGrpcExporterConfig = () => {
   if (!betterStackConfig) {
     console.warn(
-      "⚠️ OpenTelemetry Trace Exporter not configured. Falling back to console exporter.",
+      "⚠️ OpenTelemetry exporter not configured. Falling back to console exporters.",
     );
     return;
   }
@@ -34,10 +42,22 @@ const getTraceExporterConfig = () => {
   };
 };
 
-const traceExporterConfig = getTraceExporterConfig();
-const spanProcessor = traceExporterConfig
-  ? new BatchSpanProcessor(new OTLPTraceExporter(traceExporterConfig))
-  : new SimpleSpanProcessor(new ConsoleSpanExporter());
+const otlpExporterConfig = getOtlpGrpcExporterConfig();
+
+export const createOtelLogger = (serviceName: string) => {
+  const logRecordProcessor = otlpExporterConfig
+    ? new BatchLogRecordProcessor(new OTLPLogExporter(otlpExporterConfig))
+    : new SimpleLogRecordProcessor(new ConsoleLogRecordExporter());
+
+  const loggerProvider = new LoggerProvider({
+    resource: resourceFromAttributes({
+      "service.name": serviceName,
+    }),
+    processors: [logRecordProcessor],
+  });
+
+  return loggerProvider.getLogger(serviceName);
+};
 
 registerInstrumentations({
   instrumentations: [
@@ -57,7 +77,7 @@ registerInstrumentations({
   ],
 });
 
-export const getOtelConfig = (
+export const getOtelTraceConfig = (
   serviceName: string,
 ): ElysiaOpenTelemetryOptions => ({
   serviceName,
@@ -65,5 +85,9 @@ export const getOtelConfig = (
     if (request.method !== "GET") return true;
     return !isRootPathUrl(request.url);
   },
-  spanProcessors: [spanProcessor],
+  spanProcessors: [
+    otlpExporterConfig
+      ? new BatchSpanProcessor(new OTLPTraceExporter(otlpExporterConfig))
+      : new SimpleSpanProcessor(new ConsoleSpanExporter()),
+  ],
 });
