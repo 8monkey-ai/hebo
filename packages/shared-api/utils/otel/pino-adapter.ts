@@ -1,8 +1,37 @@
-import { serializeError } from "serialize-error";
-
 import { otelLogLevels, otelSeverityByLevel } from "./log-levels";
 
 import type { Logger } from "@opentelemetry/api-logs";
+
+const serializeError = (
+  err: unknown,
+  _seen?: WeakSet<object>,
+): Record<string, unknown> => {
+  if (!(err instanceof Error)) return { message: String(err) };
+
+  const seen = _seen ?? new WeakSet();
+  if (seen.has(err))
+    return { name: err.name, message: err.message, circular: true };
+  seen.add(err);
+
+  const out: Record<string, unknown> = {};
+
+  for (const k of Object.getOwnPropertyNames(err)) {
+    if (k.startsWith("_")) continue;
+
+    let val: unknown;
+    try {
+      val = (err as any)[k];
+    } catch {
+      val = "[Unreadable]";
+    }
+
+    if (typeof val === "bigint") val = `${val}n`;
+
+    out[String(k)] = val instanceof Error ? serializeError(val, seen) : val;
+  }
+
+  return out;
+};
 
 type LogLevel = (typeof otelLogLevels)[number];
 const getOtelSeverityNumber = (level: LogLevel) => otelSeverityByLevel[level];
