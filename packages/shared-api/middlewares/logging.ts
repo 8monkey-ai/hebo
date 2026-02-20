@@ -15,13 +15,16 @@ const getRequestMeta = (request: Request) => ({
 export const logger = (
   serviceName: string,
   logger = createServiceLogger(createOtelLogger(serviceName, logLevel)),
-) =>
-  new Elysia({ name: "hebo-logging" })
-    .decorate("logger", logger)
-    .onRequest(function logIncomingRequest({ request }) {
-      if (isProduction) return;
+) => {
+  const app = new Elysia({ name: "hebo-logging" }).decorate("logger", logger);
+
+  if (!isProduction) {
+    app.onRequest(({ request }) => {
       logger.info(getRequestMeta(request), "request:incoming");
-    })
+    });
+  }
+
+  return app
     .onError(({ request, error, set }) => {
       logger.error(
         {
@@ -33,3 +36,4 @@ export const logger = (
       );
     })
     .as("scoped");
+};
