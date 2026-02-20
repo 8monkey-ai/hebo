@@ -73,10 +73,9 @@ const buildLogRecord = (args: unknown[]): LogRecord => {
     msg = err["message"] as string;
   }
 
-  const body: Record<string, unknown> = {};
+  const body: Record<string, unknown> = { ...obj };
   if (msg) body.msg = msg;
   if (err) body.err = err;
-  if (obj) Object.assign(body, obj);
 
   const record: LogRecord = { body: body as LogRecord["body"] };
   if (errorType) record.attributes = { "error.type": errorType };
