@@ -24,7 +24,7 @@ function serializeError(
   for (const k of Object.getOwnPropertyNames(err)) {
     if (k.startsWith("_")) continue;
 
-    let val: unknown;
+    let val;
     try {
       val = (err as unknown as Record<string, unknown>)[k];
     } catch {
@@ -33,7 +33,7 @@ function serializeError(
 
     if (typeof val === "bigint") val = `${val}n`;
 
-    out[String(k)] = val instanceof Error ? serializeError(val, seen) : val;
+    out[k] = val instanceof Error ? serializeError(val, seen) : val;
   }
 
   return out;
@@ -54,7 +54,7 @@ const buildLogRecord = (args: unknown[]): LogRecord => {
     errorType = first.name;
   } else if (isRecord(first)) {
     if (first["err"] instanceof Error) {
-      errorType = (first["err"] as Error).name;
+      errorType = first["err"].name;
       err = serializeError(first["err"]);
       obj = Object.assign({}, first);
       delete obj.err;
