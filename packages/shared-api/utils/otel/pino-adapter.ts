@@ -1,4 +1,4 @@
-import { otelLogLevels, otelSeverityByLevel } from "./log-levels";
+import { otelSeverityByLevel } from "./log-levels";
 
 import type { Logger } from "@opentelemetry/api-logs";
 
@@ -33,7 +33,7 @@ const serializeError = (
   return out;
 };
 
-type LogLevel = (typeof otelLogLevels)[number];
+type LogLevel = keyof typeof otelSeverityByLevel;
 const getOtelSeverityNumber = (level: LogLevel) => otelSeverityByLevel[level];
 
 const asBody = (value: unknown) =>
@@ -101,7 +101,7 @@ export const createPinoCompatibleOtelLogger = (otelLogger: Logger) => {
   const log = createLogHandler(otelLogger);
   const handlers = {} as Record<LogLevel, (...args: unknown[]) => void>;
 
-  for (const level of otelLogLevels) {
+  for (const level of Object.keys(otelSeverityByLevel) as LogLevel[]) {
     handlers[level] = (...args: unknown[]) => log(level, ...args);
   }
 
