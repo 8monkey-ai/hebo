@@ -2,10 +2,10 @@ import { Elysia } from "elysia";
 
 import { isProduction, logLevel } from "../env";
 import { createOtelLogger } from "../lib/otel";
-import { createPinoCompatibleOtelLogger } from "../utils/otel/pino-adapter";
+import { createServiceLogger } from "../utils/otel/logger-factory";
 import { getPathnameFromUrl } from "../utils/url";
 
-export type ServiceLogger = ReturnType<typeof createPinoCompatibleOtelLogger>;
+export type ServiceLogger = ReturnType<typeof createServiceLogger>;
 
 const getRequestMeta = (request: Request) => ({
   method: request.method,
@@ -14,9 +14,7 @@ const getRequestMeta = (request: Request) => ({
 
 export const logger = (
   serviceName: string,
-  logger = createPinoCompatibleOtelLogger(
-    createOtelLogger(serviceName, logLevel),
-  ),
+  logger = createServiceLogger(createOtelLogger(serviceName, logLevel)),
 ) =>
   new Elysia({
     name: "hebo-logging",
