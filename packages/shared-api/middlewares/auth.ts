@@ -79,6 +79,7 @@ export const authService = new Elysia({ name: "auth-service" })
         "Authentication failed or no credentials provided",
       );
 
+      // Clear the session cookie when unauthorized
       const { attributes, name } = cookieConfig.sessionToken;
       ctx.cookie[name] = {
         value: "",
