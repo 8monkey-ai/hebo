@@ -7,3 +7,14 @@ export const otelSeverityByLevel = {
   warn: SeverityNumber.WARN,
   error: SeverityNumber.ERROR,
 } as const satisfies Record<string, SeverityNumber>;
+
+export const parseLogLevel = (raw: string): LogLevel => {
+  if (!(raw in otelSeverityByLevel)) {
+    throw new Error(
+      `Unsupported LOG_LEVEL "${raw}". Must be one of: ${Object.keys(otelSeverityByLevel).join(", ")}`,
+    );
+  }
+  return raw as LogLevel;
+};
+
+export type LogLevel = keyof typeof otelSeverityByLevel;

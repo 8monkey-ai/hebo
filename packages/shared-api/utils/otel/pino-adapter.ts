@@ -1,8 +1,7 @@
-import { otelSeverityByLevel } from "./log-levels";
+import { otelSeverityByLevel, type LogLevel } from "./log-levels";
 
 import type { Logger, AnyValueMap } from "@opentelemetry/api-logs";
 
-type LogLevel = keyof typeof otelSeverityByLevel;
 type LogRecord = Parameters<Logger["emit"]>[0];
 
 const isRecord = (value: unknown): value is AnyValueMap =>
