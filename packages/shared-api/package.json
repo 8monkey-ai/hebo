@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "lib/otel.ts"
+  ],
   "exports": {
     "./lib/*": "./lib/*.ts",
     "./middlewares/*": "./middlewares/*.ts",
@@ -19,18 +21,22 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.13.3",
     "@opentelemetry/api": "catalog:",
-    "@opentelemetry/exporter-trace-otlp-grpc": "^0.211.0",
-    "@opentelemetry/otlp-exporter-base": "^0.211.0",
+    "@opentelemetry/api-logs": "^0.212.0",
+    "@opentelemetry/exporter-logs-otlp-grpc": "^0.212.0",
+    "@opentelemetry/exporter-metrics-otlp-grpc": "^0.212.0",
+    "@opentelemetry/exporter-trace-otlp-grpc": "^0.212.0",
+    "@opentelemetry/otlp-exporter-base": "^0.212.0",
+    "@opentelemetry/resources": "^2.5.1",
+    "@opentelemetry/sdk-logs": "^0.212.0",
+    "@opentelemetry/sdk-metrics": "^2.5.0",
     "@opentelemetry/sdk-trace-base": "^2.5.0",
     "@prisma/adapter-pg": "catalog:",
     "@prisma/instrumentation": "catalog:",
     "@sindresorhus/slugify": "^3.0.0",
     "better-auth": "catalog:",
-    "crypto-random-string": "^5.0.0",
-    "pino-opentelemetry-transport": "^2.0.0"
+    "crypto-random-string": "^5.0.0"
   },
   "peerDependencies": {
-    "@bogeychan/elysia-logger": "catalog:",
     "@elysiajs/opentelemetry": "catalog:",
     "elysia": "catalog:",
     "sst": "catalog:"

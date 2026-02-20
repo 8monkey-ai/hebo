@@ -1,19 +1,34 @@
 import { Metadata } from "@grpc/grpc-js";
+import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-grpc";
+import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-grpc";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 import { CompressionAlgorithm } from "@opentelemetry/otlp-exporter-base";
-import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import {
+  BatchLogRecordProcessor,
+  ConsoleLogRecordExporter,
+  LoggerProvider,
+  SimpleLogRecordProcessor,
+  createLoggerConfigurator,
+} from "@opentelemetry/sdk-logs";
+import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import {
   PrismaInstrumentation,
   registerInstrumentations,
 } from "@prisma/instrumentation";
 
 import { betterStackConfig } from "./better-stack";
+import { isProduction } from "../env";
+import { isRootPathUrl } from "../utils/url";
 
 import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
+import type { SeverityNumber } from "@opentelemetry/api-logs";
 
-const getTraceExporterConfig = () => {
+const getOtlpGrpcExporterConfig = () => {
   if (!betterStackConfig) {
-    console.warn("⚠️ OpenTelemetry Trace Exporter not configured. Skipping...");
+    console.warn(
+      "⚠️ OpenTelemetry exporter not configured. Falling back to console exporters.",
+    );
     return;
   }
 
@@ -27,17 +42,67 @@ const getTraceExporterConfig = () => {
   };
 };
 
-const traceExporterConfig = getTraceExporterConfig();
+export const getOtelLogger = (
+  serviceName: string,
+  minimumSeverity: SeverityNumber,
+) => {
+  const loggerProvider = new LoggerProvider({
+    resource: resourceFromAttributes({
+      "service.name": serviceName,
+    }),
+    loggerConfigurator: createLoggerConfigurator([
+      {
+        pattern: "*",
+        config: {
+          minimumSeverity,
+        },
+      },
+    ]),
+    processors: [
+      isProduction
+        ? new BatchLogRecordProcessor(
+            new OTLPLogExporter(getOtlpGrpcExporterConfig()),
+          )
+        : new SimpleLogRecordProcessor(new ConsoleLogRecordExporter()),
+    ],
+  });
+
+  return loggerProvider.getLogger(serviceName);
+};
 
 registerInstrumentations({
-  instrumentations: [new PrismaInstrumentation()],
+  instrumentations: [
+    new PrismaInstrumentation({
+      ignoreSpanTypes: [
+        "prisma:client:compile",
+        "prisma:client:connect",
+        "prisma:client:serialize",
+        "prisma:engine:query",
+        "prisma:engine:response_json_serialization",
+        "prisma:engine:serialize",
+        "prisma:engine:db_query",
+        "prisma:engine:connection",
+      ],
+    }),
+  ],
 });
 
 export const getOtelConfig = (
   serviceName: string,
-): ElysiaOpenTelemetryOptions => ({
-  serviceName,
-  spanProcessors: traceExporterConfig
-    ? [new BatchSpanProcessor(new OTLPTraceExporter(traceExporterConfig))]
-    : undefined,
-});
+): ElysiaOpenTelemetryOptions => {
+  return {
+    serviceName,
+    checkIfShouldTrace: (request) => {
+      if (request.method !== "GET") return true;
+      return !isRootPathUrl(request.url);
+    },
+    ...(isProduction
+      ? {
+          traceExporter: new OTLPTraceExporter(getOtlpGrpcExporterConfig()),
+          metricReader: new PeriodicExportingMetricReader({
+            exporter: new OTLPMetricExporter(getOtlpGrpcExporterConfig()),
+          }),
+        }
+      : {}),
+  };
+};

@@ -1,11 +1,10 @@
-import { logger } from "@bogeychan/elysia-logger";
 import { opentelemetry } from "@elysiajs/opentelemetry";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import Elysia from "elysia";
 
-import { getLoggerOptions } from "@hebo/shared-api/lib/logger";
 import { getOtelConfig } from "@hebo/shared-api/lib/otel";
+import { logger } from "@hebo/shared-api/middlewares/logging";
 
 import { countLetterTool } from "./aikit/count-letter.js";
 import hello from "./hello.txt";
@@ -25,7 +24,7 @@ function createMcpServer() {
 const createMcp = () =>
   new Elysia()
     .use(opentelemetry(getOtelConfig("hebo-mcp")))
-    .use(logger(getLoggerOptions()))
+    .use(logger("hebo-mcp"))
     .get("/", () => hello)
     .group("/aikit", (app) =>
       app.mount("/", async (request) => {
