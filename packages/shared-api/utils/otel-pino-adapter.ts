@@ -86,7 +86,7 @@ const buildLogRecord = (args: unknown[]): LogRecord => {
   return record;
 };
 
-export const createPinoAdapter = (otelLogger: Logger) => {
+export const createPinoOtelAdapter = (otelLogger: Logger) => {
   const levels = Object.keys(otelSeverityByLevel) as LogLevel[];
   return Object.fromEntries(
     levels.map((level) => [
