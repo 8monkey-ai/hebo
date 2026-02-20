@@ -3,7 +3,6 @@ import { Elysia } from "elysia";
 import { isProduction, logSeverity } from "../env";
 import { getOtelLogger } from "../lib/otel";
 import { createPinoOtelAdapter } from "../utils/otel-pino-adapter";
-import { getPathnameFromUrl } from "../utils/url";
 
 export type Logger = ReturnType<typeof createPinoOtelAdapter>;
 
@@ -16,7 +15,7 @@ export const logger = (
   if (!isProduction) {
     app.onRequest(({ request }) => {
       logger.info(
-        { method: request.method, path: getPathnameFromUrl(request.url) },
+        { method: request.method, path: new URL(request.url).pathname },
         "request:incoming",
       );
     });
