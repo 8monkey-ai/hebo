@@ -42,18 +42,15 @@ const buildLogRecord = (args: unknown[]): LogRecord => {
   const [first, second] = args;
 
   let obj: AnyValueMap | undefined;
-  let errorType: string | undefined;
-  let rawErr: Error | undefined;
+  let err: Error | undefined;
   let msg: string | undefined;
 
   if (first instanceof Error) {
-    rawErr = first;
-    errorType = first.name;
+    err = first;
   } else if (isRecord(first)) {
     if (first["err"] instanceof Error) {
-      rawErr = first["err"];
-      errorType = rawErr.name;
-      obj = Object.assign({}, first);
+      err = first["err"];
+      obj = { ...first };
       delete obj.err;
     } else {
       obj = first;
@@ -66,16 +63,16 @@ const buildLogRecord = (args: unknown[]): LogRecord => {
     msg = String(second);
   }
 
-  if (rawErr && msg === undefined) {
-    msg = rawErr.message;
+  if (err && msg === undefined) {
+    msg = err.message;
   }
 
   const body = { ...obj };
   if (msg) body.msg = msg;
-  if (rawErr) body.err = serializeError(rawErr);
+  if (err) body.err = serializeError(err);
 
   const record: LogRecord = { body };
-  if (errorType) record.attributes = { "error.type": errorType };
+  if (err) record.attributes = { "error.type": err.name };
   return record;
 };
 
