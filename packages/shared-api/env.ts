@@ -1,4 +1,4 @@
-import { parseLogSeverity } from "./utils/otel/pino-adapter";
+import { parseLogSeverity } from "./utils/otel-pino-adapter";
 
 export const authUrl = process.env.AUTH_URL ?? "http://localhost:3000";
 export const isProduction = process.env.NODE_ENV === "production";

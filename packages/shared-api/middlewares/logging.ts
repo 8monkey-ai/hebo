@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 
 import { isProduction, logSeverity } from "../env";
 import { getOtelLogger } from "../lib/otel";
-import { createPinoAdapter } from "../utils/otel/pino-adapter";
+import { createPinoAdapter } from "../utils/otel-pino-adapter";
 import { getPathnameFromUrl } from "../utils/url";
 
 export type Logger = ReturnType<typeof createPinoAdapter>;

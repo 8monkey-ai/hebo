@@ -7,7 +7,7 @@ import { trace } from "@opentelemetry/api";
 
 import { logSeverity } from "@hebo/shared-api/env";
 import { getOtelLogger } from "@hebo/shared-api/lib/otel";
-import { createPinoAdapter } from "@hebo/shared-api/utils/otel/pino-adapter";
+import { createPinoAdapter } from "@hebo/shared-api/utils/otel-pino-adapter";
 
 import { resolveModelId, resolveProvider } from "./services/model-resolver";
 import {
