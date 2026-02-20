@@ -6,4 +6,4 @@ export const otelSeverityByLevel = {
   info: SeverityNumber.INFO,
   warn: SeverityNumber.WARN,
   error: SeverityNumber.ERROR,
-};
+} as const satisfies Record<string, SeverityNumber>;
